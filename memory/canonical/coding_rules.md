@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-02T14:09:04.209085+00:00
+- updated_at: 2026-03-02T14:30:28.861832+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 38
+- items: 40
 
 ### bootstrap_command_in_readme
 - [decision][active;p=7] README now contains explicit one-liner minimal bootstrap import command from GitHub raw installer. (source: session:readme_minimal_import_command_20260302)
@@ -94,6 +94,12 @@
 
 ### RLM-First Demonstration
 - [rule][active;p=0] Canonical memory extraction demo used llm_query_many with 4 chunk calls and cloud consumed compact aggregated output only. (source: memory/changelog/strict_rlm_first_mode_20260302.md)
+
+### save_memory_rule_command
+- [feature][active;p=9] Added command workflow .github/commands/save-memory-rule.md for slash-style invocation of short-request-to-strict-rule memory persistence. (source: session:memory_rule_workflow_20260302)
+
+### save_operational_memory_rule_workflow
+- [feature][active;p=10] Added prompt workflow .github/prompts/save_operational_memory_rule.prompt.md to transform short user requests into strict operational memory rules and persist them via extracted_facts + consolidation. (source: session:memory_rule_workflow_20260302)
 
 ### UI Auth + Car Shop Mock
 - [decision][active;p=0] Expanded examples/login_page.html to include login, registration, and a static car store section with purchase simulation controls; no backend added. (source: session:orchestrate_auth_carshop_20260302)

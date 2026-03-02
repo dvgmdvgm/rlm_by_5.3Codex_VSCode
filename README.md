@@ -205,6 +205,13 @@ This workspace includes `.github/copilot-instructions.md`.
 - If `/orchestrate` is not visible in chat UI, reload VS Code window/new chat session.
 - Note: `.github/commands/orchestrate.md` is a project convention file; slash command visibility depends on client capabilities/extensions.
 
+## Memory-rule workflow (short request -> strict rule)
+
+- Prompt workflow: `.github/prompts/save_operational_memory_rule.prompt.md`
+- Command workflow: `.github/commands/save-memory-rule.md`
+- Use this when your request is short/high-level and you need deterministic persistence of an operational rule into memory.
+- Typical case: save a mobile post-task rule to run a specific `.bat` compile+install command after task success.
+
 ## Minimal bootstrap import command
 
 Use this one-liner to import the minimal downstream set from GitHub:

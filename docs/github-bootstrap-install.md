@@ -5,21 +5,18 @@
 Install only the reusable RLM integration assets into a target project from GitHub, without copying MCP server implementation files.
 
 Included by installer:
-- `.github/agents`
-- `.github/commands`
-- `.github/prompts`
-- `.github/skills`
-- `docs`
-- `prompts`
-- `scripts`
+- `.github` (all Copilot workflows and instructions)
 - `.vscode/mcp.json`
-- `README.md`
 
 Excluded by installer:
 - `src/` (MCP server source code)
 - `memory/`
 - `backups/`
 - `examples/`
+- `docs/`
+- `prompts/`
+- `scripts/`
+- `README.md`
 - `.venv/`
 
 ## One-command run (PowerShell)
@@ -37,5 +34,5 @@ powershell -ExecutionPolicy Bypass -File scripts/install_rlm_bootstrap.ps1 -Targ
 ## Notes
 
 - Installer uses `git sparse-checkout` to fetch only selected paths.
-- This is the recommended way to reuse the memory framework across projects while keeping MCP server global.
+- This is the minimal recommended way to reuse the memory workflow while keeping MCP server global.
 - If your target project already has files in these paths, they will be overwritten.

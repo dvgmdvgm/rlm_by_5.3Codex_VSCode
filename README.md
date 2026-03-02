@@ -193,6 +193,7 @@ This workspace includes `.github/copilot-instructions.md`.
 - GitHub bootstrap install guide: `docs/github-bootstrap-install.md`
 - Generator script: `scripts/generate_rlm_memory_from_code.py`
 - One-command bootstrap installer for other projects: `scripts/install_rlm_bootstrap.ps1`
+- Minimal downstream import set: only `.github/` and `.vscode/mcp.json`
 - Optional graph export: run generator with `--emit-json-graph` to produce `code_graph.json`
 - Chat prompt workflow: `.github/prompts/bootstrap_memory_from_codebase.prompt.md`
 - Chat command workflow: `.github/commands/bootstrap-memory.md`

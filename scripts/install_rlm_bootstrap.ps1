@@ -31,15 +31,8 @@ try {
     Push-Location $tempRoot
     try {
         $sparsePaths = @(
-            ".github/agents",
-            ".github/commands",
-            ".github/prompts",
-            ".github/skills",
-            "docs",
-            "prompts",
-            "scripts",
-            ".vscode/mcp.json",
-            "README.md"
+            ".github",
+            ".vscode/mcp.json"
         )
         git sparse-checkout set @sparsePaths
     }
@@ -49,11 +42,7 @@ try {
 
     $copyPaths = @(
         ".github",
-        "docs",
-        "prompts",
-        "scripts",
-        ".vscode",
-        "README.md"
+        ".vscode/mcp.json"
     )
 
     foreach ($rel in $copyPaths) {
@@ -77,8 +66,8 @@ try {
     }
 
     Write-Output "Bootstrap assets installed to: $target"
-    Write-Output "Included: .github/{agents,commands,prompts,skills}, docs, prompts, scripts, .vscode/mcp.json, README.md"
-    Write-Output "Excluded from install: src/ (MCP server code), memory/, backups/, examples/, .venv/"
+    Write-Output "Included: .github (all Copilot workflows), .vscode/mcp.json"
+    Write-Output "Excluded from install: src/, memory/, backups/, examples/, docs/, prompts/, scripts/, README.md, .venv/"
 }
 finally {
     if (Test-Path -LiteralPath $tempRoot) {

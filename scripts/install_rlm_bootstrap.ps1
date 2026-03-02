@@ -15,6 +15,18 @@ function Test-CommandAvailable($name) {
 
 Test-CommandAvailable git
 
+function Invoke-GitChecked {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]]$Args
+    )
+
+    & git @Args
+    if ($LASTEXITCODE -ne 0) {
+        throw "git command failed: git $($Args -join ' ')"
+    }
+}
+
 if ([string]::IsNullOrWhiteSpace($TargetProjectPath)) {
     $TargetProjectPath = "."
 }
@@ -28,16 +40,16 @@ $tempRoot = Join-Path $env:TEMP ("rlm_bootstrap_" + [Guid]::NewGuid().ToString("
 New-Item -ItemType Directory -Path $tempRoot | Out-Null
 
 try {
-    git clone --depth 1 --filter=blob:none --sparse --branch $Branch $RepoUrl $tempRoot | Out-Null
+    Invoke-GitChecked -Args @("clone", "--depth", "1", "--filter=blob:none", "--sparse", "--branch", $Branch, $RepoUrl, $tempRoot)
 
     Push-Location $tempRoot
     try {
         $sparsePaths = @(
-            ".github",
-            ".vscode/mcp.json",
-            "scripts/generate_rlm_memory_from_code.py"
+            "/.github",
+            "/.vscode/mcp.json",
+            "/scripts/generate_rlm_memory_from_code.py"
         )
-        git sparse-checkout set @sparsePaths
+        Invoke-GitChecked -Args (@("sparse-checkout", "set", "--no-cone") + $sparsePaths)
     }
     finally {
         Pop-Location

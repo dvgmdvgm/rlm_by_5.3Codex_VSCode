@@ -178,6 +178,7 @@ When a new cloud chat starts, do this sequence:
 7. Implement changes.
 8. Append compact session fact to `memory/logs/extracted_facts.jsonl`.
 9. Run `consolidate_memory(project_path=<workspace>)`.
+10. If session saved/updated operational rules, verify they appear in canonical outputs.
 
 This is the baseline for seamless cross-window continuity.
 
@@ -186,14 +187,42 @@ This is the baseline for seamless cross-window continuity.
 ## 8) Orchestration policy (when using orchestrator flow)
 
 State machine expectation:
-- Planner → Worker ↔ Reviewer (max 3 retries) → Synthesizer (memory gate) → Archivist (closure).
+- Planner → Worker ↔ Reviewer (max 3 retries) → Synthesizer (memory + operational-rules gate) → Archivist (closure).
 
 Hard rule:
-- no advancement to next task before memory sync gate succeeds (`MEMORY_SYNC_OK`) for approved work.
+- no advancement to next task before both gates succeed for approved work:
+  - `MEMORY_SYNC_OK`
+  - `OP_RULES_OK`
+
+Synthesizer operational-rules gate behavior:
+- evaluate **all active operational rules** from project memory for each approved task,
+- execute `action` only for matched rules (scope + trigger + preconditions),
+- return mandatory diagnostics:
+  - `RULES_CHECKED`
+  - `RULES_MATCHED`
+  - `RULES_EXECUTED`
+  - `RULE_EXECUTION_SUMMARY`.
 
 Entrypoint behavior:
 - `/orchestrate` routes to orchestrator skill prompt policy.
 - prompt-file fallback exists for environments where slash command is not exposed.
+
+### 8.1 Minimal operational-rule contract (recommended)
+
+To improve match stability, rule records should include:
+- `rule_id`
+- `scope`
+- `trigger`
+- `action`
+- `preconditions`
+- `failure_policy`
+- `status` (recommended: `active`)
+- `priority` (recommended: integer)
+- `ts` (timestamp)
+
+Compatibility guidance:
+- keep fallback parsing for legacy/non-uniform rules,
+- prefer structured rule records when both exist.
 
 ---
 
@@ -281,6 +310,26 @@ Mitigation:
 - run consolidation regularly,
 - rely on deterministic conflict policy.
 
+### Risk D: Unsafe command actions in operational rules
+
+Cause:
+- `action` can execute shell commands with side effects.
+
+Mitigation:
+- apply scope and precondition checks before execution,
+- keep default failure handling non-blocking unless rule explicitly requires blocking,
+- include concise execution evidence and failure reason in gate summary.
+
+### Risk E: Legacy operational-rule format mismatch
+
+Cause:
+- older free-form rule entries may miss required matching fields.
+
+Mitigation:
+- support legacy fallback parsing,
+- migrate toward structured contract incrementally,
+- surface skip reasons in `RULE_EXECUTION_SUMMARY` for fast debugging.
+
 ---
 
 ## 13) Rollback and recovery
@@ -302,7 +351,8 @@ A session is complete only when:
 2. verification is done (errors/tests/smoke where applicable),
 3. memory log entry appended,
 4. consolidation executed,
-5. final response reports changes + memory artifacts.
+5. for orchestrated runs: approved tasks passed both `MEMORY_SYNC_OK` and `OP_RULES_OK`,
+6. final response reports changes + memory artifacts.
 
 ---
 
@@ -311,5 +361,5 @@ A session is complete only when:
 - This is a Python MCP memory server with project-scoped memory via `project_path`.
 - Use `local_memory_bootstrap` first in new context windows.
 - Keep cloud context compact; let local model do memory-heavy synthesis.
-- Follow orchestration gate discipline if using orchestrator workflow.
+- Follow orchestration gate discipline if using orchestrator workflow (`MEMORY_SYNC_OK` + `OP_RULES_OK`).
 - Always persist facts and consolidate memory before closing the task.

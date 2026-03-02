@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-02T16:07:39.440403+00:00
+- updated_at: 2026-03-02T16:33:54.647198+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 46
+- items: 47
 
 ### Agentic Workflow
 - [rule][active;p=0] Planner queries RLM first, Worker queries targeted memory before coding, Reviewer enforces APPROVE/REJECT gate. (source: memory/changelog/memory_reset_20260302.md)
@@ -53,6 +53,9 @@
 
 ### external_preferences_payload_test
 - [analysis][active;p=9] Direct bootstrap test for D:/art_network_antigravity now returns user_response_language=ru and user_response_style hint from rlm_memory/13_preferences/communication.md; compact payload includes brief (~235 chars), selected_count=8, and aggregate memory_stats. (source: session:language_parser_comment_fix_20260302)
+
+### external_project_operational_rule_audit
+- [analysis][active;p=9] Audited d:/art_network_antigravity: orchestration prompts require operational-rule checks, but run evidence showed RULES_CHECKED=0 while an active mobile build rule existed in memory/logs/extracted_facts.jsonl. Canonical files were empty (items:0), and the run effectively used canonical-only interpretation, causing false-negative rule execution for mobile task. (source: session:external_project_rule_audit_20260302)
 
 ### Files
 - [change][active;p=0] Added examples/login_page.html and orchestration artifacts under .vscode/tasks for planner-worker-reviewer flow. (source: session:orchestrate_login_page_20260302)

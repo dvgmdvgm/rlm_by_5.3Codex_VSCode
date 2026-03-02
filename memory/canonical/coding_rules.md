@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-02T16:07:39.440403+00:00
+- updated_at: 2026-03-02T16:33:54.647198+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 41
+- items: 43
 
 ### bootstrap_command_in_readme
 - [decision][active;p=7] README now contains explicit one-liner minimal bootstrap import command from GitHub raw installer. (source: session:readme_minimal_import_command_20260302)
@@ -49,6 +49,9 @@
 
 ### Conflict Resolution Policy
 - [rule][active;p=0] Winner order: active status > higher priority > newer timestamp > higher source rank; only active winners are published in canonical memory. (source: memory/changelog/conflict_resolution_policy_20260302.md)
+
+### Context Window Briefing
+- [documentation][active;p=8] Updated docs/context-window-briefing.md to include operational-rules gate requirements (OP_RULES_OK), synthesizer rule-check diagnostics, minimal operational-rule contract fields, and additional risks for command safety and legacy format compatibility. (source: session:update_context_window_briefing_20260302)
 
 ### external_bootstrap_flow_validation
 - [analysis][active;p=8] Validated local_memory_bootstrap on D:/art_network_antigravity: selected_files included rlm_memory/13_preferences/communication.md and language.md; brief carried style/language summary while user_response_language remained auto due canonical-only inference logic. (source: session:external_preferences_flow_check_20260302)
@@ -97,6 +100,9 @@
 
 ### RLM-First Demonstration
 - [rule][active;p=0] Canonical memory extraction demo used llm_query_many with 4 chunk calls and cloud consumed compact aggregated output only. (source: memory/changelog/strict_rlm_first_mode_20260302.md)
+
+### Save Memory Rule Workflow
+- [rule][active;p=9] Strengthened save-memory-rule workflow to require immediate consolidate_memory and mandatory canonical verification of RULE_ID/fingerprint; workflow must return RULE_SAVED=no with BLOCKED: CANONICAL_PROMOTION_FAILED when promotion is missing. (source: session:save_memory_rule_workflow_hardening_20260302)
 
 ### save_memory_rule_command
 - [feature][active;p=9] Added command workflow .github/commands/save-memory-rule.md for slash-style invocation of short-request-to-strict-rule memory persistence. (source: session:memory_rule_workflow_20260302)

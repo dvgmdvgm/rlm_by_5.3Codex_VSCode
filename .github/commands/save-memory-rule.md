@@ -11,9 +11,13 @@ Expand a short user request into a strict, operational memory rule and persist i
 3. Normalize into a strict rule with fields:
    - `scope`, `trigger`, `action`, `preconditions`, `failure_policy`, `evidence`
 4. Persist rule in `memory/logs/extracted_facts.jsonl` as active/high-priority extracted_fact.
-5. Run `consolidate_memory(project_path="<active_workspace_root>")`.
-6. Return compact confirmation:
+5. Run `consolidate_memory(project_path="<active_workspace_root>")` immediately.
+6. Verify canonical promotion by checking `memory/canonical/coding_rules.md` and `memory/canonical/active_tasks.md` for the saved `RULE_ID` (or unique fingerprint).
+7. Return compact confirmation:
    - `RULE_SAVED`, `RULE_ID`, normalized rule summary, updated canonical files.
+   - Include `CANONICAL_VERIFIED=yes|no`.
+
+If canonical verification fails after consolidation, return `RULE_SAVED=no` and `BLOCKED: CANONICAL_PROMOTION_FAILED`.
 
 ## Example short request
 

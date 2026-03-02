@@ -25,9 +25,14 @@ Convert the user's short/approximate memory request into a precise operational r
 
 4. Persist the normalized rule into memory log (`memory/logs/extracted_facts.jsonl`) as `type=extracted_fact` using active status and high priority.
 
-5. Run `consolidate_memory(project_path=<project_path>)` so the rule is promoted into canonical memory.
+5. Run `consolidate_memory(project_path=<project_path>)` immediately so the rule is promoted into canonical memory in the same workflow run.
 
-6. Return strict confirmation block:
+6. Mandatory post-check (no skip):
+   - reload/read canonical outputs (`memory/canonical/coding_rules.md`, `memory/canonical/active_tasks.md`)
+   - verify the saved `RULE_ID` (or equivalent unique rule fingerprint) is present in canonical memory
+   - if canonical does not contain the rule after consolidation, return `RULE_SAVED: no` and `BLOCKED` with reason `CANONICAL_PROMOTION_FAILED`
+
+7. Return strict confirmation block:
    - `RULE_SAVED: yes|no`
    - `RULE_ID`
    - `SCOPE`
@@ -36,6 +41,7 @@ Convert the user's short/approximate memory request into a precise operational r
    - `PRECONDITIONS`
    - `FAILURE_POLICY`
    - `CANONICAL_PATHS_UPDATED`
+   - `CANONICAL_VERIFIED: yes|no`
    - If impossible to complete, return `BLOCKED` with exact missing data.
 
 ## BAT-aware normalization rules
@@ -46,6 +52,6 @@ Convert the user's short/approximate memory request into a precise operational r
 
 ## Safety and precision
 
-- Never claim rule saved unless extracted_facts append + consolidation both succeeded.
+- Never claim rule saved unless extracted_facts append + consolidation succeeded + canonical verification passed.
 - Do not overwrite unrelated memory entries.
 - Keep local-memory-first behavior.

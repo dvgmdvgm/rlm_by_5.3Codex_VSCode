@@ -17,6 +17,7 @@ On fully successful runs, authorize cleanup of generated orchestration artifacts
 4. Verify closure gates for cleanup readiness:
    - all planned tasks are `done`
    - approved tasks have `MEMORY_SYNC_OK`
+   - approved tasks have `OP_RULES_OK`
    - consolidation/changelog update completed
 5. If and only if closure gates pass, mark cleanup authorization as `TASKS_CLEANUP_READY`.
 6. Record hygiene and cleanup outcomes in changelog.

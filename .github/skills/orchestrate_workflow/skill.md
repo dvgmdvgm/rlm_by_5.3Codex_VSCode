@@ -51,15 +51,16 @@ For each task from `master_plan.md` in order:
    - HALT orchestration
    - return `HUMAN_INTERVENTION_REQUIRED` with blocker details
 6. If reviewer returns `APPROVE`:
-   - run `synthesizer` (mandatory memory-distribution gate)
-   - only after `MEMORY_SYNC_OK`, mark task `done`
+   - run `synthesizer` (mandatory memory-distribution + operational-rules gate)
+   - synthesizer must evaluate ALL active operational rules for current task and execute matched actions
+   - only after `MEMORY_SYNC_OK` and `OP_RULES_OK`, mark task `done`
    - continue to next task
-   - if diagnostic mode is ON, write `synthesizer_memory_gate_ok` event before advancing
+   - if diagnostic mode is ON, write `synthesizer_memory_gate_ok` and `synthesizer_operational_rules_gate_ok` before advancing
 
 ### PHASE 3 — CLOSURE & CLEANUP
 
 1. Run `archivist` to perform memory hygiene pass.
-2. If and only if all tasks are `done`, all approved tasks passed `MEMORY_SYNC_OK`, and archivist returned `ARCHIVE_OK`, cleanup generated orchestration artifacts.
+2. If and only if all tasks are `done`, all approved tasks passed `MEMORY_SYNC_OK` and `OP_RULES_OK`, and archivist returned `ARCHIVE_OK`, cleanup generated orchestration artifacts.
 3. Success cleanup policy:
    - if diagnostic mode is ON and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
    - run local deterministic checklist report writer (overwrite mode):
@@ -75,6 +76,7 @@ For each task from `master_plan.md` in order:
 - Ensure only one task is `in_progress` at a time.
 - Record per-task attempt counters for reviewer loops.
 - Persist critical outcomes to memory logs after each approved task via `synthesizer`.
+- `synthesizer` must check all active operational rules from project memory for each approved task and execute only matched rules.
 - Keep only one current orchestrator checklist file: `memory/logs/orchestrator_memory_checklist.md` (overwrite each run).
 
 ## RLM memory policy
@@ -91,6 +93,7 @@ For each task from `master_plan.md` in order:
 - If required context is missing, issue targeted RLM query and retry once.
 - If `code_reviewer` rejects the same task 3 times, stop and return a blocker report for human intervention.
 - If `synthesizer` fails memory sync, stop and return `MEMORY_SYNC_BLOCKED`.
+- If `synthesizer` fails operational-rules gate, stop and return `OP_RULES_BLOCKED`.
 - If diagnostic mode is ON and a task halts at 3rd reject, append `HUMAN_INTERVENTION_REQUIRED` event to audit log.
 
 ## Completion criteria
@@ -99,5 +102,6 @@ Workflow is complete only when:
 - all tasks are `done`
 - reviewer has approved each task
 - synthesizer memory gate passed for every approved task
+- synthesizer operational-rules gate passed for every approved task
 - archivist closure pass completed
 - on successful completion, `.vscode/tasks/` generated artifacts are cleaned up

@@ -19,7 +19,7 @@ Mandatory behavior:
 4. For each task: worker executes, reviewer returns APPROVE/REJECT.
 5. If REJECT, send fixes back to worker and re-review (max 3 attempts).
 6. If 3rd review is REJECT, halt and return `HUMAN_INTERVENTION_REQUIRED`.
-7. If APPROVE, run synthesizer memory-distribution gate; continue only after `MEMORY_SYNC_OK`.
+7. If APPROVE, run synthesizer memory-distribution gate with operational-rules execution; continue only after `MEMORY_SYNC_OK` and `OP_RULES_OK`.
 8. After all tasks, run archivist closure pass and cleanup.
 
 Return concise progress updates after each completed task.

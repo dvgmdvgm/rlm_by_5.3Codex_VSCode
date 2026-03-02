@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-02T14:30:28.861832+00:00
+- updated_at: 2026-03-02T16:05:37.136940+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 43
+- items: 45
 
 ### Agentic Workflow
 - [rule][active;p=0] Planner queries RLM first, Worker queries targeted memory before coding, Reviewer enforces APPROVE/REJECT gate. (source: memory/changelog/memory_reset_20260302.md)
@@ -71,11 +71,17 @@
 - [task][active;p=0] Evidence exists for synthesizer memory sync on Task 02 and Task 03; no explicit standalone Task 01 memory-sync gate artifact was found, so strict per-approved-task gate traceability is partially blocked. (source: session:archivist_closure_pass_20260302)
 - [task][active;p=0] Task 01 gate remediation completed: per-approved-task evidence now exists for Task 01/02/03 (Task 01 explicit .vscode/tasks/task_01_memory_sync_gate.md with MEMORY_SYNC_OK; Task 02 and Task 03 synthesizer gate evidence recorded in memory/logs/extracted_facts.jsonl). No remaining gate blocker for closure. (source: session:archivist_closure_recheck_post_task01_gate_20260302)
 
+### operational_rule_trigger_diagnosis
+- [analysis][active;p=8] In external project chat, OPS-RULE-MOBILE-BUILD-001 existed in extracted_facts log, did not apply to backend-only serializer fix (scope mismatch), and should have applied to later mobile app task but was not triggered because orchestration flow lacks explicit post-task operational-rule execution and canonical memory there remained empty after consolidation. (source: session:rule_trigger_diagnosis_20260302)
+
 ### Orchestrate Invocation
 - [rule][active;p=0] Use .github/prompts/orchestrate.prompt.md as primary entrypoint when /orchestrate is not visible in chat UI. (source: memory/changelog/orchestrate_promptfile_fix_20260302.md)
 
 ### Orchestration Comparison
 - [rule][active;p=0] Legacy setup had explicit orchestrator->planner/worker/reviewer/synthesizer/archivist delegation semantics, while current setup is role-based prompts/skills and lacks dedicated synthesizer+archivist enforcement and strict subagent isolation guarantees. (source: memory/changelog/orchestration_comparison_20260302.md)
+
+### Orchestration Operational Rules Gate
+- [rule][active;p=10] After each approved task, synthesizer must evaluate all active operational rules from project memory, execute matched actions, and return OP_RULES_OK together with MEMORY_SYNC_OK before advancement/cleanup gates. (source: session:orchestration_operational_rules_gate_patch_20260302)
 
 ### orchestration_cleanup_policy
 - [rule][active;p=9] Delete .vscode/tasks only after all tasks are done, all approved tasks passed MEMORY_SYNC_OK, and archivist returned ARCHIVE_OK; preserve diagnostic audit by copying to memory/logs before cleanup. (source: session:strict_tasks_cleanup_policy_20260302)

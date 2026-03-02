@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-02T14:30:28.861832+00:00
+- updated_at: 2026-03-02T16:05:37.136940+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 40
+- items: 41
 
 ### bootstrap_command_in_readme
 - [decision][active;p=7] README now contains explicit one-liner minimal bootstrap import command from GitHub raw installer. (source: session:readme_minimal_import_command_20260302)
@@ -85,6 +85,9 @@
 ### orchestrator_memory_checklist_overwrite
 - [feature][active;p=10] Added deterministic local script scripts/write_orchestrator_memory_checklist.py and integrated into orchestrator closure flow to overwrite memory/logs/orchestrator_memory_checklist.md on each run. (source: session:single_file_overwrite_logs_20260302)
 - [feature][active;p=10] orchestrator closure now writes memory/logs/orchestrator_memory_checklist.md as single overwrite snapshot via scripts/write_orchestrator_memory_checklist.py (source: session:single_file_overwrite_logs)
+
+### project_purpose_summary
+- [analysis][active;p=7] Project is a Python MCP server and workflow for Hybrid RLM memory: local-first memory bootstrap/synthesis, stateful REPL tools, canonical memory consolidation, and per-project memory isolation with global server reuse. (source: session:project_about_summary_20260302)
 
 ### REPL Runtime
 - [rule][active;p=0] Stateful REPL supports memory_context, llm_query, llm_query_many, FINAL and FINAL_VAR. (source: memory/changelog/memory_reset_20260302.md)

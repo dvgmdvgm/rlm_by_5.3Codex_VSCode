@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 MD_HEADER_RE = re.compile(r"^###\s+(.+?)\s*$", re.MULTILINE)
-IGNORED_PREFIXES = ("_archive/",)
+IGNORED_PREFIXES = ("_archive/", "logs/")
 
 
 @dataclass

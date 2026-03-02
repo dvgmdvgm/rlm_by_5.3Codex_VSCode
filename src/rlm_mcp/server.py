@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import asdict
 from pathlib import Path
 import re
+import json
 from datetime import datetime, timedelta, timezone
 
 from mcp.server.fastmcp import FastMCP
@@ -24,6 +25,9 @@ runtimes: dict[str, ReplRuntime] = {}
 stores: dict[str, MemoryStore] = {}
 
 mcp = FastMCP("hybrid-rlm-memory")
+CLOUD_PAYLOAD_LOG_REL_PATH = "logs/cloud_payload_audit.md"
+CLOUD_PAYLOAD_SNAPSHOT_REL_PATH = "logs/cloud_payload_current.md"
+CLOUD_PAYLOAD_PREVIEW_CHARS = 1200
 
 
 def _resolve_memory_dir(project_path: str | None) -> Path:
@@ -34,6 +38,88 @@ def _resolve_memory_dir(project_path: str | None) -> Path:
 
 def _key(memory_dir: Path) -> str:
     return memory_dir.resolve().as_posix()
+
+
+def _estimate_tokens(text: str) -> int:
+    if not text:
+        return 0
+    return max(1, len(text) // 4)
+
+
+def _truncate_text(value: str, limit: int = CLOUD_PAYLOAD_PREVIEW_CHARS) -> str:
+    if len(value) <= limit:
+        return value
+    return value[:limit] + " ...<truncated>"
+
+
+def _compact_preview(value):
+    if isinstance(value, str):
+        return _truncate_text(value)
+    if isinstance(value, (int, float, bool)) or value is None:
+        return value
+    if isinstance(value, list):
+        preview_items = [_compact_preview(item) for item in value[:6]]
+        if len(value) > 6:
+            preview_items.append(f"... +{len(value) - 6} more")
+        return preview_items
+    if isinstance(value, dict):
+        preview: dict[str, object] = {}
+        for index, key in enumerate(sorted(value.keys())):
+            if index >= 12:
+                preview["__truncated_keys__"] = f"+{len(value) - 12} keys"
+                break
+            preview[key] = _compact_preview(value[key])
+        return preview
+    return _truncate_text(str(value))
+
+
+def _log_cloud_payload(
+    *,
+    tool_name: str,
+    project_path: str | None,
+    memory_dir: Path,
+    payload: dict,
+) -> None:
+    log_path = memory_dir / CLOUD_PAYLOAD_LOG_REL_PATH
+    snapshot_path = memory_dir / CLOUD_PAYLOAD_SNAPSHOT_REL_PATH
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    snapshot_path.parent.mkdir(parents=True, exist_ok=True)
+
+    serialized = json.dumps(payload, ensure_ascii=False, default=str)
+    payload_preview = _compact_preview(payload)
+    timestamp = datetime.now(timezone.utc).isoformat()
+    payload_keys = ", ".join(sorted(payload.keys()))
+    preview_text = json.dumps(payload_preview, ensure_ascii=False, indent=2)
+    project_value = project_path or "<none>"
+    block = "\n".join(
+        [
+            "---",
+            f"ts: {timestamp}",
+            f"tool: {tool_name}",
+            f"project_path: {project_value}",
+            f"memory_dir: {memory_dir.as_posix()}",
+            f"payload_chars: {len(serialized)}",
+            f"payload_est_tokens: {_estimate_tokens(serialized)}",
+            f"payload_keys: {payload_keys}",
+            "payload_preview:",
+            "```json",
+            preview_text,
+            "```",
+            "",
+        ]
+    )
+    with log_path.open("a", encoding="utf-8") as handle:
+        handle.write(block)
+
+    snapshot_header = "\n".join(
+        [
+            "# Current Cloud Payload Snapshot",
+            "",
+            "This file is overwritten on each payload transfer to cloud-facing response channel.",
+            "",
+        ]
+    )
+    snapshot_path.write_text(snapshot_header + block, encoding="utf-8")
 
 
 def _get_store(memory_dir: Path) -> MemoryStore:
@@ -67,9 +153,38 @@ def _tokenize_query(text: str) -> set[str]:
     return {part for part in re.findall(r"[a-zA-Zа-яА-Я0-9_]+", text.lower()) if len(part) > 2}
 
 
+def _get_preference_text(memory_context: dict[str, str], *paths: str) -> str:
+    for path in paths:
+        text = memory_context.get(path, "")
+        if text.strip():
+            return text
+    return ""
+
+
 def _infer_user_response_language(memory_context: dict[str, str]) -> str:
-    communication_text = memory_context.get("canonical/communication.md", "")
+    communication_text = _get_preference_text(
+        memory_context,
+        "rlm_memory/13_preferences/communication.md",
+        "canonical/communication.md",
+    )
+    language_text = _get_preference_text(
+        memory_context,
+        "rlm_memory/13_preferences/language_local.md",
+        "rlm_memory/13_preferences/language.md",
+        "canonical/language.md",
+    )
     coding_rules_text = memory_context.get("canonical/coding_rules.md", "")
+
+    explicit_comm_lang = re.search(
+        r"(?m)^(?!\s*#)\s*COMMUNICATION_LANGUAGE\s*:\s*([a-zA-Z\-]+)\s*$",
+        language_text,
+        flags=re.IGNORECASE,
+    )
+    if explicit_comm_lang:
+        code = explicit_comm_lang.group(1).strip().lower()
+        if code in {"ru", "en", "uk", "es", "de", "fr", "ja", "pt", "it", "ko", "zh-cn"}:
+            return code
+
     merged_text = (communication_text + "\n\n" + coding_rules_text).lower()
 
     explicit_lang = re.search(
@@ -110,6 +225,42 @@ def _infer_user_response_language(memory_context: dict[str, str]) -> str:
     if ru_pos > en_pos:
         return "ru"
     return "en"
+
+
+def _infer_user_response_style(memory_context: dict[str, str]) -> dict[str, str]:
+    communication_path = "rlm_memory/13_preferences/communication.md"
+    communication_text = memory_context.get(communication_path, "")
+    if not communication_text.strip():
+        communication_path = "canonical/communication.md"
+        communication_text = memory_context.get(communication_path, "")
+
+    if not communication_text.strip():
+        return {
+            "style": "default",
+            "style_source": "none",
+            "style_hint": "Use concise, structured responses.",
+        }
+
+    lowered = communication_text.lower()
+    prefer_tables = "table" in lowered or "tables" in lowered
+    prefer_emoji_headers = "emoji" in lowered and "header" in lowered
+    prefer_structure = "clear structure" in lowered or "standard response pattern" in lowered
+
+    hint_parts: list[str] = []
+    if prefer_structure:
+        hint_parts.append("structured sections")
+    if prefer_tables:
+        hint_parts.append("tables for comparisons/status")
+    if prefer_emoji_headers:
+        hint_parts.append("emoji section headers")
+    if not hint_parts:
+        hint_parts.append("clear and scannable style")
+
+    return {
+        "style": "preferences_based",
+        "style_source": communication_path,
+        "style_hint": "Use " + ", ".join(hint_parts) + ".",
+    }
 
 
 CHANGELOG_NAME_RE = re.compile(r"^rlm_consolidation_(\d{8})_(\d{6})\.md$")
@@ -239,7 +390,7 @@ def execute_repl_code(code: str, project_path: str | None = None) -> dict:
     memory_dir = _resolve_memory_dir(project_path)
     runtime = _get_runtime(memory_dir)
     result = runtime.execute(code)
-    return {
+    response = {
         "stdout": result.stdout,
         "stderr": result.stderr,
         "error": result.error,
@@ -248,6 +399,13 @@ def execute_repl_code(code: str, project_path: str | None = None) -> dict:
         "project_path": project_path,
         "memory_dir": memory_dir.as_posix(),
     }
+    _log_cloud_payload(
+        tool_name="execute_repl_code",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
 
 
 @mcp.tool()
@@ -280,7 +438,7 @@ def get_memory_metadata(
         for item in metadata:
             item.pop("headers", None)
 
-    return {
+    response = {
         "memory_dir": memory_dir.as_posix(),
         "files": metadata,
         "count": len(metadata),
@@ -296,6 +454,13 @@ def get_memory_metadata(
         },
         "project_path": project_path,
     }
+    _log_cloud_payload(
+        tool_name="get_memory_metadata",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
 
 
 @mcp.tool()
@@ -350,7 +515,7 @@ def local_memory_brief(
     )
     answer = llm_adapter.query(prompt)
 
-    return {
+    response = {
         "question": question,
         "brief": answer,
         "selected_files": [path for _, path, _ in selected],
@@ -358,6 +523,13 @@ def local_memory_brief(
         "project_path": project_path,
         "memory_dir": memory_dir.as_posix(),
     }
+    _log_cloud_payload(
+        tool_name="local_memory_brief",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
 
 
 @mcp.tool()
@@ -375,6 +547,7 @@ def local_memory_bootstrap(
     context = memory_store.load_memory_context()
     runtime.refresh_memory(context)
     user_response_language = _infer_user_response_language(context)
+    user_response_style = _infer_user_response_style(context)
 
     metadata = get_memory_metadata(
         project_path=project_path,
@@ -390,7 +563,7 @@ def local_memory_bootstrap(
         max_chars_per_file=max_chars_per_file,
     )
 
-    return {
+    response = {
         "question": question,
         "reloaded_files": len(context),
         "brief": brief["brief"],
@@ -398,6 +571,7 @@ def local_memory_bootstrap(
         "selected_count": brief["selected_count"],
         "local_model_output_language": "en",
         "user_response_language": user_response_language,
+        "user_response_style": user_response_style,
         "memory_stats": {
             "total_files": metadata["total_files"],
             "total_chars": metadata["total_chars"],
@@ -406,6 +580,13 @@ def local_memory_bootstrap(
         "project_path": project_path,
         "memory_dir": memory_dir.as_posix(),
     }
+    _log_cloud_payload(
+        tool_name="local_memory_bootstrap",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
 
 
 @mcp.tool()
@@ -416,12 +597,19 @@ def reload_memory_context(project_path: str | None = None) -> dict:
     runtime = _get_runtime(memory_dir)
     context = memory_store.load_memory_context()
     runtime.refresh_memory(context)
-    return {
+    response = {
         "files": len(context),
         "keys": sorted(context.keys()),
         "project_path": project_path,
         "memory_dir": memory_dir.as_posix(),
     }
+    _log_cloud_payload(
+        tool_name="reload_memory_context",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
 
 
 @mcp.tool()
@@ -464,6 +652,12 @@ def consolidate_memory(
         runtime.refresh_memory(context)
         response["reloaded_files"] = len(context)
 
+    _log_cloud_payload(
+        tool_name="consolidate_memory",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
     return response
 
 

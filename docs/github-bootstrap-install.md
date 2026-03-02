@@ -8,6 +8,8 @@ Included by installer:
 - `.github` (all Copilot workflows and instructions)
 - `.vscode/mcp.json`
 - `scripts/generate_rlm_memory_from_code.py`
+- `scripts/seed_canonical_from_rlm_memory.py`
+- `scripts/write_orchestrator_memory_checklist.py`
 
 Excluded by installer:
 - `src/` (MCP server source code)
@@ -16,7 +18,7 @@ Excluded by installer:
 - `examples/`
 - `docs/`
 - `prompts/`
-- other `scripts/` files (except `generate_rlm_memory_from_code.py`)
+- other `scripts/` files (except `generate_rlm_memory_from_code.py`, `seed_canonical_from_rlm_memory.py`, and `write_orchestrator_memory_checklist.py`)
 - `README.md`
 - `.venv/`
 
@@ -47,7 +49,7 @@ If your target project is already a git repository, run these commands inside th
 ```bash
 git remote add rlm-bootstrap https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git
 git fetch rlm-bootstrap main --depth=1
-git checkout rlm-bootstrap/main -- .github .vscode/mcp.json scripts/generate_rlm_memory_from_code.py
+git checkout rlm-bootstrap/main -- .github .vscode/mcp.json scripts/generate_rlm_memory_from_code.py scripts/seed_canonical_from_rlm_memory.py scripts/write_orchestrator_memory_checklist.py
 git remote remove rlm-bootstrap
 ```
 
@@ -55,6 +57,8 @@ This imports only:
 - `.github/`
 - `.vscode/mcp.json`
 - `scripts/generate_rlm_memory_from_code.py`
+- `scripts/seed_canonical_from_rlm_memory.py`
+- `scripts/write_orchestrator_memory_checklist.py`
 
 ## Notes
 

@@ -62,8 +62,11 @@ For each task from `master_plan.md` in order:
 2. If and only if all tasks are `done`, all approved tasks passed `MEMORY_SYNC_OK`, and archivist returned `ARCHIVE_OK`, cleanup generated orchestration artifacts.
 3. Success cleanup policy:
    - if diagnostic mode is ON and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
+   - run local deterministic checklist report writer (overwrite mode):
+     - `python scripts/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
    - then remove `.vscode/tasks/` recursively (including generated `master_plan.md` and `task_*.md` files)
 4. If workflow halts, any gate fails, or archivist does not return `ARCHIVE_OK`, do not delete `.vscode/tasks/`.
+   - still run checklist writer with `--status "halted"` or `--status "failed"` to overwrite previous run report.
 5. Return final condensed summary: completed tasks, halted tasks (if any), memory sync status, cleanup status.
 
 ## State management
@@ -72,6 +75,7 @@ For each task from `master_plan.md` in order:
 - Ensure only one task is `in_progress` at a time.
 - Record per-task attempt counters for reviewer loops.
 - Persist critical outcomes to memory logs after each approved task via `synthesizer`.
+- Keep only one current orchestrator checklist file: `memory/logs/orchestrator_memory_checklist.md` (overwrite each run).
 
 ## RLM memory policy
 

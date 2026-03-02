@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-02T12:17:02.554117+00:00
+- updated_at: 2026-03-02T13:57:05.677789+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 31
+- items: 41
 
 ### Agentic Workflow
 - [rule][active;p=0] Planner queries RLM first, Worker queries targeted memory before coding, Reviewer enforces APPROVE/REJECT gate. (source: memory/changelog/memory_reset_20260302.md)
@@ -18,11 +18,35 @@
 ### Baseline Tasks
 - [task][active;p=0] Keep memory project-specific and continue canonical consolidation after major sessions. (source: memory/changelog/memory_reset_20260302.md)
 
+### bootstrap_default_target
+- [fix][active;p=9] Installer TargetProjectPath is now optional and defaults to current directory, enabling one-command install from inside target project folder. (source: session:bootstrap_default_current_dir_20260302)
+
 ### bootstrap_install
 - [task][active;p=6] Added scripts/install_rlm_bootstrap.ps1 to install only reusable integration assets via sparse checkout (excluding server source). (source: session:github_bootstrap_installer)
 
+### bootstrap_reliability
+- [fix][active;p=10] Installer no longer uses sparse-checkout; switched to shallow clone + direct copy of required paths with strict post-copy verification of .github, .vscode/mcp.json, and generator script. (source: session:bootstrap_shallow_clone_fix_20260302)
+
+### bootstrap_sparse_checkout
+- [fix][active;p=9] Installer switched sparse-checkout to --no-cone with rooted paths for single-file imports and now throws immediately on git command failures. (source: session:bootstrap_sparse_checkout_fix_20260302)
+
+### bootstrap_target_path
+- [fix][active;p=8] Installer now auto-creates TargetProjectPath when it does not exist; removed hard failure on missing path. (source: session:bootstrap_target_path_autocreate_20260302)
+
 ### Communication Style
 - [rule][active;p=0] Primary response template is defined in memory/canonical/communication.md (standard pattern: topic header, analysis/main content, summary/next steps), with structured/scannable formatting preferred. (source: session:memory_communication_template_check_20260302)
+
+### communication_language_parser
+- [fix][active;p=9] Language parser now matches only non-comment COMMUNICATION_LANGUAGE lines to avoid false match on descriptive comment text. (source: session:language_parser_comment_fix_20260302)
+
+### external_memory_language_audit
+- [analysis][active;p=7] Audit of D:/art_network_antigravity/memory found 30 memory files with Cyrillic present in 2 files: rlm_memory/03_decisions/inferred_decisions.md and rlm_memory/07_context/implementation_patterns.md. (source: session:external_memory_audit_20260302)
+
+### external_memory_translation
+- [change][active;p=8] Translated Russian snippets to English in D:/art_network_antigravity/memory/rlm_memory/03_decisions/inferred_decisions.md and 07_context/implementation_patterns.md; Cyrillic audit now reports zero files. (source: session:external_memory_translation_20260302)
+
+### external_preferences_payload_test
+- [analysis][active;p=9] Direct bootstrap test for D:/art_network_antigravity now returns user_response_language=ru and user_response_style hint from rlm_memory/13_preferences/communication.md; compact payload includes brief (~235 chars), selected_count=8, and aggregate memory_stats. (source: session:language_parser_comment_fix_20260302)
 
 ### Files
 - [change][active;p=0] Added examples/login_page.html and orchestration artifacts under .vscode/tasks for planner-worker-reviewer flow. (source: session:orchestrate_login_page_20260302)
@@ -30,6 +54,9 @@
 - [change][active;p=0] Updated examples/login_page.html and .vscode/tasks orchestration artifacts for strict planner-worker-reviewer-synthesizer-archivist execution in the theme-toggle session. (source: session:orchestrate_theme_toggle_20260302)
 - [change][active;p=0] Updated examples/login_page.html for Task 01 only: added selection payload attributes on car buttons, added #carViewerMount container, and wired car:selected dispatch/listener contract. (source: session:worker_task_01_ui_selection_contract_20260302)
 - [change][active;p=0] Updated examples/login_page.html for Task 02: added CSS 3D scene, rotating car model mock, carId-based visual variants, asset availability check, and live viewer status messaging without backend. (source: session:worker_task_02_3d_viewer_integration_20260302)
+
+### github_push
+- [task][active;p=7] Initialized git repo, created root commit, added origin https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git, and pushed main successfully. (source: session:git_push_20260302)
 
 ### Global MCP Server Routing
 - [rule][active;p=0] Use fixed server command path with workspace-bound cwd and RLM_MEMORY_DIR (${workspaceFolder}/memory) to keep memory project-local while reusing one global MCP server codebase. (source: memory/changelog/global_server_per_project_memory_20260302.md)
@@ -43,6 +70,9 @@
 
 ### Orchestration Comparison
 - [rule][active;p=0] Legacy setup had explicit orchestrator->planner/worker/reviewer/synthesizer/archivist delegation semantics, while current setup is role-based prompts/skills and lacks dedicated synthesizer+archivist enforcement and strict subagent isolation guarantees. (source: memory/changelog/orchestration_comparison_20260302.md)
+
+### orchestration_cleanup_policy
+- [rule][active;p=9] Delete .vscode/tasks only after all tasks are done, all approved tasks passed MEMORY_SYNC_OK, and archivist returned ARCHIVE_OK; preserve diagnostic audit by copying to memory/logs before cleanup. (source: session:strict_tasks_cleanup_policy_20260302)
 
 ### Planner Artifacts
 - [task][active;p=0] Created minimal planning artifacts for car-selection 3D rotating visualization request (diagnostic:off): updated .vscode/tasks/master_plan.md and added task_01_ui_selection_contract.md, task_02_3d_viewer_integration.md, task_03_validation_and_handoff.md; planning-only, no code implementation. (source: session:planner_car_3d_visualization_20260302)

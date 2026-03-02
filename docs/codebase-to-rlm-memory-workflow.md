@@ -6,6 +6,7 @@
 
 Скрипт:
 - `scripts/generate_rlm_memory_from_code.py`
+- `scripts/seed_canonical_from_rlm_memory.py`
 
 Chat workflow files:
 - Prompt file: `.github/prompts/bootstrap_memory_from_codebase.prompt.md`
@@ -19,6 +20,7 @@ Chat workflow files:
 4. Анализирует стилевые паттерны (цвета, animation-сигналы, css/tailwind).
 5. Формирует RLM-совместимую memory-структуру в 13 категориях.
 6. Генерирует файлы с inferred-решениями и пометками confidence.
+7. Заполняет `memory/logs/extracted_facts.jsonl` из `rlm_memory/*` и запускает консолидацию в `memory/canonical/*`.
 
 ## Важно
 
@@ -32,6 +34,7 @@ Chat workflow files:
 
 ```powershell
 python scripts/generate_rlm_memory_from_code.py --project-root "D:/path/to/your/other-project"
+python scripts/seed_canonical_from_rlm_memory.py --project-root "D:/path/to/your/other-project"
 ```
 
 Результат по умолчанию:
@@ -93,8 +96,9 @@ python scripts/generate_rlm_memory_from_code.py \
 ## Следующий шаг после генерации
 
 1. Просмотреть `03_decisions/inferred_decisions.md`.
-2. Подтвердить/исправить критичные выводы (архитектура, домен, деплой).
-3. Подключить проект к нашему MCP серверу и выполнить:
+2. Проверить заполнение `memory/canonical/architecture.md`, `memory/canonical/coding_rules.md`, `memory/canonical/active_tasks.md`.
+3. Подтвердить/исправить критичные выводы (архитектура, домен, деплой).
+4. Подключить проект к нашему MCP серверу и выполнить:
    - `local_memory_bootstrap(...)`
    - затем рабочие задачи в новом контекстном окне.
 

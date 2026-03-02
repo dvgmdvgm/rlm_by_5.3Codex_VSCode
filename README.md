@@ -93,6 +93,7 @@ Auto-summarization policy:
 - Old `memory/changelog/rlm_consolidation_*.md` files are summarized by the **local model**.
 - Raw old files are archived to `memory/_archive/changelog_raw/` by default (`keep_raw_changelogs=false`).
 - Archived files are excluded from active memory loading.
+- `memory/logs/*` is excluded from active memory loading to avoid retrieval noise.
 
 ## Compact metadata mode
 
@@ -132,6 +133,25 @@ Typical flow:
 
 - `local_model_output_language` (expected local model language)
 - `user_response_language` (inferred from memory preferences)
+- `user_response_style` (style hint inferred from communication preferences)
+
+Cloud payload audit logging:
+
+- Every major MCP tool response now writes a human-readable audit record to `memory/logs/cloud_payload_audit.md`.
+- Every major MCP tool response also overwrites one current snapshot file: `memory/logs/cloud_payload_current.md`.
+- Each record includes: tool name, payload size in chars, estimated tokens, top-level keys, and compact preview of what was returned to cloud model.
+- Audit record generation is local Python logic inside MCP server tool handlers and does not invoke local or cloud LLM for log formatting.
+
+Orchestrator memory-call checklist:
+
+- At orchestrator closure, a deterministic local script writes/overwrites `memory/logs/orchestrator_memory_checklist.md`.
+- Only one checklist file is kept (last run snapshot), replacing previous run report.
+- Script: `scripts/write_orchestrator_memory_checklist.py`.
+
+Preference lookup order for communication settings:
+
+- `rlm_memory/13_preferences/language_local.md` -> `rlm_memory/13_preferences/language.md` -> `canonical/language.md`
+- `rlm_memory/13_preferences/communication.md` -> `canonical/communication.md`
 
 Conflict resolution policy during consolidation:
 
@@ -198,6 +218,7 @@ Imported by default:
 - `.github/`
 - `.vscode/mcp.json`
 - `scripts/generate_rlm_memory_from_code.py`
+- `scripts/seed_canonical_from_rlm_memory.py`
 
 If `TargetProjectPath` does not exist, installer creates it automatically.
 Optional: pass `-TargetProjectPath "D:/your/project"` to install into a different folder.
@@ -211,9 +232,14 @@ Without `ps1`, use native git import flow from `docs/github-bootstrap-install.md
 - Codebase bootstrap workflow (generate RLM memory from raw code): `docs/codebase-to-rlm-memory-workflow.md`
 - GitHub bootstrap install guide: `docs/github-bootstrap-install.md`
 - Generator script: `scripts/generate_rlm_memory_from_code.py`
+- Canonical seed script: `scripts/seed_canonical_from_rlm_memory.py`
+- Orchestrator checklist script: `scripts/write_orchestrator_memory_checklist.py`
 - One-command bootstrap installer for other projects: `scripts/install_rlm_bootstrap.ps1`
-- Minimal downstream import set: `.github/`, `.vscode/mcp.json`, and `scripts/generate_rlm_memory_from_code.py`
+- Minimal downstream import set: `.github/`, `.vscode/mcp.json`, `scripts/generate_rlm_memory_from_code.py`, `scripts/seed_canonical_from_rlm_memory.py`, and `scripts/write_orchestrator_memory_checklist.py`
 - Optional graph export: run generator with `--emit-json-graph` to produce `code_graph.json`
+- Recommended bootstrap chain for new projects:
+	1) `python scripts/generate_rlm_memory_from_code.py --project-root "<target_project_path>" --emit-json-graph`
+	2) `python scripts/seed_canonical_from_rlm_memory.py --project-root "<target_project_path>"`
 - Chat prompt workflow: `.github/prompts/bootstrap_memory_from_codebase.prompt.md`
 - Chat command workflow: `.github/commands/bootstrap-memory.md`
 - Backup snapshot (pre-local-first): `backups/pre_local_first_20260302/`

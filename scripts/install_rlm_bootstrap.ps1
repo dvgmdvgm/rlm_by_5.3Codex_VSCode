@@ -45,7 +45,9 @@ try {
     $copyPaths = @(
         ".github",
         ".vscode/mcp.json",
-        "scripts/generate_rlm_memory_from_code.py"
+        "scripts/generate_rlm_memory_from_code.py",
+        "scripts/seed_canonical_from_rlm_memory.py",
+        "scripts/write_orchestrator_memory_checklist.py"
     )
 
     foreach ($rel in $copyPaths) {
@@ -71,7 +73,9 @@ try {
     $missing = @(
         ".github",
         ".vscode/mcp.json",
-        "scripts/generate_rlm_memory_from_code.py"
+        "scripts/generate_rlm_memory_from_code.py",
+        "scripts/seed_canonical_from_rlm_memory.py",
+        "scripts/write_orchestrator_memory_checklist.py"
     ) | Where-Object { -not (Test-Path -LiteralPath (Join-Path $target $_)) }
 
     if ($missing.Count -gt 0) {
@@ -79,7 +83,7 @@ try {
     }
 
     Write-Output "Bootstrap assets installed to: $target"
-    Write-Output "Included: .github (all Copilot workflows), .vscode/mcp.json, scripts/generate_rlm_memory_from_code.py"
+    Write-Output "Included: .github (all Copilot workflows), .vscode/mcp.json, scripts/generate_rlm_memory_from_code.py, scripts/seed_canonical_from_rlm_memory.py, scripts/write_orchestrator_memory_checklist.py"
     Write-Output "Excluded from install: src/, memory/, backups/, examples/, docs/, prompts/, README.md, .venv/"
 }
 finally {

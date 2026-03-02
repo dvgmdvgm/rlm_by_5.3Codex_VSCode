@@ -199,6 +199,8 @@ Imported by default:
 - `.vscode/mcp.json`
 - `scripts/generate_rlm_memory_from_code.py`
 
+If `TargetProjectPath` does not exist, installer creates it automatically.
+
 ## Local guide and rollback
 
 - Local guide for this feature: `docs/local-first-memory-guide.md`

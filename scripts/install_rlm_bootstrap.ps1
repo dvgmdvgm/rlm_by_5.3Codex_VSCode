@@ -16,11 +16,10 @@ function Test-CommandAvailable($name) {
 
 Test-CommandAvailable git
 
-$target = Resolve-Path -LiteralPath $TargetProjectPath -ErrorAction SilentlyContinue
-if (-not $target) {
-    throw "Target project path does not exist: $TargetProjectPath"
+if (-not (Test-Path -LiteralPath $TargetProjectPath)) {
+    New-Item -ItemType Directory -Path $TargetProjectPath -Force | Out-Null
 }
-$target = $target.Path
+$target = (Resolve-Path -LiteralPath $TargetProjectPath).Path
 
 $tempRoot = Join-Path $env:TEMP ("rlm_bootstrap_" + [Guid]::NewGuid().ToString("N"))
 New-Item -ItemType Directory -Path $tempRoot | Out-Null

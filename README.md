@@ -202,6 +202,8 @@ Imported by default:
 If `TargetProjectPath` does not exist, installer creates it automatically.
 Optional: pass `-TargetProjectPath "D:/your/project"` to install into a different folder.
 
+Without `ps1`, use native git import flow from `docs/github-bootstrap-install.md` (section: `Native git mode`).
+
 ## Local guide and rollback
 
 - Local guide for this feature: `docs/local-first-memory-guide.md`

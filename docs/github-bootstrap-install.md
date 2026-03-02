@@ -40,6 +40,22 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create
 powershell -ExecutionPolicy Bypass -File scripts/install_rlm_bootstrap.ps1
 ```
 
+## Native git mode (without ps1)
+
+If your target project is already a git repository, run these commands inside that project folder:
+
+```bash
+git remote add rlm-bootstrap https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git
+git fetch rlm-bootstrap main --depth=1
+git checkout rlm-bootstrap/main -- .github .vscode/mcp.json scripts/generate_rlm_memory_from_code.py
+git remote remove rlm-bootstrap
+```
+
+This imports only:
+- `.github/`
+- `.vscode/mcp.json`
+- `scripts/generate_rlm_memory_from_code.py`
+
 ## Notes
 
 - Installer uses `git clone --depth 1` and copies only the required paths into your target project.

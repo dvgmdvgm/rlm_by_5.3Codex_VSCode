@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-02T16:33:54.647198+00:00
+- updated_at: 2026-03-02T16:35:50.575965+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 47
+- items: 48
 
 ### Agentic Workflow
 - [rule][active;p=0] Planner queries RLM first, Worker queries targeted memory before coding, Reviewer enforces APPROVE/REJECT gate. (source: memory/changelog/memory_reset_20260302.md)
@@ -66,6 +66,7 @@
 
 ### GitHub Push
 - [task][active;p=8] Committed and pushed orchestration operational-rules gate updates to main branch with commit a7f20b8. (source: session:push_operational_rules_gate_20260302)
+- [task][active;p=8] Pushed workflow hardening changes to main branch with commit 55c197f and prepared operator guidance for manual/automatic memory consolidation triggers. (source: session:push_and_consolidation_guidance_20260302)
 
 ### github_push
 - [task][active;p=7] Initialized git repo, created root commit, added origin https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git, and pushed main successfully. (source: session:git_push_20260302)

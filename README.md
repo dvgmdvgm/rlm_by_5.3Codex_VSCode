@@ -185,6 +185,20 @@ This workspace includes `.github/copilot-instructions.md`.
 - If `/orchestrate` is not visible in chat UI, reload VS Code window/new chat session.
 - Note: `.github/commands/orchestrate.md` is a project convention file; slash command visibility depends on client capabilities/extensions.
 
+## Minimal bootstrap import command
+
+Use this one-liner to import the minimal downstream set from GitHub:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/install_rlm_bootstrap.ps1' -UseBasicParsing).Content)) -TargetProjectPath 'D:/path/to/your/project'"
+```
+
+Imported by default:
+
+- `.github/`
+- `.vscode/mcp.json`
+- `scripts/generate_rlm_memory_from_code.py`
+
 ## Local guide and rollback
 
 - Local guide for this feature: `docs/local-first-memory-guide.md`

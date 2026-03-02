@@ -8,6 +8,7 @@ Provide verifiable evidence that orchestration stages were executed by role invo
 
 - File: `.vscode/tasks/orchestration_audit.jsonl`
 - One JSON object per event.
+- On successful workflow cleanup, preserve a copy in `memory/logs/orchestration_audit_<run_id>.jsonl` before deleting `.vscode/tasks/`.
 
 ## Required event fields
 

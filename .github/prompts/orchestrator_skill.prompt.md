@@ -22,8 +22,11 @@ Read `master_plan.md`. For EACH task sequentially, execute this sub-loop:
 
 **PHASE 3: CLOSURE & CLEANUP**
 1. Invoke `#agent:archivist` for memory hygiene and closure verification.
-2. Keep or cleanup `.vscode/tasks/` according to run settings.
-3. Output final condensed summary: completed tasks, blockers, memory sync status.
+2. If and only if all tasks are complete, every approved task passed `MEMORY_SYNC_OK`, and archivist returns `ARCHIVE_OK`:
+   - if `diagnostic:on` and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
+   - then remove `.vscode/tasks/` recursively.
+3. If any gate fails or workflow halts, do not cleanup `.vscode/tasks/`.
+4. Output final condensed summary: completed tasks, blockers, memory sync status, cleanup status.
 </workflow>
 
 <diagnostic>

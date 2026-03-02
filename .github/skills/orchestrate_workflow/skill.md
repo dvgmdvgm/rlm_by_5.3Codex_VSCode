@@ -59,9 +59,12 @@ For each task from `master_plan.md` in order:
 ### PHASE 3 — CLOSURE & CLEANUP
 
 1. Run `archivist` to perform memory hygiene pass.
-2. Cleanup temporary task artifacts in `.vscode/tasks/` (except final run summary if configured).
-3. Return final condensed summary: completed tasks, halted tasks (if any), memory sync status.
-4. If diagnostic mode is ON, keep `orchestration_audit.jsonl` as proof artifact for this run.
+2. If and only if all tasks are `done`, all approved tasks passed `MEMORY_SYNC_OK`, and archivist returned `ARCHIVE_OK`, cleanup generated orchestration artifacts.
+3. Success cleanup policy:
+   - if diagnostic mode is ON and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
+   - then remove `.vscode/tasks/` recursively (including generated `master_plan.md` and `task_*.md` files)
+4. If workflow halts, any gate fails, or archivist does not return `ARCHIVE_OK`, do not delete `.vscode/tasks/`.
+5. Return final condensed summary: completed tasks, halted tasks (if any), memory sync status, cleanup status.
 
 ## State management
 
@@ -93,3 +96,4 @@ Workflow is complete only when:
 - reviewer has approved each task
 - synthesizer memory gate passed for every approved task
 - archivist closure pass completed
+- on successful completion, `.vscode/tasks/` generated artifacts are cleaned up

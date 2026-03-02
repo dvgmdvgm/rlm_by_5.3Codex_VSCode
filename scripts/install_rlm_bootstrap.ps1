@@ -40,20 +40,7 @@ $tempRoot = Join-Path $env:TEMP ("rlm_bootstrap_" + [Guid]::NewGuid().ToString("
 New-Item -ItemType Directory -Path $tempRoot | Out-Null
 
 try {
-    Invoke-GitChecked -Args @("clone", "--depth", "1", "--filter=blob:none", "--sparse", "--branch", $Branch, $RepoUrl, $tempRoot)
-
-    Push-Location $tempRoot
-    try {
-        $sparsePaths = @(
-            "/.github",
-            "/.vscode/mcp.json",
-            "/scripts/generate_rlm_memory_from_code.py"
-        )
-        Invoke-GitChecked -Args (@("sparse-checkout", "set", "--no-cone") + $sparsePaths)
-    }
-    finally {
-        Pop-Location
-    }
+    Invoke-GitChecked -Args @("clone", "--depth", "1", "--branch", $Branch, $RepoUrl, $tempRoot)
 
     $copyPaths = @(
         ".github",
@@ -79,6 +66,16 @@ try {
             }
             Copy-Item -LiteralPath $src -Destination $dst -Force
         }
+    }
+
+    $missing = @(
+        ".github",
+        ".vscode/mcp.json",
+        "scripts/generate_rlm_memory_from_code.py"
+    ) | Where-Object { -not (Test-Path -LiteralPath (Join-Path $target $_)) }
+
+    if ($missing.Count -gt 0) {
+        throw "Bootstrap verification failed. Missing paths in target: $($missing -join ', ')"
     }
 
     Write-Output "Bootstrap assets installed to: $target"

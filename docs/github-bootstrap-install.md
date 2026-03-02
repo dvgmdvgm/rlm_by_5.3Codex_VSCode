@@ -42,9 +42,9 @@ powershell -ExecutionPolicy Bypass -File scripts/install_rlm_bootstrap.ps1
 
 ## Notes
 
-- Installer uses `git sparse-checkout` to fetch only selected paths.
-- Installer uses `git sparse-checkout --no-cone` to support single-file paths (such as `.vscode/mcp.json`).
+- Installer uses `git clone --depth 1` and copies only the required paths into your target project.
 - This is the minimal recommended way to reuse the memory workflow while keeping MCP server global.
 - If your target project already has files in these paths, they will be overwritten.
 - If target project path does not exist, installer creates it automatically.
 - If any git step fails, installer now stops immediately with an explicit error.
+- Installer validates that `.github`, `.vscode/mcp.json`, and `scripts/generate_rlm_memory_from_code.py` exist in target after copy.

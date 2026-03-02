@@ -32,7 +32,8 @@ try {
     try {
         $sparsePaths = @(
             ".github",
-            ".vscode/mcp.json"
+            ".vscode/mcp.json",
+            "scripts/generate_rlm_memory_from_code.py"
         )
         git sparse-checkout set @sparsePaths
     }
@@ -42,7 +43,8 @@ try {
 
     $copyPaths = @(
         ".github",
-        ".vscode/mcp.json"
+        ".vscode/mcp.json",
+        "scripts/generate_rlm_memory_from_code.py"
     )
 
     foreach ($rel in $copyPaths) {
@@ -66,8 +68,8 @@ try {
     }
 
     Write-Output "Bootstrap assets installed to: $target"
-    Write-Output "Included: .github (all Copilot workflows), .vscode/mcp.json"
-    Write-Output "Excluded from install: src/, memory/, backups/, examples/, docs/, prompts/, scripts/, README.md, .venv/"
+    Write-Output "Included: .github (all Copilot workflows), .vscode/mcp.json, scripts/generate_rlm_memory_from_code.py"
+    Write-Output "Excluded from install: src/, memory/, backups/, examples/, docs/, prompts/, README.md, .venv/"
 }
 finally {
     if (Test-Path -LiteralPath $tempRoot) {

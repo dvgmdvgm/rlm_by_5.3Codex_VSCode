@@ -7,6 +7,7 @@ Install only the reusable RLM integration assets into a target project from GitH
 Included by installer:
 - `.github` (all Copilot workflows and instructions)
 - `.vscode/mcp.json`
+- `scripts/generate_rlm_memory_from_code.py`
 
 Excluded by installer:
 - `src/` (MCP server source code)
@@ -15,7 +16,7 @@ Excluded by installer:
 - `examples/`
 - `docs/`
 - `prompts/`
-- `scripts/`
+- other `scripts/` files (except `generate_rlm_memory_from_code.py`)
 - `README.md`
 - `.venv/`
 

@@ -1,0 +1,2 @@
+[console_scripts]
+rlm-memory-mcp = rlm_mcp.server:run

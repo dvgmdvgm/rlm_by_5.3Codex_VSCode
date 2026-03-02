@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: rlm-memory-mcp
+Version: 0.1.0
+Summary: MCP server for Hybrid Recursive Memory workflow
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: mcp>=1.6.0
+Requires-Dist: httpx>=0.27.0
+
+# Hybrid RLM Memory MCP Server
+
+MCP server on Python for a stateful REPL workflow with local LLM querying.
+
+## Features
+
+- Stateful Python REPL tool: `execute_repl_code(code: str)`
+- Local model query from REPL globals: `llm_query(prompt)`
+- Finalization helpers: `FINAL(text)` and `FINAL_VAR(var_name)`
+- Preloaded in-memory context: `memory_context`
+- Memory metadata tool: `get_memory_metadata()`
+
+## Quick start
+
+1. Install dependencies:
+
+```bash
+pip install -e .
+```
+
+2. Optional env vars:
+
+- `RLM_MEMORY_DIR` (default: `memory`)
+- `RLM_OLLAMA_URL` (default: `http://127.0.0.1:11434`)
+- `RLM_OLLAMA_MODEL` (default: `qwen2.5:14b`)
+- `RLM_OLLAMA_TIMEOUT` (default: `120`)
+- `RLM_MAX_CONCURRENCY` (default: `6`)
+
+3. Run server (stdio):
+
+```bash
+python -m rlm_mcp.server
+```
+
+## REPL globals
+
+Inside `execute_repl_code`, these globals are available:
+
+- `memory_context: dict[str, str]`
+- `llm_query(prompt: str) -> str`
+- `llm_query_many(prompts: list[str], max_concurrency: int | None = None) -> list[str]`
+- `FINAL(text: str) -> None`
+- `FINAL_VAR(var_name: str) -> None`
+
+## Memory format
+
+See `memory/README.md` and `prompts/system_prompt_root.md`.

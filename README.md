@@ -190,7 +190,7 @@ This workspace includes `.github/copilot-instructions.md`.
 Use this one-liner to import the minimal downstream set from GitHub:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/install_rlm_bootstrap.ps1' -UseBasicParsing).Content)) -TargetProjectPath 'D:/path/to/your/project'"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/install_rlm_bootstrap.ps1' -UseBasicParsing).Content))"
 ```
 
 Imported by default:
@@ -200,6 +200,7 @@ Imported by default:
 - `scripts/generate_rlm_memory_from_code.py`
 
 If `TargetProjectPath` does not exist, installer creates it automatically.
+Optional: pass `-TargetProjectPath "D:/your/project"` to install into a different folder.
 
 ## Local guide and rollback
 

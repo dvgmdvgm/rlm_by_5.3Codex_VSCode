@@ -1,6 +1,5 @@
 param(
-    [Parameter(Mandatory = $true)]
-    [string]$TargetProjectPath,
+    [string]$TargetProjectPath = ".",
 
     [string]$RepoUrl = "https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git",
     [string]$Branch = "main"
@@ -15,6 +14,10 @@ function Test-CommandAvailable($name) {
 }
 
 Test-CommandAvailable git
+
+if ([string]::IsNullOrWhiteSpace($TargetProjectPath)) {
+    $TargetProjectPath = "."
+}
 
 if (-not (Test-Path -LiteralPath $TargetProjectPath)) {
     New-Item -ItemType Directory -Path $TargetProjectPath -Force | Out-Null

@@ -22,11 +22,13 @@ Excluded by installer:
 
 ## One-command run (PowerShell)
 
+Run directly inside your target project folder (imports into current directory):
+
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/install_rlm_bootstrap.ps1' -UseBasicParsing).Content)) -TargetProjectPath 'D:/path/to/your/project'"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/install_rlm_bootstrap.ps1' -UseBasicParsing).Content))"
 ```
 
-Example with a real path:
+Optional explicit target path:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/install_rlm_bootstrap.ps1' -UseBasicParsing).Content)) -TargetProjectPath 'D:/AI Projects/MyApp'"
@@ -35,7 +37,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create
 ## Local run (if repo already cloned)
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/install_rlm_bootstrap.ps1 -TargetProjectPath "D:/path/to/your/project"
+powershell -ExecutionPolicy Bypass -File scripts/install_rlm_bootstrap.ps1
 ```
 
 ## Notes

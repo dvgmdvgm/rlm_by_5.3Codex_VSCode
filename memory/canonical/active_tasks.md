@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-02T16:35:50.575965+00:00
+- updated_at: 2026-03-02T16:49:56.824644+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 48
+- items: 49
 
 ### Agentic Workflow
 - [rule][active;p=0] Planner queries RLM first, Worker queries targeted memory before coding, Reviewer enforces APPROVE/REJECT gate. (source: memory/changelog/memory_reset_20260302.md)
@@ -44,6 +44,9 @@
 
 ### communication_language_parser
 - [fix][active;p=9] Language parser now matches only non-comment COMMUNICATION_LANGUAGE lines to avoid false match on descriptive comment text. (source: session:language_parser_comment_fix_20260302)
+
+### External Project Memory Repair
+- [task][active;p=8] Executed seed_canonical_from_rlm_memory.py for d:/art_network_antigravity and appended OPS-RULE-MOBILE-BUILD-001 in compatible extracted_fact.value format; subsequent consolidation produced non-empty canonical files and promoted rule into canonical/active_tasks.md. (source: session:external_project_seed_and_rule_repair_20260302)
 
 ### external_memory_language_audit
 - [analysis][active;p=7] Audit of D:/art_network_antigravity/memory found 30 memory files with Cyrillic present in 2 files: rlm_memory/03_decisions/inferred_decisions.md and rlm_memory/07_context/implementation_patterns.md. (source: session:external_memory_audit_20260302)

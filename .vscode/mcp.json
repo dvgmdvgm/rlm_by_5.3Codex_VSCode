@@ -12,6 +12,8 @@
         "RLM_MAX_CONCURRENCY": "6",
         "RLM_LOCAL_LLM_FORCE_ENGLISH": "true"
       }
-    }
+    },
+    "s":{}
   }
 }
+

@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-02T16:49:56.824644+00:00
+- updated_at: 2026-03-02T17:55:54.851779+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 49
+- items: 54
 
 ### Agentic Workflow
 - [rule][active;p=0] Planner queries RLM first, Worker queries targeted memory before coding, Reviewer enforces APPROVE/REJECT gate. (source: memory/changelog/memory_reset_20260302.md)
@@ -57,6 +57,9 @@
 ### external_preferences_payload_test
 - [analysis][active;p=9] Direct bootstrap test for D:/art_network_antigravity now returns user_response_language=ru and user_response_style hint from rlm_memory/13_preferences/communication.md; compact payload includes brief (~235 chars), selected_count=8, and aggregate memory_stats. (source: session:language_parser_comment_fix_20260302)
 
+### external_project_fact_migration
+- [change][active;p=8] Migrated D:/art_network_antigravity/memory/logs/extracted_facts.jsonl: 204 input lines -> 214 output (193 already canonical, 11 legacy records expanded to 21 canonical facts); subsequent consolidation raised active_tasks from 20 to 33 items. (source: session:strict_fact_schema_20260302)
+
 ### external_project_operational_rule_audit
 - [analysis][active;p=9] Audited d:/art_network_antigravity: orchestration prompts require operational-rule checks, but run evidence showed RULES_CHECKED=0 while an active mobile build rule existed in memory/logs/extracted_facts.jsonl. Canonical files were empty (items:0), and the run effectively used canonical-only interpretation, causing false-negative rule execution for mobile task. (source: session:external_project_rule_audit_20260302)
 
@@ -70,6 +73,8 @@
 ### GitHub Push
 - [task][active;p=8] Committed and pushed orchestration operational-rules gate updates to main branch with commit a7f20b8. (source: session:push_operational_rules_gate_20260302)
 - [task][active;p=8] Pushed workflow hardening changes to main branch with commit 55c197f and prepared operator guidance for manual/automatic memory consolidation triggers. (source: session:push_and_consolidation_guidance_20260302)
+- [task][active;p=8] Pushed memory sync after workflow hardening to main branch with commit 038c2a1. (source: session:push_memory_sync_20260302)
+- [task][active;p=8] Pushed canonical memory, changelog, and cloud payload logs update to main branch with commit c58abd7. (source: session:push_canonical_and_payload_logs_20260302)
 
 ### github_push
 - [task][active;p=7] Initialized git repo, created root commit, added origin https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git, and pushed main successfully. (source: session:git_push_20260302)
@@ -80,6 +85,9 @@
 ### Memory Sync Gate Coverage
 - [task][active;p=0] Evidence exists for synthesizer memory sync on Task 02 and Task 03; no explicit standalone Task 01 memory-sync gate artifact was found, so strict per-approved-task gate traceability is partially blocked. (source: session:archivist_closure_pass_20260302)
 - [task][active;p=0] Task 01 gate remediation completed: per-approved-task evidence now exists for Task 01/02/03 (Task 01 explicit .vscode/tasks/task_01_memory_sync_gate.md with MEMORY_SYNC_OK; Task 02 and Task 03 synthesizer gate evidence recorded in memory/logs/extracted_facts.jsonl). No remaining gate blocker for closure. (source: session:archivist_closure_recheck_post_task01_gate_20260302)
+
+### migrate_legacy_facts_script
+- [change][active;p=6] Created scripts/rlm/migrate_legacy_facts.py — one-time migration utility that converts non-canonical JSONL records to strict extracted_fact format. Supports --dry-run. Successfully migrated 21 facts in art_network_antigravity project. (source: session:refactor_scripts_rlm_20260302)
 
 ### operational_rule_trigger_diagnosis
 - [analysis][active;p=8] In external project chat, OPS-RULE-MOBILE-BUILD-001 existed in extracted_facts log, did not apply to backend-only serializer fix (scope mismatch), and should have applied to later mobile app task but was not triggered because orchestration flow lacks explicit post-task operational-rule execution and canonical memory there remained empty after consolidation. (source: session:rule_trigger_diagnosis_20260302)
@@ -107,6 +115,9 @@
 
 ### Strict Orchestration Workflow
 - [rule][active;p=0] State machine is mandatory: Planner -> (Worker<->Reviewer up to 3 attempts) -> Synthesizer after each APPROVE -> Archivist closure; halt and request human intervention on 3rd REJECT. (source: memory/changelog/strict_orchestration_state_machine_20260302.md)
+
+### strict_fact_schema_enforcement
+- [fix][active;p=10] Added strict JSON schema for extracted_facts.jsonl to copilot-instructions.md in both RLM server and external project; consolidator only accepts records with type=extracted_fact and nested value dict — all other formats are silently skipped. (source: session:strict_fact_schema_20260302)
 
 ### Task 01 Memory Sync Gate
 - [review][active;p=0] Re-ran memory sync and created explicit gate artifact .vscode/tasks/task_01_memory_sync_gate.md containing required MEMORY_SYNC_OK marker after approved Task 01 outcomes. (source: session:synthesizer_task_01_memory_gate_20260302)

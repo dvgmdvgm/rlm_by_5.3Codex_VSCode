@@ -14,13 +14,13 @@ Run the codebase bootstrap generator script from this repository and create a fr
 2. Run script:
 
 ```powershell
-python scripts/generate_rlm_memory_from_code.py --project-root "<target_project_path>" --emit-json-graph
+python scripts/rlm/generate_rlm_memory_from_code.py --project-root "<target_project_path>" --emit-json-graph
 ```
 
 3. After memory generation, seed canonical memory and run consolidation:
 
 ```powershell
-python scripts/seed_canonical_from_rlm_memory.py --project-root "<target_project_path>"
+python scripts/rlm/seed_canonical_from_rlm_memory.py --project-root "<target_project_path>"
 ```
 
 4. If user requested custom output path, add:

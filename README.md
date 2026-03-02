@@ -146,7 +146,7 @@ Orchestrator memory-call checklist:
 
 - At orchestrator closure, a deterministic local script writes/overwrites `memory/logs/orchestrator_memory_checklist.md`.
 - Only one checklist file is kept (last run snapshot), replacing previous run report.
-- Script: `scripts/write_orchestrator_memory_checklist.py`.
+- Script: `scripts/rlm/write_orchestrator_memory_checklist.py`.
 
 Preference lookup order for communication settings:
 
@@ -217,15 +217,14 @@ This workspace includes `.github/copilot-instructions.md`.
 Use this one-liner to import the minimal downstream set from GitHub:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/install_rlm_bootstrap.ps1' -UseBasicParsing).Content))"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/rlm/install_rlm_bootstrap.ps1' -UseBasicParsing).Content))"
 ```
 
 Imported by default:
 
 - `.github/`
-- `.vscode/mcp.json`
-- `scripts/generate_rlm_memory_from_code.py`
-- `scripts/seed_canonical_from_rlm_memory.py`
+- `scripts/rlm/generate_rlm_memory_from_code.py`
+- `scripts/rlm/seed_canonical_from_rlm_memory.py`
 
 If `TargetProjectPath` does not exist, installer creates it automatically.
 Optional: pass `-TargetProjectPath "D:/your/project"` to install into a different folder.
@@ -238,15 +237,16 @@ Without `ps1`, use native git import flow from `docs/github-bootstrap-install.md
 - Full single-file project briefing for new context windows: `docs/context-window-briefing.md`
 - Codebase bootstrap workflow (generate RLM memory from raw code): `docs/codebase-to-rlm-memory-workflow.md`
 - GitHub bootstrap install guide: `docs/github-bootstrap-install.md`
-- Generator script: `scripts/generate_rlm_memory_from_code.py`
-- Canonical seed script: `scripts/seed_canonical_from_rlm_memory.py`
-- Orchestrator checklist script: `scripts/write_orchestrator_memory_checklist.py`
-- One-command bootstrap installer for other projects: `scripts/install_rlm_bootstrap.ps1`
-- Minimal downstream import set: `.github/`, `.vscode/mcp.json`, `scripts/generate_rlm_memory_from_code.py`, `scripts/seed_canonical_from_rlm_memory.py`, and `scripts/write_orchestrator_memory_checklist.py`
+- Generator script: `scripts/rlm/generate_rlm_memory_from_code.py`
+- Canonical seed script: `scripts/rlm/seed_canonical_from_rlm_memory.py`
+- Orchestrator checklist script: `scripts/rlm/write_orchestrator_memory_checklist.py`
+- One-command bootstrap installer for other projects: `scripts/rlm/install_rlm_bootstrap.ps1`
+- Legacy fact migration script: `scripts/rlm/migrate_legacy_facts.py`
+- Minimal downstream import set: `.github/`, `scripts/rlm/generate_rlm_memory_from_code.py`, `scripts/rlm/seed_canonical_from_rlm_memory.py`, and `scripts/rlm/write_orchestrator_memory_checklist.py`
 - Optional graph export: run generator with `--emit-json-graph` to produce `code_graph.json`
 - Recommended bootstrap chain for new projects:
-	1) `python scripts/generate_rlm_memory_from_code.py --project-root "<target_project_path>" --emit-json-graph`
-	2) `python scripts/seed_canonical_from_rlm_memory.py --project-root "<target_project_path>"`
+	1) `python scripts/rlm/generate_rlm_memory_from_code.py --project-root "<target_project_path>" --emit-json-graph`
+	2) `python scripts/rlm/seed_canonical_from_rlm_memory.py --project-root "<target_project_path>"`
 - Chat prompt workflow: `.github/prompts/bootstrap_memory_from_codebase.prompt.md`
 - Chat command workflow: `.github/commands/bootstrap-memory.md`
 - Backup snapshot (pre-local-first): `backups/pre_local_first_20260302/`

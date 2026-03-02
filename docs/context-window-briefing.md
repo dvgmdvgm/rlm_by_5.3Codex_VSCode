@@ -274,7 +274,7 @@ Only then inspect deep changelog/history if needed.
 
 ### 11.3 Codebase bootstrap generator
 
-- Script: `scripts/generate_rlm_memory_from_code.py`
+- Script: `scripts/rlm/generate_rlm_memory_from_code.py`
 - Optional graph export for deeper local reasoning: `--emit-json-graph` (outputs `code_graph.json`)
 
 ---

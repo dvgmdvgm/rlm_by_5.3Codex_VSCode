@@ -1,6 +1,6 @@
 # /bootstrap-memory
 
-Generate a fresh RLM memory snapshot from codebase using `scripts/generate_rlm_memory_from_code.py`.
+Generate a fresh RLM memory snapshot from codebase using `scripts/rlm/generate_rlm_memory_from_code.py`.
 
 ## Behavior
 
@@ -8,9 +8,9 @@ Generate a fresh RLM memory snapshot from codebase using `scripts/generate_rlm_m
    - use user-specified path if present,
    - otherwise use active workspace root.
 2. Run bootstrap script with JSON graph enabled:
-   - `python scripts/generate_rlm_memory_from_code.py --project-root "<target_project_path>" --emit-json-graph`
+   - `python scripts/rlm/generate_rlm_memory_from_code.py --project-root "<target_project_path>" --emit-json-graph`
 3. Run canonical seeding script:
-   - `python scripts/seed_canonical_from_rlm_memory.py --project-root "<target_project_path>"`
+   - `python scripts/rlm/seed_canonical_from_rlm_memory.py --project-root "<target_project_path>"`
 4. Respect optional user parameters:
    - `--output-dir "..."`
    - `--graph-file "..."`

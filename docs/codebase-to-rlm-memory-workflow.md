@@ -5,8 +5,8 @@
 Это запускной workflow через скрипт, который строит новую RLM-структуру памяти **из кода проекта**, не опираясь на существующие memory-файлы.
 
 Скрипт:
-- `scripts/generate_rlm_memory_from_code.py`
-- `scripts/seed_canonical_from_rlm_memory.py`
+- `scripts/rlm/generate_rlm_memory_from_code.py`
+- `scripts/rlm/seed_canonical_from_rlm_memory.py`
 
 Chat workflow files:
 - Prompt file: `.github/prompts/bootstrap_memory_from_codebase.prompt.md`
@@ -33,8 +33,8 @@ Chat workflow files:
 Из этого репозитория:
 
 ```powershell
-python scripts/generate_rlm_memory_from_code.py --project-root "D:/path/to/your/other-project"
-python scripts/seed_canonical_from_rlm_memory.py --project-root "D:/path/to/your/other-project"
+python scripts/rlm/generate_rlm_memory_from_code.py --project-root "D:/path/to/your/other-project"
+python scripts/rlm/seed_canonical_from_rlm_memory.py --project-root "D:/path/to/your/other-project"
 ```
 
 Результат по умолчанию:
@@ -44,7 +44,7 @@ python scripts/seed_canonical_from_rlm_memory.py --project-root "D:/path/to/your
 ## Запуск с кастомным output
 
 ```powershell
-python scripts/generate_rlm_memory_from_code.py \
+python scripts/rlm/generate_rlm_memory_from_code.py \
   --project-root "D:/path/to/your/other-project" \
   --output-dir "D:/path/to/your/other-project/memory/rlm_memory_bootstrap"
 ```
@@ -59,7 +59,7 @@ python scripts/generate_rlm_memory_from_code.py \
 ## Пример с JSON-графом
 
 ```powershell
-python scripts/generate_rlm_memory_from_code.py \
+python scripts/rlm/generate_rlm_memory_from_code.py \
   --project-root "D:/path/to/your/other-project" \
   --emit-json-graph
 ```

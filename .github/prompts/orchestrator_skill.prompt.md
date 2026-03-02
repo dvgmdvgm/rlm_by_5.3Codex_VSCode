@@ -24,10 +24,10 @@ Read `master_plan.md`. For EACH task sequentially, execute this sub-loop:
 1. Invoke `#agent:archivist` for memory hygiene and closure verification.
 2. If and only if all tasks are complete, every approved task passed `MEMORY_SYNC_OK` and `OP_RULES_OK`, and archivist returns `ARCHIVE_OK`:
    - if `diagnostic:on` and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
-   - run `python scripts/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
+   - run `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
    - then remove `.vscode/tasks/` recursively.
 3. If any gate fails or workflow halts, do not cleanup `.vscode/tasks/`.
-   - run `python scripts/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "halted"`.
+   - run `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "halted"`.
 4. Output final condensed summary: completed tasks, blockers, memory sync status, cleanup status.
 </workflow>
 

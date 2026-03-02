@@ -6,10 +6,9 @@ Install only the reusable RLM integration assets into a target project from GitH
 
 Included by installer:
 - `.github` (all Copilot workflows and instructions)
-- `.vscode/mcp.json`
-- `scripts/generate_rlm_memory_from_code.py`
-- `scripts/seed_canonical_from_rlm_memory.py`
-- `scripts/write_orchestrator_memory_checklist.py`
+- `scripts/rlm/generate_rlm_memory_from_code.py`
+- `scripts/rlm/seed_canonical_from_rlm_memory.py`
+- `scripts/rlm/write_orchestrator_memory_checklist.py`
 
 Excluded by installer:
 - `src/` (MCP server source code)
@@ -18,7 +17,7 @@ Excluded by installer:
 - `examples/`
 - `docs/`
 - `prompts/`
-- other `scripts/` files (except `generate_rlm_memory_from_code.py`, `seed_canonical_from_rlm_memory.py`, and `write_orchestrator_memory_checklist.py`)
+- other `scripts/` files (except `rlm/generate_rlm_memory_from_code.py`, `rlm/seed_canonical_from_rlm_memory.py`, and `rlm/write_orchestrator_memory_checklist.py`)
 - `README.md`
 - `.venv/`
 
@@ -27,19 +26,19 @@ Excluded by installer:
 Run directly inside your target project folder (imports into current directory):
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/install_rlm_bootstrap.ps1' -UseBasicParsing).Content))"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/rlm/install_rlm_bootstrap.ps1' -UseBasicParsing).Content))"
 ```
 
 Optional explicit target path:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/install_rlm_bootstrap.ps1' -UseBasicParsing).Content)) -TargetProjectPath 'D:/AI Projects/MyApp'"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create((Invoke-WebRequest 'https://raw.githubusercontent.com/dvgmdvgm/rlm_by_5.3Codex_VSCode/main/scripts/rlm/install_rlm_bootstrap.ps1' -UseBasicParsing).Content)) -TargetProjectPath 'D:/AI Projects/MyApp'"
 ```
 
 ## Local run (if repo already cloned)
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/install_rlm_bootstrap.ps1
+powershell -ExecutionPolicy Bypass -File scripts/rlm/install_rlm_bootstrap.ps1
 ```
 
 ## Native git mode (without ps1)
@@ -49,16 +48,15 @@ If your target project is already a git repository, run these commands inside th
 ```bash
 git remote add rlm-bootstrap https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git
 git fetch rlm-bootstrap main --depth=1
-git checkout rlm-bootstrap/main -- .github .vscode/mcp.json scripts/generate_rlm_memory_from_code.py scripts/seed_canonical_from_rlm_memory.py scripts/write_orchestrator_memory_checklist.py
+git checkout rlm-bootstrap/main -- .github scripts/rlm/generate_rlm_memory_from_code.py scripts/rlm/seed_canonical_from_rlm_memory.py scripts/rlm/write_orchestrator_memory_checklist.py
 git remote remove rlm-bootstrap
 ```
 
 This imports only:
 - `.github/`
-- `.vscode/mcp.json`
-- `scripts/generate_rlm_memory_from_code.py`
-- `scripts/seed_canonical_from_rlm_memory.py`
-- `scripts/write_orchestrator_memory_checklist.py`
+- `scripts/rlm/generate_rlm_memory_from_code.py`
+- `scripts/rlm/seed_canonical_from_rlm_memory.py`
+- `scripts/rlm/write_orchestrator_memory_checklist.py`
 
 ## Notes
 
@@ -67,4 +65,4 @@ This imports only:
 - If your target project already has files in these paths, they will be overwritten.
 - If target project path does not exist, installer creates it automatically.
 - If any git step fails, installer now stops immediately with an explicit error.
-- Installer validates that `.github`, `.vscode/mcp.json`, and `scripts/generate_rlm_memory_from_code.py` exist in target after copy.
+- Installer validates that `.github` and `scripts/rlm/generate_rlm_memory_from_code.py` exist in target after copy.

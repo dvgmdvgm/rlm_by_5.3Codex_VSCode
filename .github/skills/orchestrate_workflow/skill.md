@@ -64,7 +64,7 @@ For each task from `master_plan.md` in order:
 3. Success cleanup policy:
    - if diagnostic mode is ON and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
    - run local deterministic checklist report writer (overwrite mode):
-     - `python scripts/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
+     - `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
    - then remove `.vscode/tasks/` recursively (including generated `master_plan.md` and `task_*.md` files)
 4. If workflow halts, any gate fails, or archivist does not return `ARCHIVE_OK`, do not delete `.vscode/tasks/`.
    - still run checklist writer with `--status "halted"` or `--status "failed"` to overwrite previous run report.

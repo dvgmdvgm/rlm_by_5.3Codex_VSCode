@@ -52,6 +52,15 @@ For every user task, automatically:
    - API changes
    - constraints and caveats
    - file-level changes
+
+   **STRICT FORMAT — every JSONL line MUST follow this exact schema:**
+   ```json
+   {"type": "extracted_fact", "ts": "<ISO-8601 UTC>", "value": {"type": "<rule|task|fix|decision|change|analysis|feature|review|architecture|api>", "entity": "<short_snake_case_id>", "date": "<YYYY-MM-DD>", "value": "<concise human-readable description>", "source": "session:<session_id>", "priority": <0-10>, "status": "active"}}
+   ```
+   - `type` (outer): MUST be exactly `"extracted_fact"` — no other values.
+   - `value` (outer): MUST be a JSON object with all fields above — no flat/alternative layouts.
+   - Any record that does not match this schema will be silently skipped by the consolidator and NEVER appear in canonical memory.
+   - Do NOT invent alternative formats (e.g. `{"type": "feature", ...}` or `{"session": ..., "facts": [...]}`).
 2. Run `consolidate_memory(project_path=<active_workspace_root>)`.
    - If consolidation requires semantic grouping from large logs, perform grouping prompts through Sub-LM first, then write canonical files.
 3. In final answer, include:

@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-02T17:55:54.851779+00:00
+- updated_at: 2026-03-02T18:51:47.848233+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 46
+- items: 48
 
 ### bootstrap_command_in_readme
 - [decision][active;p=7] README now contains explicit one-liner minimal bootstrap import command from GitHub raw installer. (source: session:readme_minimal_import_command_20260302)
@@ -84,6 +84,12 @@
 
 ### memory_loading_noise_control
 - [rule][active;p=10] memory/logs/* and memory/_archive/* are excluded from active MemoryStore context/metadata to reduce retrieval noise; logs remain on disk for audit and consolidation workflows. (source: session:exclude_logs_from_context_20260302)
+
+### memory_mutation_maintenance_checklist
+- [documentation][active;p=9] Added docs/memory-mutation-maintenance-checklist.md with operator-safe procedure for pre-check, mode selection (off/dry-run/on), proposal review, apply verification, post-check and session closure; linked checklist from README local guide section. (source: session:memory_mutation_checklist_20260302)
+
+### memory_mutation_tools_feature_flag
+- [change][active;p=9] Added feature-flagged memory mutation workflow with RLM_MEMORY_MUTATION_MODE (off|dry-run|on) and MCP tools propose_memory_mutation/apply_memory_mutation. Existing read/save flows remain unchanged when mode is off. (source: session:memory_mutation_feature_flag_20260302)
 
 ### migrate_legacy_facts_script
 - [feature][active;p=9] Created scripts/migrate_legacy_facts.py to one-time convert non-canonical JSONL records (flat layouts, wrong outer type, session-facts arrays) into strict extracted_fact format; supports --dry-run preview. (source: session:strict_fact_schema_20260302)

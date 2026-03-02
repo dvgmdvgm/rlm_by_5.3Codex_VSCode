@@ -2,7 +2,7 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-02T17:55:54.851779+00:00
+- updated_at: 2026-03-02T18:51:47.848233+00:00
 - source: memory/logs/extracted_facts.jsonl
 - items: 54
 

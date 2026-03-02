@@ -13,6 +13,8 @@ MCP server on Python for a stateful REPL workflow with local LLM querying.
 - Local-first bootstrap tool: `local_memory_bootstrap(question: str, project_path: str | None = None, ...)`
 - Memory reload tool: `reload_memory_context(project_path: str | None = None)`
 - Canonical memory consolidation tool: `consolidate_memory(..., project_path: str | None = None)`
+- Mutation proposal tool: `propose_memory_mutation(query: str, action: str = "delete", ...)`
+- Mutation apply tool: `apply_memory_mutation(mutation_plan: dict, ...)`
 
 ## Quick start
 
@@ -36,6 +38,7 @@ pip install -e .
 - `RLM_LOCAL_ITER_LOG_FILE` (default: `memory/logs/local_llm_iterations.log`)
 - `RLM_LOCAL_ITER_LOG_PREVIEW_CHARS` (default: `420`)
 - `RLM_LOCAL_LLM_FORCE_ENGLISH` (default: `true`)
+- `RLM_MEMORY_MUTATION_MODE` (default: `off`, options: `off|dry-run|on`)
 
 3. Run server (stdio):
 
@@ -87,6 +90,114 @@ Returns counters and output file paths:
 - `architecture_path`, `coding_rules_path`, `active_tasks_path`, `changelog_path`
 - `reloaded_files` (if `refresh_context=True`)
 - `summaries_created`, `raw_files_summarized`, `raw_files_archived` (if summarization enabled)
+
+## Memory mutation API (feature-flagged)
+
+Mutation flow is intentionally isolated from existing read/save flows.
+
+Design goals:
+
+- allow natural-language lookup of stale facts
+- preview candidate changes before write
+- keep full auditability via append-only extracted facts
+- preserve current behavior when mutation mode is disabled
+
+Runtime mode:
+
+- `RLM_MEMORY_MUTATION_MODE=off` (default): mutation apply is blocked
+- `RLM_MEMORY_MUTATION_MODE=dry-run`: proposal works, apply is blocked
+- `RLM_MEMORY_MUTATION_MODE=on`: proposal and apply are enabled
+
+### Tool: `propose_memory_mutation(...)`
+
+Signature:
+
+`propose_memory_mutation(`
+`query: str,`
+`action: str = "delete",`
+`replacement_value: str | None = None,`
+`project_path: str | None = None,`
+`max_matches: int = 3`
+`) -> dict`
+
+Behavior:
+
+- searches canonical extracted facts candidates by lexical scoring over `entity/value/source/type`
+- supports `action` values: `delete`, `update`
+- for `update`, `replacement_value` is required
+- does **not** write any memory files
+- returns ranked candidates + executable mutation plan
+
+Key outputs:
+
+- `matches[]` with `match_id`, `score`, and compact fact preview
+- `mutation_plan` with deterministic operation list (`deprecate`, optional `upsert`)
+- `apply_allowed` based on current mutation mode
+
+### Tool: `apply_memory_mutation(...)`
+
+Signature:
+
+`apply_memory_mutation(`
+`mutation_plan: dict,`
+`project_path: str | None = None`
+`) -> dict`
+
+Behavior:
+
+- validates operation records against strict extracted-fact schema
+- appends operation records to `memory/logs/extracted_facts.jsonl`
+- runs consolidation (`consolidate_memory_impl`) to republish canonical files
+- reloads runtime memory context
+- writes mutation audit entry to `memory/logs/memory_mutations.jsonl`
+
+Mode guard behavior:
+
+- `off`: returns blocked error, no writes
+- `dry-run`: returns blocked error, no writes
+- `on`: performs append + consolidation
+
+### Deletion/update semantics
+
+- delete = append a new `deprecated` extracted-fact record for matched active fact
+- update = append `deprecated` record for old fact + append new `active` upsert record
+- canonical files are updated only through regular consolidation (no direct canonical edits)
+
+### Safety and non-impact guarantees
+
+- Existing tools (`execute_repl_code`, `local_memory_bootstrap`, `local_memory_brief`, regular save-memory workflows) are unchanged.
+- Mutation logic is isolated behind explicit tools and feature flag.
+- If mode remains `off`, project behavior is equivalent to pre-mutation implementation.
+
+### Example (safe preview)
+
+1. Set mode:
+
+```powershell
+$env:RLM_MEMORY_MUTATION_MODE = "dry-run"
+```
+
+2. Request proposal:
+
+```text
+propose_memory_mutation(query="rules related to smartphone", action="delete", project_path="<workspace>")
+```
+
+3. Review candidates (`matches`) and plan (`mutation_plan`).
+
+4. `apply_memory_mutation(...)` in `dry-run` confirms block without writing.
+
+### Example (real apply)
+
+1. Enable apply mode:
+
+```powershell
+$env:RLM_MEMORY_MUTATION_MODE = "on"
+```
+
+2. Run proposal and review candidates.
+3. Pass `mutation_plan` into `apply_memory_mutation(...)`.
+4. Verify canonical change and audit logs.
 
 Auto-summarization policy:
 
@@ -234,6 +345,7 @@ Without `ps1`, use native git import flow from `docs/github-bootstrap-install.md
 ## Local guide and rollback
 
 - Local guide for this feature: `docs/local-first-memory-guide.md`
+- Operator checklist for memory mutation maintenance: `docs/memory-mutation-maintenance-checklist.md`
 - Full single-file project briefing for new context windows: `docs/context-window-briefing.md`
 - Codebase bootstrap workflow (generate RLM memory from raw code): `docs/codebase-to-rlm-memory-workflow.md`
 - GitHub bootstrap install guide: `docs/github-bootstrap-install.md`

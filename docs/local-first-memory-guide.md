@@ -50,6 +50,38 @@
 - локальная модель: English-only (по умолчанию `RLM_LOCAL_LLM_FORCE_ENGLISH=true`)
 - язык ответа пользователю: из `user_response_language` (из memory canonical preferences)
 
+5. Feature-flagged memory mutation
+- `propose_memory_mutation(...)` — поиск кандидатов на удаление/обновление + формирование плана (без записи)
+- `apply_memory_mutation(...)` — применение плана (только в режиме `on`)
+- режимы через `RLM_MEMORY_MUTATION_MODE`:
+  - `off` (по умолчанию): apply заблокирован
+  - `dry-run`: можно анализировать кандидатов, apply заблокирован
+  - `on`: разрешено применение мутаций
+
+Важно:
+- mutation-поиск в MVP лексический (entity/value/source/type), без embedding-поиска
+- текущие read/save флоу не меняются, если режим остаётся `off`
+
+## Рекомендуемый безопасный поток для удаления/обновления памяти
+
+1. Включить `dry-run`:
+   - `RLM_MEMORY_MUTATION_MODE=dry-run`
+2. Запросить `propose_memory_mutation(...)` с естественным описанием темы.
+3. Проверить `matches` и `mutation_plan`.
+4. Для реального применения перевести режим в `on`.
+5. Вызвать `apply_memory_mutation(mutation_plan, project_path=...)`.
+6. Проверить canonical-результат и `memory/logs/memory_mutations.jsonl`.
+
+## Пример short-flow
+
+Запрос в чате:
+- «Найди правила, связанные со смартфоном, ничего не удаляй, покажи список кандидатов.»
+
+Ожидаемое поведение:
+- tool вернёт `matches` с оценкой релевантности и `mutation_plan`
+- в `dry-run` никаких записей в extracted_facts не будет
+- в `on` apply запишет mutation-факты, затем выполнит консолидацию
+
 ## Рекомендуемый поток для коротких factual-запросов
 
 1. `local_memory_bootstrap(question="...", project_path=<active_workspace_root>)`

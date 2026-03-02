@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import json
 from datetime import datetime, timedelta, timezone
+from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
@@ -28,6 +29,9 @@ mcp = FastMCP("hybrid-rlm-memory")
 CLOUD_PAYLOAD_LOG_REL_PATH = "logs/cloud_payload_audit.md"
 CLOUD_PAYLOAD_SNAPSHOT_REL_PATH = "logs/cloud_payload_current.md"
 CLOUD_PAYLOAD_PREVIEW_CHARS = 1200
+EXTRACTED_FACTS_LOG_REL_PATH = "logs/extracted_facts.jsonl"
+MUTATION_AUDIT_LOG_REL_PATH = "logs/memory_mutations.jsonl"
+MUTATION_ALLOWED_MODES = {"off", "dry-run", "on"}
 
 
 def _resolve_memory_dir(project_path: str | None) -> Path:
@@ -151,6 +155,173 @@ def _get_runtime(memory_dir: Path) -> ReplRuntime:
 
 def _tokenize_query(text: str) -> set[str]:
     return {part for part in re.findall(r"[a-zA-Zа-яА-Я0-9_]+", text.lower()) if len(part) > 2}
+
+
+def _effective_mutation_mode() -> str:
+    mode = (settings.memory_mutation_mode or "off").strip().lower()
+    return mode if mode in MUTATION_ALLOWED_MODES else "off"
+
+
+def _utc_now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _to_epoch(value: str) -> float:
+    if not value:
+        return 0.0
+    candidate = value.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(candidate).timestamp()
+    except ValueError:
+        return 0.0
+
+
+def _is_valid_extracted_fact_record(record: Any) -> bool:
+    if not isinstance(record, dict):
+        return False
+    if record.get("type") != "extracted_fact":
+        return False
+    value = record.get("value")
+    if not isinstance(value, dict):
+        return False
+    required = {"type", "entity", "date", "value", "source", "priority", "status"}
+    if not required.issubset(value.keys()):
+        return False
+    return True
+
+
+def _read_extracted_fact_records(memory_dir: Path) -> list[dict[str, Any]]:
+    log_path = memory_dir / EXTRACTED_FACTS_LOG_REL_PATH
+    if not log_path.exists():
+        return []
+
+    records: list[dict[str, Any]] = []
+    for line in log_path.read_text(encoding="utf-8", errors="replace").splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        try:
+            parsed = json.loads(stripped)
+        except json.JSONDecodeError:
+            continue
+        if _is_valid_extracted_fact_record(parsed):
+            records.append(parsed)
+    return records
+
+
+def _dedupe_latest_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    latest: dict[str, dict[str, Any]] = {}
+    for record in records:
+        value = record["value"]
+        key = json.dumps(
+            {
+                "type": str(value.get("type", "")),
+                "entity": str(value.get("entity", "")),
+                "date": str(value.get("date", "")),
+                "value": str(value.get("value", "")),
+                "source": str(value.get("source", "")),
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+        )
+        current = latest.get(key)
+        if current is None or _to_epoch(str(record.get("ts", ""))) >= _to_epoch(str(current.get("ts", ""))):
+            latest[key] = record
+    return list(latest.values())
+
+
+def _score_fact_match(record: dict[str, Any], query: str, terms: set[str]) -> int:
+    value = record["value"]
+    haystack = " ".join(
+        [
+            str(value.get("type", "")),
+            str(value.get("entity", "")),
+            str(value.get("value", "")),
+            str(value.get("source", "")),
+        ]
+    ).lower()
+
+    score = 0
+    query_lower = query.lower().strip()
+    if query_lower and query_lower in haystack:
+        score += 8
+
+    if terms:
+        shared = sum(1 for part in terms if part in haystack)
+        score += shared * 2
+
+    entity = str(value.get("entity", "")).lower()
+    if query_lower and (query_lower == entity or query_lower in entity):
+        score += 3
+
+    if str(value.get("status", "active")).lower() != "active":
+        score -= 4
+
+    return score
+
+
+def _select_fact_candidates(memory_dir: Path, query: str, max_matches: int) -> list[dict[str, Any]]:
+    records = _dedupe_latest_records(_read_extracted_fact_records(memory_dir))
+    terms = _tokenize_query(query)
+
+    ranked: list[tuple[int, dict[str, Any]]] = []
+    for record in records:
+        score = _score_fact_match(record, query, terms)
+        if score <= 0:
+            continue
+        ranked.append((score, record))
+
+    ranked.sort(
+        key=lambda item: (
+            -item[0],
+            -_to_epoch(str(item[1].get("ts", ""))),
+            str(item[1]["value"].get("entity", "")),
+        )
+    )
+    return [record for _, record in ranked[: max(1, max_matches)]]
+
+
+def _build_extracted_fact_record(*, value: dict[str, Any], ts: str | None = None) -> dict[str, Any]:
+    return {
+        "type": "extracted_fact",
+        "ts": ts or _utc_now_iso(),
+        "value": {
+            "type": str(value.get("type", "")),
+            "entity": str(value.get("entity", "")),
+            "date": str(value.get("date", "")),
+            "value": str(value.get("value", "")),
+            "source": str(value.get("source", "")),
+            "priority": int(value.get("priority", 0)),
+            "status": str(value.get("status", "active")),
+            **({"conflict_key": str(value.get("conflict_key"))} if value.get("conflict_key") else {}),
+        },
+    }
+
+
+def _append_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        for row in rows:
+            handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
+def _render_match_preview(record: dict[str, Any], score: int, index: int) -> dict[str, Any]:
+    value = record["value"]
+    return {
+        "match_id": f"m{index:02d}",
+        "score": score,
+        "ts": record.get("ts", ""),
+        "fact": {
+            "type": value.get("type", ""),
+            "entity": value.get("entity", ""),
+            "date": value.get("date", ""),
+            "value": _truncate_text(str(value.get("value", "")), 260),
+            "source": value.get("source", ""),
+            "priority": value.get("priority", 0),
+            "status": value.get("status", "active"),
+            **({"conflict_key": value.get("conflict_key")} if value.get("conflict_key") else {}),
+        },
+    }
 
 
 def _get_preference_text(memory_context: dict[str, str], *paths: str) -> str:
@@ -605,6 +776,285 @@ def reload_memory_context(project_path: str | None = None) -> dict:
     }
     _log_cloud_payload(
         tool_name="reload_memory_context",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
+
+
+@mcp.tool()
+def propose_memory_mutation(
+    query: str,
+    action: str = "delete",
+    replacement_value: str | None = None,
+    project_path: str | None = None,
+    max_matches: int = 3,
+) -> dict:
+    """Propose memory mutation operations (delete/update) from extracted facts without writing changes."""
+    memory_dir = _resolve_memory_dir(project_path)
+    mode = _effective_mutation_mode()
+    normalized_action = action.strip().lower()
+
+    if normalized_action not in {"delete", "update"}:
+        response = {
+            "ok": False,
+            "error": "Unsupported action. Use 'delete' or 'update'.",
+            "action": action,
+            "mode": mode,
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+        _log_cloud_payload(
+            tool_name="propose_memory_mutation",
+            project_path=project_path,
+            memory_dir=memory_dir,
+            payload=response,
+        )
+        return response
+
+    if normalized_action == "update" and not (replacement_value or "").strip():
+        response = {
+            "ok": False,
+            "error": "replacement_value is required for action='update'.",
+            "action": normalized_action,
+            "mode": mode,
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+        _log_cloud_payload(
+            tool_name="propose_memory_mutation",
+            project_path=project_path,
+            memory_dir=memory_dir,
+            payload=response,
+        )
+        return response
+
+    candidates = _select_fact_candidates(memory_dir, query, max_matches=max_matches)
+    terms = _tokenize_query(query)
+    ranked = [(record, _score_fact_match(record, query, terms)) for record in candidates]
+
+    plan_id = datetime.now(timezone.utc).strftime("mutation_%Y%m%d_%H%M%S")
+    source_id = f"session:{plan_id}"
+    today = datetime.now(timezone.utc).date().isoformat()
+    operations: list[dict[str, Any]] = []
+
+    for index, (record, score) in enumerate(ranked, start=1):
+        value = record["value"]
+        base_priority = int(value.get("priority", 0))
+        deprecate_record = _build_extracted_fact_record(
+            value={
+                "type": value.get("type", ""),
+                "entity": value.get("entity", ""),
+                "date": value.get("date", ""),
+                "value": value.get("value", ""),
+                "source": value.get("source", ""),
+                "priority": max(base_priority, 9),
+                "status": "deprecated",
+                **({"conflict_key": value.get("conflict_key")} if value.get("conflict_key") else {}),
+            }
+        )
+        operations.append(
+            {
+                "id": f"op{len(operations) + 1:02d}",
+                "op": "deprecate",
+                "score": score,
+                "target_match_id": f"m{index:02d}",
+                "record": deprecate_record,
+            }
+        )
+
+        if normalized_action == "update":
+            upsert_record = _build_extracted_fact_record(
+                value={
+                    "type": value.get("type", ""),
+                    "entity": value.get("entity", ""),
+                    "date": today,
+                    "value": replacement_value.strip(),
+                    "source": source_id,
+                    "priority": max(base_priority, 9),
+                    "status": "active",
+                    **({"conflict_key": value.get("conflict_key")} if value.get("conflict_key") else {}),
+                }
+            )
+            operations.append(
+                {
+                    "id": f"op{len(operations) + 1:02d}",
+                    "op": "upsert",
+                    "score": score,
+                    "target_match_id": f"m{index:02d}",
+                    "record": upsert_record,
+                }
+            )
+
+    response = {
+        "ok": True,
+        "mode": mode,
+        "apply_allowed": mode == "on",
+        "query": query,
+        "action": normalized_action,
+        "replacement_value": replacement_value,
+        "matches": [
+            _render_match_preview(record, score, index)
+            for index, (record, score) in enumerate(ranked, start=1)
+        ],
+        "match_count": len(ranked),
+        "mutation_plan": {
+            "plan_id": plan_id,
+            "created_at": _utc_now_iso(),
+            "action": normalized_action,
+            "query": query,
+            "operations": operations,
+        },
+        "project_path": project_path,
+        "memory_dir": memory_dir.as_posix(),
+    }
+    _log_cloud_payload(
+        tool_name="propose_memory_mutation",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
+
+
+@mcp.tool()
+def apply_memory_mutation(
+    mutation_plan: dict,
+    project_path: str | None = None,
+) -> dict:
+    """Apply proposed memory mutation plan by appending extracted facts and consolidating canonical memory."""
+    memory_dir = _resolve_memory_dir(project_path)
+    mode = _effective_mutation_mode()
+
+    if mode == "off":
+        response = {
+            "ok": False,
+            "mode": mode,
+            "error": "Memory mutation is disabled. Set RLM_MEMORY_MUTATION_MODE=dry-run or on.",
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+        _log_cloud_payload(
+            tool_name="apply_memory_mutation",
+            project_path=project_path,
+            memory_dir=memory_dir,
+            payload=response,
+        )
+        return response
+
+    if mode == "dry-run":
+        response = {
+            "ok": False,
+            "mode": mode,
+            "error": "Memory mutation mode is dry-run only. No writes were performed.",
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+        _log_cloud_payload(
+            tool_name="apply_memory_mutation",
+            project_path=project_path,
+            memory_dir=memory_dir,
+            payload=response,
+        )
+        return response
+
+    if not isinstance(mutation_plan, dict):
+        response = {
+            "ok": False,
+            "mode": mode,
+            "error": "mutation_plan must be an object.",
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+        _log_cloud_payload(
+            tool_name="apply_memory_mutation",
+            project_path=project_path,
+            memory_dir=memory_dir,
+            payload=response,
+        )
+        return response
+
+    operations = mutation_plan.get("operations")
+    if not isinstance(operations, list) or not operations:
+        response = {
+            "ok": False,
+            "mode": mode,
+            "error": "mutation_plan.operations must be a non-empty array.",
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+        _log_cloud_payload(
+            tool_name="apply_memory_mutation",
+            project_path=project_path,
+            memory_dir=memory_dir,
+            payload=response,
+        )
+        return response
+
+    records_to_append: list[dict[str, Any]] = []
+    for op in operations:
+        if not isinstance(op, dict):
+            continue
+        record = op.get("record")
+        if _is_valid_extracted_fact_record(record):
+            records_to_append.append(record)
+
+    if not records_to_append:
+        response = {
+            "ok": False,
+            "mode": mode,
+            "error": "No valid extracted_fact records found in mutation_plan.operations[*].record.",
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+        _log_cloud_payload(
+            tool_name="apply_memory_mutation",
+            project_path=project_path,
+            memory_dir=memory_dir,
+            payload=response,
+        )
+        return response
+
+    extracted_facts_path = memory_dir / EXTRACTED_FACTS_LOG_REL_PATH
+    _append_jsonl(extracted_facts_path, records_to_append)
+
+    consolidation = consolidate_memory_impl(
+        memory_dir=memory_dir,
+        log_rel_path=EXTRACTED_FACTS_LOG_REL_PATH,
+        write_changelog=True,
+    )
+
+    memory_store = _get_store(memory_dir)
+    runtime = _get_runtime(memory_dir)
+    context = memory_store.load_memory_context()
+    runtime.refresh_memory(context)
+
+    audit_entry = {
+        "ts": _utc_now_iso(),
+        "type": "memory_mutation_apply",
+        "mode": mode,
+        "plan_id": mutation_plan.get("plan_id", "unknown"),
+        "action": mutation_plan.get("action", "unknown"),
+        "query": mutation_plan.get("query", ""),
+        "records_appended": len(records_to_append),
+        "project_path": project_path,
+        "memory_dir": memory_dir.as_posix(),
+    }
+    _append_jsonl(memory_dir / MUTATION_AUDIT_LOG_REL_PATH, [audit_entry])
+
+    response = {
+        "ok": True,
+        "mode": mode,
+        "plan_id": mutation_plan.get("plan_id", "unknown"),
+        "records_appended": len(records_to_append),
+        "consolidation": asdict(consolidation),
+        "reloaded_files": len(context),
+        "project_path": project_path,
+        "memory_dir": memory_dir.as_posix(),
+    }
+    _log_cloud_payload(
+        tool_name="apply_memory_mutation",
         project_path=project_path,
         memory_dir=memory_dir,
         payload=response,

@@ -19,6 +19,7 @@ class Settings:
     local_iter_log_file: Path
     local_iter_log_preview_chars: int
     local_llm_force_english: bool
+    memory_mutation_mode: str
 
 
 
@@ -41,4 +42,5 @@ def load_settings() -> Settings:
         local_iter_log_file=Path(os.getenv("RLM_LOCAL_ITER_LOG_FILE", str(local_iter_file_default))),
         local_iter_log_preview_chars=int(os.getenv("RLM_LOCAL_ITER_LOG_PREVIEW_CHARS", "420")),
         local_llm_force_english=os.getenv("RLM_LOCAL_LLM_FORCE_ENGLISH", "true").lower() in {"1", "true", "yes", "on"},
+        memory_mutation_mode=os.getenv("RLM_MEMORY_MUTATION_MODE", "off").strip().lower(),
     )

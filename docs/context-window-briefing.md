@@ -104,6 +104,27 @@ Current transport/runtime baseline:
     - `local_model_output_language`
     - `user_response_language`
 
+### 4.3 Mutation tools (feature-flagged)
+
+- `propose_memory_mutation(query, action="delete", replacement_value=None, project_path=None, max_matches=3)`
+  - builds ranked mutation candidates from extracted facts
+  - returns `matches` + `mutation_plan`
+  - does not write memory files
+
+- `apply_memory_mutation(mutation_plan, project_path=None)`
+  - validates mutation plan records (strict extracted-fact schema)
+  - appends records into `memory/logs/extracted_facts.jsonl`
+  - runs consolidation and refreshes runtime context
+  - writes audit record to `memory/logs/memory_mutations.jsonl`
+
+Feature flag runtime guard:
+- `RLM_MEMORY_MUTATION_MODE=off` → apply blocked
+- `RLM_MEMORY_MUTATION_MODE=dry-run` → propose enabled, apply blocked
+- `RLM_MEMORY_MUTATION_MODE=on` → apply enabled
+
+Non-impact guarantee:
+- read/save/bootstrapping flows remain unchanged when mode is `off`.
+
 ---
 
 ## 5) Memory model and file layout
@@ -233,6 +254,7 @@ Compatibility guidance:
 - Metadata defaults are token-cheap (`include_files=false` by default).
 - Backup/rollback assets for local-first feature exist.
 - Canonical memory consolidation pipeline is operational.
+- Memory mutation tools are available behind feature flag (`off|dry-run|on`).
 
 Note:
 - canonical architecture file may be sparse at times (depends on extracted fact quality), while coding rules and active tasks are richer.
@@ -271,6 +293,7 @@ Only then inspect deep changelog/history if needed.
 - `RLM_LOCAL_ITER_LOG_ENABLED`
 - `RLM_LOCAL_ITER_LOG_FILE`
 - `RLM_LOCAL_LLM_FORCE_ENGLISH`
+- `RLM_MEMORY_MUTATION_MODE`
 
 ### 11.3 Codebase bootstrap generator
 
@@ -330,6 +353,17 @@ Mitigation:
 - migrate toward structured contract incrementally,
 - surface skip reasons in `RULE_EXECUTION_SUMMARY` for fast debugging.
 
+### Risk F: Over-broad mutation query match
+
+Cause:
+- mutation proposal uses lexical matching and broad query terms can over-select candidates.
+
+Mitigation:
+- run proposal in `dry-run` first,
+- require explicit human review of `matches` before apply,
+- prefer narrower, domain-specific query terms,
+- keep mutation mode `off` by default outside maintenance sessions.
+
 ---
 
 ## 13) Rollback and recovery
@@ -361,5 +395,6 @@ A session is complete only when:
 - This is a Python MCP memory server with project-scoped memory via `project_path`.
 - Use `local_memory_bootstrap` first in new context windows.
 - Keep cloud context compact; let local model do memory-heavy synthesis.
+- For memory edits/deletions, use `propose_memory_mutation` first and only apply in explicit `on` mode.
 - Follow orchestration gate discipline if using orchestrator workflow (`MEMORY_SYNC_OK` + `OP_RULES_OK`).
 - Always persist facts and consolidate memory before closing the task.

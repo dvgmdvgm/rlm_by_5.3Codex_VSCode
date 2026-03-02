@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-02T14:04:30.028616+00:00
+- updated_at: 2026-03-02T14:09:04.209085+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 42
+- items: 43
 
 ### Agentic Workflow
 - [rule][active;p=0] Planner queries RLM first, Worker queries targeted memory before coding, Reviewer enforces APPROVE/REJECT gate. (source: memory/changelog/memory_reset_20260302.md)
@@ -23,6 +23,9 @@
 
 ### bootstrap_install
 - [task][active;p=6] Added scripts/install_rlm_bootstrap.ps1 to install only reusable integration assets via sparse checkout (excluding server source). (source: session:github_bootstrap_installer)
+
+### bootstrap_installer_empty_github_guard
+- [fix][active;p=10] Installer now copies directory contents via Copy-Item -Path with wildcard and verifies key files inside .github; empty .github no longer passes verification. (source: session:bootstrap_empty_github_guard_20260302)
 
 ### bootstrap_installer_github_copy
 - [fix][active;p=10] Fixed scripts/install_rlm_bootstrap.ps1 directory copy logic: removed invalid LiteralPath wildcard copy and now copy container path directly so .github is imported with contents. (source: session:bootstrap_oneliner_github_empty_fix_20260302)

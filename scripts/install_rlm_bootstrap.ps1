@@ -58,14 +58,8 @@ try {
         $dst = Join-Path $target $rel
 
         if ((Get-Item -LiteralPath $src).PSIsContainer) {
-            $dstParent = Split-Path -Parent $dst
-            if ($dstParent) {
-                New-Item -ItemType Directory -Path $dstParent -Force | Out-Null
-            }
-            if (Test-Path -LiteralPath $dst) {
-                Remove-Item -LiteralPath $dst -Recurse -Force
-            }
-            Copy-Item -LiteralPath $src -Destination $dstParent -Recurse -Force
+            New-Item -ItemType Directory -Path $dst -Force | Out-Null
+            Copy-Item -Path (Join-Path $src "*") -Destination $dst -Recurse -Force
         }
         else {
             $dstDir = Split-Path -Parent $dst
@@ -78,6 +72,9 @@ try {
 
     $missing = @(
         ".github",
+        ".github/copilot-instructions.md",
+        ".github/prompts/orchestrator_skill.prompt.md",
+        ".github/skills/orchestrate_workflow/skill.md",
         ".vscode/mcp.json",
         "scripts/generate_rlm_memory_from_code.py",
         "scripts/seed_canonical_from_rlm_memory.py",

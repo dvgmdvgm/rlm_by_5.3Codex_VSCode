@@ -58,8 +58,14 @@ try {
         $dst = Join-Path $target $rel
 
         if ((Get-Item -LiteralPath $src).PSIsContainer) {
-            New-Item -ItemType Directory -Path $dst -Force | Out-Null
-            Copy-Item -LiteralPath (Join-Path $src "*") -Destination $dst -Recurse -Force
+            $dstParent = Split-Path -Parent $dst
+            if ($dstParent) {
+                New-Item -ItemType Directory -Path $dstParent -Force | Out-Null
+            }
+            if (Test-Path -LiteralPath $dst) {
+                Remove-Item -LiteralPath $dst -Recurse -Force
+            }
+            Copy-Item -LiteralPath $src -Destination $dstParent -Recurse -Force
         }
         else {
             $dstDir = Split-Path -Parent $dst

@@ -226,6 +226,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create
 
 ## Полезные документы и скрипты
 
+- Режим логирования cloud payload:
+  - `memory/logs/cloud_payload_audit.md` — компактный append-only лог (`payload_preview`).
+  - `memory/logs/cloud_payload_current.md` — перезаписываемый снимок с полным payload (`payload_full`).
+- Скрипт self-check режима payload:
+  - `scripts/rlm/check_cloud_payload_mode.ps1`
+  - Пример: `powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\rlm\\check_cloud_payload_mode.ps1 -ProjectRoot "D:/your/project"`
 - `docs/context-window-briefing.md`
 - `docs/local-first-memory-guide.md`
 - `docs/codebase-to-rlm-memory-workflow.md`
@@ -233,6 +239,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create
 - `docs/memory-mutation-maintenance-checklist.md`
 - `scripts/rlm/generate_rlm_memory_from_code.py`
 - `scripts/rlm/seed_canonical_from_rlm_memory.py`
+- `scripts/rlm/check_cloud_payload_mode.ps1`
 - `scripts/rlm/migrate_legacy_facts.py`
 - `scripts/rlm/install_rlm_bootstrap.ps1`
 - `backups/pre_local_first_20260302/restore.ps1`

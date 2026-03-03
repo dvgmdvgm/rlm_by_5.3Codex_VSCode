@@ -373,6 +373,12 @@ Without `ps1`, use native git import flow from `docs/github-bootstrap-install.md
 
 ## Local guide and rollback
 
+- Cloud payload logging mode:
+	- `memory/logs/cloud_payload_audit.md` keeps compact append-only entries (`payload_preview`).
+	- `memory/logs/cloud_payload_current.md` overwrites on each tool response and stores full payload (`payload_full`).
+- Cloud payload mode self-check script:
+	- `scripts/rlm/check_cloud_payload_mode.ps1`
+	- Example: `powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\rlm\\check_cloud_payload_mode.ps1 -ProjectRoot "D:/your/project"`
 - Local guide for this feature: `docs/local-first-memory-guide.md`
 - Operator checklist for memory mutation maintenance: `docs/memory-mutation-maintenance-checklist.md`
 - Full single-file project briefing for new context windows: `docs/context-window-briefing.md`
@@ -381,6 +387,7 @@ Without `ps1`, use native git import flow from `docs/github-bootstrap-install.md
 - Generator script: `scripts/rlm/generate_rlm_memory_from_code.py`
 - Canonical seed script: `scripts/rlm/seed_canonical_from_rlm_memory.py`
 - Orchestrator checklist script: `scripts/rlm/write_orchestrator_memory_checklist.py`
+- Cloud payload mode self-check script: `scripts/rlm/check_cloud_payload_mode.ps1`
 - One-command bootstrap installer for other projects: `scripts/rlm/install_rlm_bootstrap.ps1`
 - Legacy fact migration script: `scripts/rlm/migrate_legacy_facts.py`
 - Minimal downstream import set: `.github/`, `scripts/rlm/generate_rlm_memory_from_code.py`, `scripts/rlm/seed_canonical_from_rlm_memory.py`, and `scripts/rlm/write_orchestrator_memory_checklist.py`

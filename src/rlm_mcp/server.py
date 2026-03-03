@@ -94,6 +94,7 @@ def _log_cloud_payload(
     timestamp = datetime.now(timezone.utc).isoformat()
     payload_keys = ", ".join(sorted(payload.keys()))
     preview_text = json.dumps(payload_preview, ensure_ascii=False, indent=2)
+    full_payload_text = json.dumps(payload, ensure_ascii=False, indent=2, default=str)
     project_value = project_path or "<none>"
     block = "\n".join(
         [
@@ -120,10 +121,28 @@ def _log_cloud_payload(
             "# Current Cloud Payload Snapshot",
             "",
             "This file is overwritten on each payload transfer to cloud-facing response channel.",
+            "It stores the full payload without compact preview truncation.",
             "",
         ]
     )
-    snapshot_path.write_text(snapshot_header + block, encoding="utf-8")
+    snapshot_block = "\n".join(
+        [
+            "---",
+            f"ts: {timestamp}",
+            f"tool: {tool_name}",
+            f"project_path: {project_value}",
+            f"memory_dir: {memory_dir.as_posix()}",
+            f"payload_chars: {len(serialized)}",
+            f"payload_est_tokens: {_estimate_tokens(serialized)}",
+            f"payload_keys: {payload_keys}",
+            "payload_full:",
+            "```json",
+            full_payload_text,
+            "```",
+            "",
+        ]
+    )
+    snapshot_path.write_text(snapshot_header + snapshot_block, encoding="utf-8")
 
 
 def _get_store(memory_dir: Path) -> MemoryStore:
@@ -155,6 +174,32 @@ def _get_runtime(memory_dir: Path) -> ReplRuntime:
 
 def _tokenize_query(text: str) -> set[str]:
     return {part for part in re.findall(r"[a-zA-Zа-яА-Я0-9_]+", text.lower()) if len(part) > 2}
+
+
+def _normalize_local_question_to_english(question: str) -> str:
+    candidate = (question or "").strip()
+    if not candidate:
+        return candidate
+    if not settings.local_llm_force_english:
+        return candidate
+    if not re.search(r"[^\x00-\x7F]", candidate):
+        return candidate
+
+    prompt = (
+        "Translate the user query to English for local memory retrieval. "
+        "Preserve technical terms, file names, symbols, and intent exactly. "
+        "Return only one concise English query sentence with no extra commentary.\n\n"
+        f"QUERY:\n{candidate}\n"
+    )
+    try:
+        translated = llm_adapter.query(prompt).strip()
+    except Exception:
+        return candidate
+
+    if not translated:
+        return candidate
+
+    return translated
 
 
 def _effective_mutation_mode() -> str:
@@ -681,7 +726,9 @@ def local_memory_brief(
     memory_store = _get_store(memory_dir)
     memory_context = memory_store.load_memory_context()
 
-    terms = _tokenize_query(question)
+    normalized_question = _normalize_local_question_to_english(question)
+
+    terms = _tokenize_query(normalized_question)
     scored: list[tuple[int, str, str]] = []
     preferred_prefixes = (
         "canonical/",
@@ -716,13 +763,15 @@ def local_memory_brief(
         "Respond in English only. "
         "Give a short factual answer in 3-6 bullet points. "
         "If memory sources conflict, report the range and conflict source.\n\n"
-        f"QUESTION:\n{question}\n\n"
+        f"QUESTION:\n{normalized_question}\n\n"
         f"MEMORY CONTEXT:\n{snippets}\n"
     )
     answer = llm_adapter.query(prompt)
 
     response = {
         "question": question,
+        "question_en": normalized_question,
+        "question_translated": normalized_question != question,
         "brief": answer,
         "selected_files": [path for _, path, _ in selected],
         "selected_count": len(selected),
@@ -771,6 +820,8 @@ def local_memory_bootstrap(
 
     response = {
         "question": question,
+        "question_en": brief.get("question_en", question),
+        "question_translated": brief.get("question_translated", False),
         "reloaded_files": len(context),
         "brief": brief["brief"],
         "selected_files": brief["selected_files"],

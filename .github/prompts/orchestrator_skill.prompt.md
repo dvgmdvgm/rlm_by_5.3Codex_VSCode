@@ -10,6 +10,7 @@ When activated, execute this strict state machine autonomously:
 **PHASE 1: PLANNING**
 1. Invoke the `#agent:planner` subagent. Feed it the user's initial objective.
 2. Wait for Planner to create `.vscode/tasks/master_plan.md` and individual `task_XX_*.md` files.
+3. Fail-fast activation gate: if planner invocation cannot be started or planner artifacts are missing, return `ORCHESTRATOR_NOT_AVAILABLE` and STOP. Never continue with direct non-orchestrated execution.
 
 **PHASE 2: EXECUTION LOOP**
 Read `master_plan.md`. For EACH task sequentially, execute this sub-loop:
@@ -73,4 +74,5 @@ Diagnostic mode must not trigger extra LLM reasoning calls by itself.
 - Never perform planning, coding, review, synthesis, or archival work directly in orchestrator role.
 - Delegate everything to subagents.
 - **CRITICAL BAN INTERRUPTING WORKFLOW:** You are forbidden from declaring completion before mandatory memory distribution + operational-rules gate for every approved task.
+- **CRITICAL BAN SILENT FALLBACK:** If orchestration activation fails, return `ORCHESTRATOR_NOT_AVAILABLE`; do not execute the user task in normal direct mode.
 </constraints>

@@ -89,6 +89,8 @@ For every user task, automatically:
 ## SLASH COMMANDS
 
 - `/orchestrate`: If the user starts a prompt with exactly this word, you MUST immediately invoke the rules defined in `.github/prompts/orchestrator_skill.prompt.md`.
+- Equivalent explicit trigger: if user message explicitly asks to follow `.github/prompts/orchestrate.prompt.md` (for example, "Follow instructions in orchestrate.prompt.md"), treat it as `/orchestrate` and route to orchestrator workflow.
 - Delegate planning to `#agent:planner` first.
 - Do NOT perform planning/implementation/review/synthesis directly as the orchestrator role.
 - The orchestrator role is a state-machine manager only.
+- Fail-fast guard: if orchestrator activation was requested but planner delegation did not start, STOP and return `ORCHESTRATOR_NOT_AVAILABLE` with concise recovery steps; do not continue in direct execution mode.

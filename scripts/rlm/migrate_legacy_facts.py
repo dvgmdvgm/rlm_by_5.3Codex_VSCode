@@ -122,6 +122,11 @@ def _migrate_flat_record(record: dict) -> list[dict]:
 
     session = record.get("session", "unknown_session")
     summary = record.get("summary", "") or record.get("description", "") or record.get("value", "")
+    if not isinstance(summary, str):
+        try:
+            summary = json.dumps(summary, ensure_ascii=False)
+        except Exception:
+            summary = str(summary)
 
     # Handle records with embedded facts list
     if "facts" in record and isinstance(record["facts"], list):

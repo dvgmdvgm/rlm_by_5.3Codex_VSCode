@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-03T00:53:09.435452+00:00
+- updated_at: 2026-03-03T00:57:58.188566+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 64
+- items: 65
 
 ### bootstrap_default_target
 - [fix][active;p=9] Installer TargetProjectPath is now optional and defaults to current directory, enabling one-command install from inside target project folder. (source: session:bootstrap_default_current_dir_20260302)
@@ -59,6 +59,7 @@
 
 ### github_push
 - [task][active;p=7] Initialized git repo, created root commit, added origin https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git, and pushed main successfully. (source: session:git_push_20260302)
+- [task][active;p=8] Pushed strict schema migration and memory artifacts to main branch with commit 8c0f667. (source: session:push_strict_migration_20260303)
 
 ### hybrid_changelog_trigger_and_logs_audit
 - [change][active;p=9] Implemented hybrid changelog autosummarization trigger in src/rlm_mcp/server.py using age OR volume thresholds (file count and bytes). Updated README Consolidation API and retention policy docs. Audited memory/logs outputs for both RLM_Realization and art_network_antigravity projects. (source: session:hybrid_changelog_policy_20260303)

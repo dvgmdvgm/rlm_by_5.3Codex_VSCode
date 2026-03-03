@@ -14,6 +14,10 @@ For every user task, automatically:
 
 ### A) Before implementation (always)
 
+0. First-message context guard (mandatory):
+   - if this is the first user request in a new chat/context window, you MUST run memory bootstrap before any substantial analysis, coding, or orchestration actions.
+   - allowed pre-bootstrap actions are limited to resolving workspace/project path and minimal intent parsing.
+
 1. Resolve active workspace root as `project_path`.
 2. Call `local_memory_bootstrap(question=<user_task_short_form>, project_path=<active_workspace_root>)`.
 3. Use `brief` and `selected_files` from bootstrap as primary memory context.
@@ -44,6 +48,16 @@ For every user task, automatically:
    - explicit user one-line rules (e.g., "save this exact rule")
    - mechanical metadata updates (timestamps, status fields)
    - final file write operations after Sub-LM extraction is complete
+
+### B2) Deterministic Memory Routing Policy (strict)
+
+- Classify memory intent before write path selection:
+   - `edit/delete existing memory facts` -> MUST use mutation pipeline only:
+      1) `propose_memory_mutation(...)`
+      2) `apply_memory_mutation(mutation_plan=...operations...)`
+   - `create/save new rule/fact` -> MUST use direct strict `extracted_fact` append + immediate `consolidate_memory(...)`.
+- For mutation apply, only `mutation_plan.operations` is valid; legacy `mutation_plan.facts` is invalid.
+- Any path-policy mismatch must return/emit blocked status (`OP_RULES_BLOCKED` or equivalent gate block) and MUST NOT silently fallback to another write path.
 
 ### C) After implementation (always)
 

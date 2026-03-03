@@ -98,11 +98,19 @@ consolidate_memory(
 
 ## API мутаций памяти (под feature flag)
 
+Правило первого сообщения в новом контекстном окне:
+
+- Перед существенным анализом/кодингом/оркестрацией обязательно запускать `local_memory_bootstrap(...)`.
+
 Важно: это отдельный контур, отличный от сохранения operational rules.
 
 - Workflow типа `save_operational_memory_rule` записывает strict `extracted_fact` напрямую в лог и сразу запускает `consolidate_memory`.
 - `apply_memory_mutation` — отдельный maintenance API и принимает только `mutation_plan.operations` из `propose_memory_mutation`.
 - Legacy-формат `mutation_plan.facts` намеренно отклоняется.
+- Детерминированная маршрутизация:
+  - edit/delete существующих фактов памяти -> только mutation pipeline (`propose_memory_mutation` -> `apply_memory_mutation`)
+  - create/save новых правил/фактов -> strict append + `consolidate_memory`
+  - несоответствие маршрута -> блокировка (`OP_RULES_BLOCKED` или эквивалент)
 
 Режим работы:
 

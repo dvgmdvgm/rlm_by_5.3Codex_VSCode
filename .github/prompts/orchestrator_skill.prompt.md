@@ -48,6 +48,12 @@ Execution semantics:
 - Non-matched rules must still be reported as checked.
 - Respect per-rule `failure_policy`; by default treat operational action failures as non-blocking unless rule marks blocking.
 
+Deterministic memory-routing gate:
+- For `edit/delete` memory intents, synthesizer must use mutation pipeline only: `propose_memory_mutation` then `apply_memory_mutation`.
+- `apply_memory_mutation` must receive `mutation_plan.operations` (no legacy `mutation_plan.facts`).
+- For `create/save new` memory intents, synthesizer must use strict extracted-fact append + consolidation flow (not mutation pipeline).
+- If chosen write path does not match intent class, synthesizer must return `OP_RULES_BLOCKED` (no silent fallback).
+
 Required synthesizer output per approved task:
 - `MEMORY_SYNC_OK`
 - `OP_RULES_OK`

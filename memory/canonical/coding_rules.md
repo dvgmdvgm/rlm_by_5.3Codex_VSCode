@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-03T16:54:14.270197+01:00
+- updated_at: 2026-03-03T17:09:09.896308+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 90
+- items: 91
 
 ### added_explicit_language_rules_to_neighbor_canonical
 - [change][active;p=8] Added explicit language policy rules to D:\art_network_antigravity extracted facts and reconsolidated; confirmed communication_language_policy and local_memory_english_processing appear in canonical/coding_rules.md. (source: session:copilot)
@@ -70,6 +70,9 @@
 
 ### deprecated_neighbor_language_md_facts_and_reconsolidated
 - [change][active;p=8] For D:\art_network_antigravity, deprecated active extracted facts sourced from rlm_memory/13_preferences/language.md after file removal, then ran consolidate_memory and verified canonical no longer references language.md source entries. (source: session:copilot)
+
+### deterministic_memory_routing_and_first_message_bootstrap
+- [decision][active;p=10] Updated autopilot/orchestrator/synthesizer/skill prompts to enforce first-message new-context bootstrap guard and strict memory-intent routing: edit/delete uses propose->apply with operations only; create/save uses strict append+consolidate; route mismatch must block with OP_RULES_BLOCKED. (source: session:copilot)
 
 ### docs_clarify_save_rule_vs_mutation_flows
 - [documentation][active;p=8] Updated README.md, README.ru.md, and docs/context-window-briefing.md to explicitly separate operational-rule save flow (append strict extracted_fact + consolidate) from mutation API flow, and to state operations-only apply contract with legacy facts rejection. (source: session:copilot)

@@ -98,11 +98,19 @@ Returns counters and output file paths:
 
 Mutation flow is intentionally isolated from existing read/save flows.
 
+First-message context rule:
+
+- In a new chat/context window, run `local_memory_bootstrap(...)` before substantial analysis/coding/orchestration work.
+
 Important separation of flows:
 
 - `save_operational_memory_rule` style workflow uses direct append of strict `extracted_fact` records + `consolidate_memory`.
 - `apply_memory_mutation` is a separate maintenance API and accepts only `mutation_plan.operations` produced by `propose_memory_mutation`.
 - Legacy payloads like `mutation_plan.facts` are intentionally rejected.
+- Deterministic routing policy:
+	- edit/delete existing memory facts -> mutation pipeline only (`propose_memory_mutation` -> `apply_memory_mutation`)
+	- create/save new rules/facts -> strict append + `consolidate_memory`
+	- route mismatch -> blocked (`OP_RULES_BLOCKED` or equivalent)
 
 Design goals:
 

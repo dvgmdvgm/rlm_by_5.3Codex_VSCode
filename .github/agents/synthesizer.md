@@ -28,10 +28,15 @@ You must evaluate ALL active operational rules in project memory for each approv
    - evaluate rules independently for current approved task (no carry-over skip/match decisions from previous tasks)
    - execute `action` for each matched rule
    - capture compact evidence per executed rule (command, exit code, short output)
-6. Respect `failure_policy` per rule:
+6. Apply deterministic memory-intent routing before any memory write action:
+   - classify intent as either `edit/delete existing fact` or `create/save new fact`.
+   - for `edit/delete`: MUST call `propose_memory_mutation` then `apply_memory_mutation` with `mutation_plan.operations` only.
+   - for `create/save new`: MUST append strict `extracted_fact` record(s) directly and run `consolidate_memory`.
+   - if attempted path does not match intent class, return `OP_RULES_BLOCKED` and stop advancement (no silent fallback).
+7. Respect `failure_policy` per rule:
    - `non-blocking`: report failure and continue gate
    - `blocking`: return blocked status and stop advancement
-7. Return: `MEMORY_SYNC_OK` and `OP_RULES_OK` with:
+8. Return: `MEMORY_SYNC_OK` and `OP_RULES_OK` with:
    - `RULES_CHECKED=<n_total_active>`
    - `RULES_MATCHED=<n_matched>`
    - `RULES_EXECUTED=<n_executed>`
@@ -48,6 +53,7 @@ You may return `OP_RULES_OK` only when ALL conditions hold:
 - every matched rule has evidence fields: `command`, `exit_code`, `output_summary`
 - `RULES_EVIDENCE_COMPLETE=yes`
 - no blocking rule failed (`RULES_FAILED_BLOCKING=0`)
+- memory-intent routing policy was satisfied for all write actions (no path mismatch)
 
 If any condition above is not met, return `OP_RULES_BLOCKED` with exact missing/failed criteria.
 

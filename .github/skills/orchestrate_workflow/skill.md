@@ -53,6 +53,10 @@ For each task from `master_plan.md` in order:
 6. If reviewer returns `APPROVE`:
    - run `synthesizer` (mandatory memory-distribution + operational-rules gate)
    - synthesizer must evaluate ALL active operational rules for current task and execute matched actions
+   - synthesizer must enforce deterministic memory-intent routing:
+      - `edit/delete` -> `propose_memory_mutation` then `apply_memory_mutation` with `mutation_plan.operations`
+      - `create/save new` -> strict extracted_fact append + consolidation
+      - route mismatch -> `OP_RULES_BLOCKED` (no silent fallback)
    - only after `MEMORY_SYNC_OK` and strict `OP_RULES_OK`, mark task `done`
    - continue to next task
    - if diagnostic mode is ON, write `synthesizer_memory_gate_ok` and `synthesizer_operational_rules_gate_ok` before advancing

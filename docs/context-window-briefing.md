@@ -94,6 +94,10 @@ Cloud payload log behavior:
 
 ### 4.2 Local-first tools
 
+First-message guard for new context windows:
+- for the first user request in a new chat/context window, run `local_memory_bootstrap(...)` before substantial analysis, coding, or orchestration.
+- only minimal intent/path resolution is allowed before bootstrap.
+
 - `local_memory_brief(question, project_path=None, max_files=8, max_chars_per_file=3500)`
   - retrieves relevant memory snippets
   - synthesizes compact answer with local model
@@ -115,6 +119,10 @@ Important separation of flows:
 - Operational-rule save workflows (for example, save-memory-rule prompts) persist strict `extracted_fact` entries directly into `memory/logs/extracted_facts.jsonl`, then run consolidation.
 - Mutation API is a separate maintenance path for targeted edit/delete operations over existing facts.
 - `apply_memory_mutation` accepts only `mutation_plan.operations` from `propose_memory_mutation`; legacy `mutation_plan.facts` payloads are rejected.
+- Deterministic routing policy:
+  - `edit/delete existing facts` -> mutation pipeline only (`propose_memory_mutation` then `apply_memory_mutation`).
+  - `create/save new facts or rules` -> strict extracted-fact append + consolidation (not mutation pipeline).
+  - path-policy mismatch must be blocked (`OP_RULES_BLOCKED` or equivalent), with no silent fallback.
 
 - `propose_memory_mutation(query, action="delete", replacement_value=None, project_path=None, max_matches=3)`
   - builds ranked mutation candidates from extracted facts

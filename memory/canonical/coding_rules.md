@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-03T13:08:07.115738+00:00
+- updated_at: 2026-03-03T16:51:52.006400+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 88
+- items: 89
 
 ### added_explicit_language_rules_to_neighbor_canonical
 - [change][active;p=8] Added explicit language policy rules to D:\art_network_antigravity extracted facts and reconsolidated; confirmed communication_language_policy and local_memory_english_processing appear in canonical/coding_rules.md. (source: session:copilot)
@@ -70,6 +70,9 @@
 
 ### deprecated_neighbor_language_md_facts_and_reconsolidated
 - [change][active;p=8] For D:\art_network_antigravity, deprecated active extracted facts sourced from rlm_memory/13_preferences/language.md after file removal, then ran consolidate_memory and verified canonical no longer references language.md source entries. (source: session:copilot)
+
+### docs_clarify_save_rule_vs_mutation_flows
+- [documentation][active;p=8] Updated README.md, README.ru.md, and docs/context-window-briefing.md to explicitly separate operational-rule save flow (append strict extracted_fact + consolidate) from mutation API flow, and to state operations-only apply contract with legacy facts rejection. (source: session:copilot)
 
 ### enforce_english_local_memory_question_normalization
 - [change][active;p=8] Updated local memory tools to normalize non-ASCII user questions into English before retrieval/prompting when RLM_LOCAL_LLM_FORCE_ENGLISH is enabled; added question_en and question_translated in local_memory_brief/bootstrap responses. (source: session:copilot)

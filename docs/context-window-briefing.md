@@ -111,6 +111,11 @@ Cloud payload log behavior:
 
 ### 4.3 Mutation tools (feature-flagged)
 
+Important separation of flows:
+- Operational-rule save workflows (for example, save-memory-rule prompts) persist strict `extracted_fact` entries directly into `memory/logs/extracted_facts.jsonl`, then run consolidation.
+- Mutation API is a separate maintenance path for targeted edit/delete operations over existing facts.
+- `apply_memory_mutation` accepts only `mutation_plan.operations` from `propose_memory_mutation`; legacy `mutation_plan.facts` payloads are rejected.
+
 - `propose_memory_mutation(query, action="delete", replacement_value=None, project_path=None, max_matches=3)`
   - builds ranked mutation candidates from extracted facts
   - returns `matches` + `mutation_plan`

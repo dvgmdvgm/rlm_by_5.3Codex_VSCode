@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-03T13:08:07.115738+00:00
+- updated_at: 2026-03-03T16:51:52.006400+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 71
+- items: 73
 
 ### added_configurable_local_timestamp_mode
 - [change][active;p=8] Implemented configurable timestamp mode across MCP server, REPL logs, and consolidator with new RLM_TIMESTAMP_MODE (local|utc), defaulting to local time for user-friendly timestamps. (source: session:copilot)
@@ -79,6 +79,9 @@
 ### migrate_legacy_facts_summary_type_guard
 - [fix][active;p=8] Fixed scripts/rlm/migrate_legacy_facts.py to safely coerce non-string legacy summary/value payloads before truncation, preventing KeyError during migration. (source: session:legacy_migration_current_and_neighbor_20260303)
 
+### mutation_plan_operations_only_standard
+- [decision][active;p=10] Adopted strict single mutation standard: apply_memory_mutation accepts only mutation_plan.operations from propose_memory_mutation and explicitly rejects legacy mutation_plan.facts format. (source: session:copilot)
+
 ### neighbor_mobile_rule_migration_and_consolidation
 - [change][active;p=9] Executed migration and consolidation in d:/art_network_antigravity: appended strict structured operational payload for OPS-RULE-MOBILE-BUILD-001 and reconsolidated canonical memory. Canonical active_tasks now contains structured OPS-RULE-MOBILE-BUILD-001 payload with rule_id/scope/trigger/action/preconditions/failure_policy/evidence/status/priority. Legacy unknown_session line remains as historical entry. (source: session:neighbor_rule_migration_20260303)
 
@@ -105,6 +108,9 @@
 
 ### orchestrator_routing_bypass_despite_slash_command
 - [analysis][active;p=8] Refined diagnosis: user may have invoked /orchestrate, but session evidence shows direct-agent execution path (no planner-worker-reviewer-synthesizer stage artifacts in chat trace), indicating orchestration routing/delegation did not engage in that run rather than user trigger error. (source: session:copilot)
+
+### project_scoped_mutation_mode_env_fallback
+- [fix][active;p=9] Made memory mutation mode project-aware: precedence is process env RLM_MEMORY_MUTATION_MODE, then credentials.env, then .env in project_path root, then default off. (source: session:copilot)
 
 ### strict_fact_schema_enforcement
 - [fix][active;p=10] Added strict JSON schema for extracted_facts.jsonl to copilot-instructions.md in both RLM server and external project; consolidator only accepts records with type=extracted_fact and nested value dict — all other formats are silently skipped. (source: session:strict_fact_schema_20260302)

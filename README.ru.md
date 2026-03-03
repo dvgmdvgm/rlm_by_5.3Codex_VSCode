@@ -98,6 +98,12 @@ consolidate_memory(
 
 ## API мутаций памяти (под feature flag)
 
+Важно: это отдельный контур, отличный от сохранения operational rules.
+
+- Workflow типа `save_operational_memory_rule` записывает strict `extracted_fact` напрямую в лог и сразу запускает `consolidate_memory`.
+- `apply_memory_mutation` — отдельный maintenance API и принимает только `mutation_plan.operations` из `propose_memory_mutation`.
+- Legacy-формат `mutation_plan.facts` намеренно отклоняется.
+
 Режим работы:
 
 - `RLM_MEMORY_MUTATION_MODE=off` (по умолчанию): применение мутаций заблокировано
@@ -135,6 +141,8 @@ apply_memory_mutation(
 
 Поведение:
 
+- Принимает только `mutation_plan.operations`, сформированный `propose_memory_mutation`
+- Legacy-формат `mutation_plan.facts` отклоняется (единый стандарт, без обратной совместимости)
 - Валидирует операции по строгой схеме extracted-fact
 - Добавляет записи в `memory/logs/extracted_facts.jsonl`
 - Запускает консолидацию и перепубликацию canonical-файлов

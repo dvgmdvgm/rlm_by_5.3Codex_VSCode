@@ -5597,3 +5597,870 @@ payload_preview:
   "__truncated_keys__": "+11 keys"
 }
 ```
+---
+ts: 2026-03-03T15:12:58.891345+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 93087,
+  "total_files": 56,
+  "total_lines": 1716,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T15:13:03.193155+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1557
+payload_est_tokens: 389
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Memory Mutation Was Enabled Before**: Memory mutation was enabled for the neighboring project with the environment variable `RLM_MEMORY_MUTATION_MODE=on`.\n  \n- **Reason for Disabling**: The specific reasons for disabling memory mutation again are not detailed in the provided context. This could be due to re-evaluations of operational risks, changes in project requirements, or other unspecified factors.\n  \n- **No Conflicting Information**: There is no conflicting information regarding memory mutation status between different parts of the provided memory context.\n\n- **Next Steps**: Further investigation into the latest logs and communications related to memory management and policy adjustments would be necessary to understand the decision behind disabling memory mutation again.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Почему в соседнем проекте снова Memory mutation is disabled, хотя раньше включали on",
+  "question_en": "Why is Memory mutation disabled again in the neighboring project, even though it was enabled before?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "changelog/memory_reset_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-03T15:13:03.193659+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1925
+payload_est_tokens: 481
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Memory Mutation Was Enabled Before**: Memory mutation was enabled for the neighboring project with the environment variable `RLM_MEMORY_MUTATION_MODE=on`.\n  \n- **Reason for Disabling**: The specific reasons for disabling memory mutation again are not detailed in the provided context. This could be due to re-evaluations of operational risks, changes in project requirements, or other unspecified factors.\n  \n- **No Conflicting Information**: There is no conflicting information regarding memory mutation status between different parts of the provided memory context.\n\n- **Next Steps**: Further investigation into the latest logs and communications related to memory management and policy adjustments would be necessary to understand the decision behind disabling memory mutation again.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 93087,
+    "total_files": 56,
+    "total_lines": 1716
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Почему в соседнем проекте снова Memory mutation is disabled, хотя раньше включали on",
+  "question_en": "Why is Memory mutation disabled again in the neighboring project, even though it was enabled before?",
+  "question_translated": true,
+  "reloaded_files": 56,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "changelog/memory_reset_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-03T15:13:03.206673+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 93087,
+  "total_files": 56,
+  "total_lines": 1716,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T15:45:46.635993+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 93087,
+  "total_files": 56,
+  "total_lines": 1716,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T15:45:51.767540+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1339
+payload_est_tokens: 334
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Read mutation mode from project's .env file**: The patch server reads the mutation mode configuration from the `.env` file located in the project directory.\n- **Environment variable key**: The specific environment variable used is `RLM_MEMORY_MUTATION_MODE`.\n- **Backup and validation**: Before enabling, a backup of the original `.env` file is made, and an isolated ON-mode smoke test of the apply pipeline is performed to ensure successful operation.\n- **Verified consolidation**: After enabling, it is verified that the consolidation process succeeds with the new mutation mode settings.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Patch server to read mutation mode from project env (.env) per project_path",
+  "question_en": "Patch server to read mutation mode from project env (.env) per project_path",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-03T15:45:51.768042+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1707
+payload_est_tokens: 426
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Read mutation mode from project's .env file**: The patch server reads the mutation mode configuration from the `.env` file located in the project directory.\n- **Environment variable key**: The specific environment variable used is `RLM_MEMORY_MUTATION_MODE`.\n- **Backup and validation**: Before enabling, a backup of the original `.env` file is made, and an isolated ON-mode smoke test of the apply pipeline is performed to ensure successful operation.\n- **Verified consolidation**: After enabling, it is verified that the consolidation process succeeds with the new mutation mode settings.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 93087,
+    "total_files": 56,
+    "total_lines": 1716
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Patch server to read mutation mode from project env (.env) per project_path",
+  "question_en": "Patch server to read mutation mode from project env (.env) per project_path",
+  "question_translated": false,
+  "reloaded_files": 56,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-03T15:45:51.780066+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 93087,
+  "total_files": 56,
+  "total_lines": 1716,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T15:47:50.094518+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 72,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 23436,
+  "changelog_files_before": 36,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_154750.md",
+  "coding_rules_items": 88,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 165,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-03T16:43:57.276805+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 93975,
+  "total_files": 57,
+  "total_lines": 1741,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T16:44:01.459038+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1063
+payload_est_tokens: 265
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- Enforce strict adherence to a single mutation plan.\n- Standard operations-only approach without backward compatibility.\n- No deviations from the approved mutation plan allowed.\n- Ensure all changes align with the defined mutation plan.\n- Report any conflicts or discrepancies immediately.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Enforce single mutation plan standard operations-only without backward compatibility",
+  "question_en": "Enforce single mutation plan standard operations-only without backward compatibility",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/strict_orchestration_state_machine_20260302.md",
+    "changelog/conflict_resolution_policy_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-03T16:44:01.459542+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1431
+payload_est_tokens: 357
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- Enforce strict adherence to a single mutation plan.\n- Standard operations-only approach without backward compatibility.\n- No deviations from the approved mutation plan allowed.\n- Ensure all changes align with the defined mutation plan.\n- Report any conflicts or discrepancies immediately.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 93975,
+    "total_files": 57,
+    "total_lines": 1741
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Enforce single mutation plan standard operations-only without backward compatibility",
+  "question_en": "Enforce single mutation plan standard operations-only without backward compatibility",
+  "question_translated": false,
+  "reloaded_files": 57,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/strict_orchestration_state_machine_20260302.md",
+    "changelog/conflict_resolution_policy_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-03T16:44:01.472564+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 93975,
+  "total_files": 57,
+  "total_lines": 1741,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T16:44:35.294785+01:00
+tool: apply_memory_mutation
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 253
+payload_est_tokens: 63
+payload_keys: error, memory_dir, mode, ok, project_path
+payload_preview:
+```json
+{
+  "error": "Memory mutation is disabled. Set RLM_MEMORY_MUTATION_MODE=dry-run or on.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "mode": "off",
+  "ok": false,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization"
+}
+```
+---
+ts: 2026-03-03T16:44:51.597549+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 73,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 24087,
+  "changelog_files_before": 37,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_164451.md",
+  "coding_rules_items": 88,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 166,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-03T16:46:37.425782+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 94889,
+  "total_files": 58,
+  "total_lines": 1766,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T16:46:40.498991+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1204
+payload_est_tokens: 301
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Verify mode on**: Confirmed that RLM_MEMORY_MUTATION_MODE is enabled as indicated by the session:copilot entry under \"audited_and_enabled_memory_mutation_for_external_project.\"\n- **Legacy facts rejection**: The current project's legacy facts have been migrated to a strict extracted_fact schema, as stated in \"current_project_legacy_facts_migrated_to_strict.\" This migration process ensures that only valid facts are retained.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Smoke check after enabling RLM_MEMORY_MUTATION_MODE: verify mode on and legacy facts rejection",
+  "question_en": "Smoke check after enabling RLM_MEMORY_MUTATION_MODE: verify mode on and legacy facts rejection",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-03T16:46:40.499501+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1572
+payload_est_tokens: 393
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Verify mode on**: Confirmed that RLM_MEMORY_MUTATION_MODE is enabled as indicated by the session:copilot entry under \"audited_and_enabled_memory_mutation_for_external_project.\"\n- **Legacy facts rejection**: The current project's legacy facts have been migrated to a strict extracted_fact schema, as stated in \"current_project_legacy_facts_migrated_to_strict.\" This migration process ensures that only valid facts are retained.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 94889,
+    "total_files": 58,
+    "total_lines": 1766
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Smoke check after enabling RLM_MEMORY_MUTATION_MODE: verify mode on and legacy facts rejection",
+  "question_en": "Smoke check after enabling RLM_MEMORY_MUTATION_MODE: verify mode on and legacy facts rejection",
+  "question_translated": false,
+  "reloaded_files": 58,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-03T16:46:40.512595+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 94889,
+  "total_files": 58,
+  "total_lines": 1766,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T16:46:45.435121+01:00
+tool: propose_memory_mutation
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1604
+payload_est_tokens: 401
+payload_keys: action, apply_allowed, match_count, matches, memory_dir, mode, mutation_plan, ok, project_path, query, replacement_value
+payload_preview:
+```json
+{
+  "action": "delete",
+  "apply_allowed": true,
+  "match_count": 1,
+  "matches": [
+    {
+      "fact": {
+        "date": "2026-03-02",
+        "entity": "Context Window Briefing",
+        "priority": 8,
+        "source": "session:update_context_window_briefing_20260302",
+        "status": "active",
+        "type": "documentation",
+        "value": "Updated docs/context-window-briefing.md to include operational-rules gate requirements (OP_RULES_OK), synthesizer rule-check diagnostics, minimal operational-rule contract fields, and additional risks for command safety and legacy format compatibility."
+      },
+      "match_id": "m01",
+      "score": 4,
+      "ts": "2026-03-02T19:55:00Z"
+    }
+  ],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "mode": "on",
+  "mutation_plan": {
+    "action": "delete",
+    "created_at": "2026-03-03T16:46:45.435121+01:00",
+    "operations": [
+      {
+        "id": "op01",
+        "op": "deprecate",
+        "record": {
+          "ts": "2026-03-03T16:46:45.435121+01:00",
+          "type": "extracted_fact",
+          "value": {
+            "date": "2026-03-02",
+            "entity": "Context Window Briefing",
+            "priority": 9,
+            "source": "session:update_context_window_briefing_20260302",
+            "status": "deprecated",
+            "type": "documentation",
+            "value": "Updated docs/context-window-briefing.md to include operational-rules gate requirements (OP_RULES_OK), synthesizer rule-check diagnostics, minimal operational-rule contract fields, and additional risks for command safety and legacy format compatibility."
+          }
+        },
+        "score": 4,
+        "target_match_id": "m01"
+      }
+    ],
+    "plan_id": "mutation_20260303_164645",
+    "query": "smoke format check"
+  },
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "query": "smoke format check",
+  "replacement_value": null
+}
+```
+---
+ts: 2026-03-03T16:46:45.437639+01:00
+tool: apply_memory_mutation
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 231
+payload_est_tokens: 57
+payload_keys: error, memory_dir, mode, ok, project_path
+payload_preview:
+```json
+{
+  "error": "mutation_plan.operations must be a non-empty array.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "mode": "on",
+  "ok": false,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization"
+}
+```
+---
+ts: 2026-03-03T16:47:41.275280+01:00
+tool: propose_memory_mutation
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1510
+payload_est_tokens: 377
+payload_keys: action, apply_allowed, match_count, matches, memory_dir, mode, mutation_plan, ok, project_path, query, replacement_value
+payload_preview:
+```json
+{
+  "action": "delete",
+  "apply_allowed": true,
+  "match_count": 1,
+  "matches": [
+    {
+      "fact": {
+        "date": "2026-03-03",
+        "entity": "split_cloud_payload_audit_vs_current_formats",
+        "priority": 8,
+        "source": "session:copilot",
+        "status": "active",
+        "type": "change",
+        "value": "Updated _log_cloud_payload: cloud_payload_audit remains compact (payload_preview), cloud_payload_current now stores full untruncated payload (payload_full). Runtime needs MCP server restart to take effect."
+      },
+      "match_id": "m01",
+      "score": 4,
+      "ts": "2026-03-03T12:57:45.0603174Z"
+    }
+  ],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "mode": "on",
+  "mutation_plan": {
+    "action": "delete",
+    "created_at": "2026-03-03T16:47:41.275280+01:00",
+    "operations": [
+      {
+        "id": "op01",
+        "op": "deprecate",
+        "record": {
+          "ts": "2026-03-03T16:47:41.275280+01:00",
+          "type": "extracted_fact",
+          "value": {
+            "date": "2026-03-03",
+            "entity": "split_cloud_payload_audit_vs_current_formats",
+            "priority": 9,
+            "source": "session:copilot",
+            "status": "deprecated",
+            "type": "change",
+            "value": "Updated _log_cloud_payload: cloud_payload_audit remains compact (payload_preview), cloud_payload_current now stores full untruncated payload (payload_full). Runtime needs MCP server restart to take effect."
+          }
+        },
+        "score": 4,
+        "target_match_id": "m01"
+      }
+    ],
+    "plan_id": "mutation_20260303_164741",
+    "query": "smoke format check after restart"
+  },
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "query": "smoke format check after restart",
+  "replacement_value": null
+}
+```
+---
+ts: 2026-03-03T16:47:41.278809+01:00
+tool: apply_memory_mutation
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 332
+payload_est_tokens: 83
+payload_keys: error, memory_dir, mode, ok, project_path
+payload_preview:
+```json
+{
+  "error": "Unsupported mutation plan format: 'mutation_plan.facts' is not accepted. Use 'propose_memory_mutation' and pass its 'mutation_plan.operations' to apply.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "mode": "on",
+  "ok": false,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization"
+}
+```
+---
+ts: 2026-03-03T16:51:07.784617+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 94889,
+  "total_files": 58,
+  "total_lines": 1766,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T16:51:10.721171+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1270
+payload_est_tokens: 317
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Save-operational-rule flow** involves saving changes to the canonical files like `architecture.md`, `coding_rules.md`, and `active_tasks.md`.\n- **Mutation API flow** is used for applying mutations to the memory, which can include adding new rules or updating existing ones.\n- **Single operations-only mutation standard** ensures that each mutation operation targets a single rule or fact, maintaining clarity and control in the change process.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Update docs and briefing to clarify save-operational-rule flow vs mutation API flow and single operations-only mutation standard",
+  "question_en": "Update docs and briefing to clarify save-operational-rule flow vs mutation API flow and single operations-only mutation standard",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/conflict_resolution_policy_20260302.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-03T16:51:10.721675+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1638
+payload_est_tokens: 409
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Save-operational-rule flow** involves saving changes to the canonical files like `architecture.md`, `coding_rules.md`, and `active_tasks.md`.\n- **Mutation API flow** is used for applying mutations to the memory, which can include adding new rules or updating existing ones.\n- **Single operations-only mutation standard** ensures that each mutation operation targets a single rule or fact, maintaining clarity and control in the change process.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 94889,
+    "total_files": 58,
+    "total_lines": 1766
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Update docs and briefing to clarify save-operational-rule flow vs mutation API flow and single operations-only mutation standard",
+  "question_en": "Update docs and briefing to clarify save-operational-rule flow vs mutation API flow and single operations-only mutation standard",
+  "question_translated": false,
+  "reloaded_files": 58,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/conflict_resolution_policy_20260302.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-03T16:51:10.736222+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 94889,
+  "total_files": 58,
+  "total_lines": 1766,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T16:51:52.025388+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 73,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 24738,
+  "changelog_files_before": 38,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_165152.md",
+  "coding_rules_items": 89,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 167,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```

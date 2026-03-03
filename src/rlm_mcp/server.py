@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import asdict
 from pathlib import Path
+import os
 import re
 import json
 from datetime import datetime, timedelta, timezone
@@ -204,9 +205,44 @@ def _normalize_local_question_to_english(question: str) -> str:
     return translated
 
 
-def _effective_mutation_mode() -> str:
-    mode = (settings.memory_mutation_mode or "off").strip().lower()
+def _normalize_mutation_mode(value: str | None) -> str:
+    mode = (value or "off").strip().lower()
     return mode if mode in MUTATION_ALLOWED_MODES else "off"
+
+
+def _read_env_value(env_file: Path, key: str) -> str | None:
+    if not env_file.exists() or not env_file.is_file():
+        return None
+    try:
+        for raw_line in env_file.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "=" not in line:
+                continue
+            env_key, env_value = line.split("=", 1)
+            if env_key.strip() != key:
+                continue
+            value = env_value.strip().strip('"').strip("'")
+            return value
+    except Exception:
+        return None
+    return None
+
+
+def _effective_mutation_mode(project_path: str | None = None) -> str:
+    process_mode = os.getenv("RLM_MEMORY_MUTATION_MODE")
+    if process_mode is not None:
+        return _normalize_mutation_mode(process_mode)
+
+    if project_path:
+        project_root = Path(project_path)
+        for env_name in ("credentials.env", ".env"):
+            env_mode = _read_env_value(project_root / env_name, "RLM_MEMORY_MUTATION_MODE")
+            if env_mode is not None:
+                return _normalize_mutation_mode(env_mode)
+
+    return _normalize_mutation_mode(settings.memory_mutation_mode)
 
 
 def _now_iso() -> str:
@@ -883,7 +919,7 @@ def propose_memory_mutation(
 ) -> dict:
     """Propose memory mutation operations (delete/update) from extracted facts without writing changes."""
     memory_dir = _resolve_memory_dir(project_path)
-    mode = _effective_mutation_mode()
+    mode = _effective_mutation_mode(project_path)
     normalized_action = action.strip().lower()
 
     if normalized_action not in {"delete", "update"}:
@@ -1015,7 +1051,7 @@ def apply_memory_mutation(
 ) -> dict:
     """Apply proposed memory mutation plan by appending extracted facts and consolidating canonical memory."""
     memory_dir = _resolve_memory_dir(project_path)
-    mode = _effective_mutation_mode()
+    mode = _effective_mutation_mode(project_path)
 
     if mode == "off":
         response = {
@@ -1066,6 +1102,23 @@ def apply_memory_mutation(
         return response
 
     operations = mutation_plan.get("operations")
+    legacy_facts = mutation_plan.get("facts")
+    if not isinstance(operations, list) and isinstance(legacy_facts, list):
+        response = {
+            "ok": False,
+            "mode": mode,
+            "error": "Unsupported mutation plan format: 'mutation_plan.facts' is not accepted. Use 'propose_memory_mutation' and pass its 'mutation_plan.operations' to apply.",
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+        _log_cloud_payload(
+            tool_name="apply_memory_mutation",
+            project_path=project_path,
+            memory_dir=memory_dir,
+            payload=response,
+        )
+        return response
+
     if not isinstance(operations, list) or not operations:
         response = {
             "ok": False,

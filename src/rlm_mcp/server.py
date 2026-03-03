@@ -14,6 +14,7 @@ from .consolidator import consolidate_memory as consolidate_memory_impl
 from .llm_adapter import OllamaAdapter
 from .memory_store import MemoryStore
 from .repl_runtime import ReplRuntime
+from .time_policy import current_timezone, now_dt, now_iso
 
 settings = load_settings()
 llm_adapter = OllamaAdapter(
@@ -91,7 +92,7 @@ def _log_cloud_payload(
 
     serialized = json.dumps(payload, ensure_ascii=False, default=str)
     payload_preview = _compact_preview(payload)
-    timestamp = datetime.now(timezone.utc).isoformat()
+    timestamp = now_iso(settings.timestamp_mode)
     payload_keys = ", ".join(sorted(payload.keys()))
     preview_text = json.dumps(payload_preview, ensure_ascii=False, indent=2)
     full_payload_text = json.dumps(payload, ensure_ascii=False, indent=2, default=str)
@@ -167,6 +168,7 @@ def _get_runtime(memory_dir: Path) -> ReplRuntime:
             local_iter_log_file=memory_dir / "logs" / "local_llm_iterations.log",
             local_iter_log_preview_chars=settings.local_iter_log_preview_chars,
             local_llm_force_english=settings.local_llm_force_english,
+            timestamp_mode=settings.timestamp_mode,
         )
         runtimes[cache_key] = runtime
     return runtimes[cache_key]
@@ -207,8 +209,8 @@ def _effective_mutation_mode() -> str:
     return mode if mode in MUTATION_ALLOWED_MODES else "off"
 
 
-def _utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+def _now_iso() -> str:
+    return now_iso(settings.timestamp_mode)
 
 
 def _to_epoch(value: str) -> float:
@@ -329,7 +331,7 @@ def _select_fact_candidates(memory_dir: Path, query: str, max_matches: int) -> l
 def _build_extracted_fact_record(*, value: dict[str, Any], ts: str | None = None) -> dict[str, Any]:
     return {
         "type": "extracted_fact",
-        "ts": ts or _utc_now_iso(),
+        "ts": ts or _now_iso(),
         "value": {
             "type": str(value.get("type", "")),
             "entity": str(value.get("entity", "")),
@@ -487,7 +489,9 @@ def _parse_changelog_ts(name: str) -> datetime | None:
     if not match:
         return None
     try:
-        return datetime.strptime(match.group(1) + match.group(2), "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
+        return datetime.strptime(match.group(1) + match.group(2), "%Y%m%d%H%M%S").replace(
+            tzinfo=current_timezone(settings.timestamp_mode)
+        )
     except ValueError:
         return None
 
@@ -510,7 +514,7 @@ def _auto_summarize_old_changelogs(
             "raw_files_archived": 0,
         }
 
-    cutoff = datetime.now(timezone.utc) - timedelta(days=max(1, older_than_days))
+    cutoff = now_dt(settings.timestamp_mode) - timedelta(days=max(1, older_than_days))
     all_files: list[tuple[Path, datetime]] = []
     for path in sorted(changelog_dir.glob("rlm_consolidation_*.md")):
         ts = _parse_changelog_ts(path.name)
@@ -600,7 +604,7 @@ def _auto_summarize_old_changelogs(
                     f"# RLM Monthly Changelog Summary ({month})",
                     "",
                     "## META",
-                    f"- generated_at: {datetime.now(timezone.utc).isoformat()}",
+                    f"- generated_at: {_now_iso()}",
                     "- generator: local_llm",
                     f"- source_files: {len(chunk_files)}",
                     f"- keep_raw: {keep_raw}",
@@ -920,9 +924,9 @@ def propose_memory_mutation(
     terms = _tokenize_query(query)
     ranked = [(record, _score_fact_match(record, query, terms)) for record in candidates]
 
-    plan_id = datetime.now(timezone.utc).strftime("mutation_%Y%m%d_%H%M%S")
+    plan_id = now_dt(settings.timestamp_mode).strftime("mutation_%Y%m%d_%H%M%S")
     source_id = f"session:{plan_id}"
-    today = datetime.now(timezone.utc).date().isoformat()
+    today = now_dt(settings.timestamp_mode).date().isoformat()
     operations: list[dict[str, Any]] = []
 
     for index, (record, score) in enumerate(ranked, start=1):
@@ -987,7 +991,7 @@ def propose_memory_mutation(
         "match_count": len(ranked),
         "mutation_plan": {
             "plan_id": plan_id,
-            "created_at": _utc_now_iso(),
+            "created_at": _now_iso(),
             "action": normalized_action,
             "query": query,
             "operations": operations,
@@ -1117,7 +1121,7 @@ def apply_memory_mutation(
     runtime.refresh_memory(context)
 
     audit_entry = {
-        "ts": _utc_now_iso(),
+        "ts": _now_iso(),
         "type": "memory_mutation_apply",
         "mode": mode,
         "plan_id": mutation_plan.get("plan_id", "unknown"),

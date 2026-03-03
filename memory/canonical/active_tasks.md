@@ -2,9 +2,12 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-03T00:57:58.188566+00:00
+- updated_at: 2026-03-03T13:08:07.115738+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 65
+- items: 71
+
+### added_configurable_local_timestamp_mode
+- [change][active;p=8] Implemented configurable timestamp mode across MCP server, REPL logs, and consolidator with new RLM_TIMESTAMP_MODE (local|utc), defaulting to local time for user-friendly timestamps. (source: session:copilot)
 
 ### bootstrap_default_target
 - [fix][active;p=9] Installer TargetProjectPath is now optional and defaults to current directory, enabling one-command install from inside target project folder. (source: session:bootstrap_default_current_dir_20260302)
@@ -32,6 +35,12 @@
 
 ### current_project_legacy_facts_migrated_to_strict
 - [change][active;p=9] Migrated current project memory/logs/extracted_facts.jsonl from mixed legacy/canonical layout to fully strict extracted_fact schema (outer_bad=0, inner_bad=0). (source: session:legacy_migration_current_and_neighbor_20260303)
+
+### dry_run_delete_ui_buttons_rule
+- [analysis][active;p=7] Executed proposal-only memory mutation for deleting UI button color rule; mode remained off, apply blocked, mutation_plan generated with 3 deprecate operations targeting matched active facts. (source: session:copilot)
+
+### explained_end_to_end_cloud_local_memory_flow_detailed
+- [analysis][active;p=7] Provided detailed end-to-end explanation of cloud-local memory interaction flow, including bootstrap, retrieval, selection, local summarization, execution, consolidation, pitfalls, and fallback paths. (source: session:copilot)
 
 ### External Project Memory Repair
 - [task][active;p=8] Executed seed_canonical_from_rlm_memory.py for d:/art_network_antigravity and appended OPS-RULE-MOBILE-BUILD-001 in compatible extracted_fact.value format; subsequent consolidation produced non-empty canonical files and promoted rule into canonical/active_tasks.md. (source: session:external_project_seed_and_rule_repair_20260302)
@@ -79,6 +88,9 @@
 ### operational_rule_trigger_diagnosis
 - [analysis][active;p=8] In external project chat, OPS-RULE-MOBILE-BUILD-001 existed in extracted_facts log, did not apply to backend-only serializer fix (scope mismatch), and should have applied to later mobile app task but was not triggered because orchestration flow lacks explicit post-task operational-rule execution and canonical memory there remained empty after consolidation. (source: session:rule_trigger_diagnosis_20260302)
 
+### orchestrate_not_triggered_without_slash_prefix
+- [analysis][active;p=8] Diagnosed orchestrator bypass: user prompt used "Follow instructions in orchestrate.prompt.md" instead of starting message with exact /orchestrate trigger; session executed standard direct workflow (search/read/edit) rather than planner-worker-reviewer orchestration. (source: session:copilot)
+
 ### Orchestration Operational Rules Gate
 - [rule][active;p=10] After each approved task, synthesizer must evaluate all active operational rules from project memory, execute matched actions, and return OP_RULES_OK together with MEMORY_SYNC_OK before advancement/cleanup gates. (source: session:orchestration_operational_rules_gate_patch_20260302)
 
@@ -87,6 +99,12 @@
 
 ### orchestration_operational_rule_hardening
 - [change][active;p=10] Hardened operational-rule workflows: save_operational_memory_rule and /save-memory-rule now require structured operational payload with stable rule_id and canonical token verification; synthesizer/orchestrator gate now requires strict OP_RULES_OK criteria with per-matched-rule execution evidence (command, exit_code, output_summary), per-task independent re-evaluation, and OP_RULES_BLOCKED on missing evidence or blocking failures. (source: session:op_rules_hardening_20260303)
+
+### orchestrator_fail_fast_no_silent_fallback
+- [fix][active;p=9] Hardened orchestrator activation rules: added explicit trigger alias for orchestrate prompt-file requests and fail-fast ORCHESTRATOR_NOT_AVAILABLE guard when planner delegation does not start, across copilot instructions, orchestrate command, and orchestrator prompts. (source: session:copilot)
+
+### orchestrator_routing_bypass_despite_slash_command
+- [analysis][active;p=8] Refined diagnosis: user may have invoked /orchestrate, but session evidence shows direct-agent execution path (no planner-worker-reviewer-synthesizer stage artifacts in chat trace), indicating orchestration routing/delegation did not engage in that run rather than user trigger error. (source: session:copilot)
 
 ### strict_fact_schema_enforcement
 - [fix][active;p=10] Added strict JSON schema for extracted_facts.jsonl to copilot-instructions.md in both RLM server and external project; consolidator only accepts records with type=extracted_fact and nested value dict — all other formats are silently skipped. (source: session:strict_fact_schema_20260302)

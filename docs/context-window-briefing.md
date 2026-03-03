@@ -316,6 +316,7 @@ Only then inspect deep changelog/history if needed.
 - `RLM_LOCAL_ITER_LOG_ENABLED`
 - `RLM_LOCAL_ITER_LOG_FILE`
 - `RLM_LOCAL_LLM_FORCE_ENGLISH`
+- `RLM_TIMESTAMP_MODE`
 - `RLM_MEMORY_MUTATION_MODE`
 
 ### 11.3 Codebase bootstrap generator

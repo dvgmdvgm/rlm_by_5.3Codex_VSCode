@@ -7,12 +7,12 @@ import traceback
 import uuid
 from contextlib import redirect_stderr, redirect_stdout
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 from threading import Thread
 from typing import Any
 
 from .llm_adapter import OllamaAdapter
+from .time_policy import now_iso
 
 
 @dataclass
@@ -37,6 +37,7 @@ class ReplRuntime:
         local_iter_log_file: Path | None = None,
         local_iter_log_preview_chars: int = 420,
         local_llm_force_english: bool = True,
+        timestamp_mode: str = "local",
     ):
         self.memory_context = memory_context
         self.llm_adapter = llm_adapter
@@ -48,6 +49,7 @@ class ReplRuntime:
         self.local_iter_log_file = local_iter_log_file
         self.local_iter_log_preview_chars = max(80, local_iter_log_preview_chars)
         self.local_llm_force_english = local_llm_force_english
+        self.timestamp_mode = timestamp_mode
         self.execution_id: str | None = None
         self.execution_trace: list[dict[str, Any]] = []
         self.globals: dict[str, Any] = {
@@ -99,7 +101,7 @@ class ReplRuntime:
             return
         self.local_iter_log_file.parent.mkdir(parents=True, exist_ok=True)
         header = {
-            "ts": datetime.now(timezone.utc).isoformat(),
+            "ts": now_iso(self.timestamp_mode),
             "execution_id": self.execution_id,
             "call_type": call_type,
             "event": "request_start",
@@ -115,7 +117,7 @@ class ReplRuntime:
         if not self.local_iter_log_enabled or not self.local_iter_log_file:
             return
         payload = dict(payload)
-        payload.setdefault("ts", datetime.now(timezone.utc).isoformat())
+        payload.setdefault("ts", now_iso(self.timestamp_mode))
         payload.setdefault("execution_id", self.execution_id)
         with self.local_iter_log_file.open("a", encoding="utf-8") as f:
             f.write(json.dumps(payload, ensure_ascii=False) + "\n")
@@ -133,7 +135,7 @@ class ReplRuntime:
         meta: dict[str, Any] | None = None,
     ) -> None:
         event: dict[str, Any] = {
-            "ts": datetime.now(timezone.utc).isoformat(),
+            "ts": now_iso(self.timestamp_mode),
             "execution_id": self.execution_id,
             "call_type": call_type,
             "ok": ok,

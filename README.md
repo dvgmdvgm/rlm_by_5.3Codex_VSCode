@@ -38,6 +38,7 @@ pip install -e .
 - `RLM_LOCAL_ITER_LOG_FILE` (default: `memory/logs/local_llm_iterations.log`)
 - `RLM_LOCAL_ITER_LOG_PREVIEW_CHARS` (default: `420`)
 - `RLM_LOCAL_LLM_FORCE_ENGLISH` (default: `true`)
+- `RLM_TIMESTAMP_MODE` (default: `local`, options: `local|utc`)
 - `RLM_MEMORY_MUTATION_MODE` (default: `off`, options: `off|dry-run|on`)
 
 3. Run server (stdio):

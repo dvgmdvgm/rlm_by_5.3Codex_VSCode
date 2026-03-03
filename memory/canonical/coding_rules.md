@@ -2,9 +2,18 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-03T00:57:58.188566+00:00
+- updated_at: 2026-03-03T13:08:07.115738+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 67
+- items: 88
+
+### added_explicit_language_rules_to_neighbor_canonical
+- [change][active;p=8] Added explicit language policy rules to D:\art_network_antigravity extracted facts and reconsolidated; confirmed communication_language_policy and local_memory_english_processing appear in canonical/coding_rules.md. (source: session:copilot)
+
+### audited_and_enabled_memory_mutation_for_external_project
+- [analysis][active;p=8] Performed mutation audit for D:\art_network_antigravity: validated extracted_facts schema, confirmed apply blocked in mode off, ran isolated ON-mode smoke test of apply pipeline, enabled RLM_MEMORY_MUTATION_MODE=on in external .env with backup, and verified consolidation succeeds. (source: session:copilot)
+
+### audited_external_memory_capacity_and_scaling_risk
+- [analysis][active;p=8] Audited D:\art_network_antigravity memory footprint and scaling behavior: current effective memory context is small and fast, logs are largest on disk but excluded from load, changelog auto-summarization thresholds are present, and long-term risk is growth of non-ignored rlm_memory/changelog files. (source: session:copilot)
 
 ### bootstrap_command_in_readme
 - [decision][active;p=7] README now contains explicit one-liner minimal bootstrap import command from GitHub raw installer. (source: session:readme_minimal_import_command_20260302)
@@ -56,8 +65,38 @@
 ### Context Window Briefing
 - [documentation][active;p=8] Updated docs/context-window-briefing.md to include operational-rules gate requirements (OP_RULES_OK), synthesizer rule-check diagnostics, minimal operational-rule contract fields, and additional risks for command safety and legacy format compatibility. (source: session:update_context_window_briefing_20260302)
 
+### context_and_memory_readiness_check
+- [analysis][active;p=7] Loaded context-window briefing and project memory via local_memory_bootstrap; memory metadata diagnostics confirm accessible project-scoped memory and readiness to continue. (source: session:copilot)
+
+### deprecated_neighbor_language_md_facts_and_reconsolidated
+- [change][active;p=8] For D:\art_network_antigravity, deprecated active extracted facts sourced from rlm_memory/13_preferences/language.md after file removal, then ran consolidate_memory and verified canonical no longer references language.md source entries. (source: session:copilot)
+
+### enforce_english_local_memory_question_normalization
+- [change][active;p=8] Updated local memory tools to normalize non-ASCII user questions into English before retrieval/prompting when RLM_LOCAL_LLM_FORCE_ENGLISH is enabled; added question_en and question_translated in local_memory_brief/bootstrap responses. (source: session:copilot)
+
+### explained_automation_from_rlm_memory_to_canonical
+- [analysis][active;p=7] Explained how to automate propagation from rlm_memory to persistent canonical memory using generate->seed->consolidate flow and noted existing Copilot autopilot behavior for extracted facts plus consolidation. (source: session:copilot)
+
+### explained_deeper_tools_usage_rule
+- [analysis][active;p=6] Clarified README rule that deeper tools should be called only when bootstrap context is insufficient; described when to use local_memory_brief with larger limits vs execute_repl_code for targeted extraction/validation. (source: session:copilot)
+
+### explained_memory_mutation_purpose_and_off_mode
+- [analysis][active;p=7] Analyzed chat history and server behavior: apply_memory_mutation is intended to persist validated mutation operations and auto-consolidate memory, but in user external project it was blocked by mutation mode off, leading to manual fallback writes to extracted_facts.jsonl. (source: session:copilot)
+
+### explained_rlm_memory_vs_canonical_usage_for_external_project
+- [analysis][active;p=7] Explained distinction and operational usage for external project memory folders: rlm_memory as generated detailed source context, canonical as consolidated working memory, with guidance to update via extracted_facts plus consolidation rather than manual canonical edits. (source: session:copilot)
+
 ### external_bootstrap_flow_validation
 - [analysis][active;p=8] Validated local_memory_bootstrap on D:/art_network_antigravity: selected_files included rlm_memory/13_preferences/communication.md and language.md; brief carried style/language summary while user_response_language remained auto due canonical-only inference logic. (source: session:external_preferences_flow_check_20260302)
+
+### git_push_state_main_ec56dea
+- [analysis][active;p=6] Verified repository push state: local HEAD equals origin/main at ec56dea (ahead/behind 0/0). Working tree has uncommitted changes, so only committed version is pushed. (source: session:copilot)
+
+### gitignore_messages_prompts_and_push
+- [change][active;p=8] Added messages.md and prompts/ to .gitignore, untracked previously tracked messages.md and prompts files via git rm --cached, committed as c90df3a and pushed to origin/main. (source: session:copilot)
+
+### identified_neighbor_memory_scripts_and_recommended_fact_workflow
+- [analysis][active;p=7] Verified neighbor project has generate_rlm_memory_from_code.py, seed_canonical_from_rlm_memory.py, and write_orchestrator_memory_checklist.py. Recommended workflow: append/update extracted facts for incremental decisions, regenerate rlm_memory only after major codebase shifts, then consolidate canonical. (source: session:copilot)
 
 ### local_only_log_generation
 - [rule][active;p=10] cloud_payload_current.md and orchestrator_memory_checklist.md are generated by deterministic local code only; no cloud or local LLM calls are used for log formatting. (source: session:single_file_overwrite_logs_20260302)
@@ -65,6 +104,9 @@
 
 ### mcp_json_removed_from_installer
 - [change][active;p=7] Removed .vscode/mcp.json from bootstrap installer copy list (install_rlm_bootstrap.ps1) to prevent downstream projects from receiving server-specific MCP config. (source: session:refactor_scripts_rlm_20260302)
+
+### memory_deletion_logic_explained
+- [analysis][active;p=7] Explained memory deletion principle: use propose_memory_mutation first, then apply_memory_mutation only in on mode; delete is represented as deprecated extracted_fact plus consolidation-driven canonical update; stressed project_path checks and narrow queries. (source: session:copilot)
 
 ### memory_loading
 - [rule][active;p=8] Exclude memory/_archive/* from active memory context and metadata to prevent archival bloat in retrieval. (source: session:memory_store_archive_filter)
@@ -91,8 +133,23 @@
 ### project_purpose_summary
 - [analysis][active;p=7] Project is a Python MCP server and workflow for Hybrid RLM memory: local-first memory bootstrap/synthesis, stateful REPL tools, canonical memory consolidation, and per-project memory isolation with global server reuse. (source: session:project_about_summary_20260302)
 
+### provided_chat_templates_for_memory_deletion
+- [analysis][active;p=6] Provided end-user chat templates for safe memory deletion flow: proposal-only, confirm apply, and narrow entity-targeted deletion prompts. (source: session:copilot)
+
+### pushed_orchestrator_failfast_and_ru_readme
+- [change][active;p=8] Pushed commit 40f977b to origin/main after rebase; includes orchestrator fail-fast no-silent-fallback rules and Russian README file README.ru.md. (source: session:copilot)
+
+### ran_neighbor_project_consolidation_20260303_120523
+- [change][active;p=7] Executed consolidate_memory for D:\art_network_antigravity; canonical files refreshed and changelog rlm_consolidation_20260303_120523.md created. (source: session:copilot)
+
+### readiness_memory_and_briefing_review
+- [analysis][active;p=7] Reviewed provided context-window briefing markdown and current project memory via local_memory_bootstrap; confirmed readiness to continue work in this project context. (source: session:copilot)
+
 ### readme_logs_quick_triage_cheatsheet
 - [documentation][active;p=8] Added Logs quick triage section to README with first-check guidance for extracted facts visibility, cloud payload mismatch, local LLM iterations, orchestration closure status, and rule execution diagnostics fields. (source: session:readme_logs_cheatsheet_20260303)
+
+### readme_russian_version_added
+- [feature][active;p=7] Added Russian project documentation file README.ru.md based on README.md structure and current RLM tool contracts. (source: session:copilot)
 
 ### Save Memory Rule Workflow
 - [rule][active;p=9] Strengthened save-memory-rule workflow to require immediate consolidate_memory and mandatory canonical verification of RULE_ID/fingerprint; workflow must return RULE_SAVED=no with BLOCKED: CANONICAL_PROMOTION_FAILED when promotion is missing. (source: session:save_memory_rule_workflow_hardening_20260302)
@@ -108,6 +165,9 @@
 
 ### scripts_moved_to_rlm_subdir
 - [change][active;p=8] Moved all scripts from scripts/ to scripts/rlm/ subdirectory. Updated all references across docs, README, .github commands/prompts/skills, and installer in both RLM and downstream (art_network_antigravity) projects. (source: session:refactor_scripts_rlm_20260302)
+
+### split_cloud_payload_audit_vs_current_formats
+- [change][active;p=8] Updated _log_cloud_payload: cloud_payload_audit remains compact (payload_preview), cloud_payload_current now stores full untruncated payload (payload_full). Runtime needs MCP server restart to take effect. (source: session:copilot)
 
 ### unknown_session
 - [change][active;p=7] {"type": "rule", "entity": "RLM MCP Server", "date": "", "value": "MCP transport in MVP is stdio.", "source": "memory/changelog/memory_reset_20260302.md"} (source: session:unknown_session)
@@ -140,3 +200,6 @@
 - [change][active;p=7] Enforced English-only local model processing with separate user response language hint. (source: session:unknown_session)
 - [change][active;p=7] Synchronized handoff documentation with current codebase capabilities and language policy. (source: session:unknown_session)
 - [change][active;p=7] Added chat workflow files for one-shot codebase memory bootstrap execution. (source: session:unknown_session)
+
+### verified_dark_theme_facts_presence_and_entity_rename
+- [analysis][active;p=8] Verified user-provided mutation facts in external project memory: records exist in extracted_facts and canonical after manual fallback append plus consolidation; exact entity neon_glow_effects not present and appears as neon_glow_button_gradients. (source: session:copilot)

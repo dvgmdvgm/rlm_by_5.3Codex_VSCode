@@ -1,29 +1,40 @@
 # Current Cloud Payload Snapshot
 
 This file is overwritten on each payload transfer to cloud-facing response channel.
+It stores the full payload without compact preview truncation.
 ---
-ts: 2026-03-03T00:57:58.198650+00:00
+ts: 2026-03-03T13:08:07.132526+00:00
 tool: consolidate_memory
 project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
 memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
-payload_chars: 979
-payload_est_tokens: 244
-payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, unique_facts
-payload_preview:
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_full:
 ```json
 {
-  "active_tasks_items": 65,
-  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
-  "architecture_items": 3,
-  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
-  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_005758.md",
-  "coding_rules_items": 67,
-  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
-  "conflicts_resolved": 0,
-  "extracted_fact_records": 136,
   "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
-  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "total_log_records": 163,
+  "extracted_fact_records": 163,
+  "unique_facts": 162,
+  "architecture_items": 3,
+  "coding_rules_items": 88,
+  "active_tasks_items": 71,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_130807.md",
+  "conflicts_resolved": 0,
   "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
-  "__truncated_keys__": "+7 keys"
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "summarization_enabled": true,
+  "changelog_files_before": 35,
+  "changelog_bytes_before": 22785,
+  "trigger_max_files": 40,
+  "trigger_max_bytes": 25000,
+  "summaries_created": 0,
+  "raw_files_summarized": 0,
+  "raw_files_archived": 0,
+  "reloaded_files": 56
 }
 ```

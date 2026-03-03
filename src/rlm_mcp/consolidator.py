@@ -3,9 +3,11 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+from .time_policy import DEFAULT_TIMESTAMP_MODE, now_dt, now_iso
 
 
 @dataclass
@@ -139,7 +141,7 @@ def _classify_fact(fact: FactItem) -> str:
 
 
 def _render_markdown(title: str, doc_id: str, source_log: str, items: list[FactItem]) -> str:
-    now = datetime.now(timezone.utc).isoformat()
+    now = now_iso(DEFAULT_TIMESTAMP_MODE)
     rows: list[str] = [
         f"# {title}",
         "",
@@ -319,7 +321,7 @@ def consolidate_memory(
 
     changelog_path: Path | None = None
     if write_changelog:
-        stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        stamp = now_dt(DEFAULT_TIMESTAMP_MODE).strftime("%Y%m%d_%H%M%S")
         changelog_path = changelog_dir / f"rlm_consolidation_{stamp}.md"
         changelog_md = "\n".join(
             [
@@ -327,7 +329,7 @@ def consolidate_memory(
                 "",
                 "## META",
                 f"- id: rlm_consolidation_{stamp}",
-                f"- updated_at: {datetime.now(timezone.utc).isoformat()}",
+                f"- updated_at: {now_iso(DEFAULT_TIMESTAMP_MODE)}",
                 f"- source: memory/{log_rel_path}",
                 "",
                 "### Summary",

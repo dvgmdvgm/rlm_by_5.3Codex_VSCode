@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-03T16:51:52.006400+01:00
+- updated_at: 2026-03-03T16:54:14.270197+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 89
+- items: 90
 
 ### added_explicit_language_rules_to_neighbor_canonical
 - [change][active;p=8] Added explicit language policy rules to D:\art_network_antigravity extracted facts and reconsolidated; confirmed communication_language_policy and local_memory_english_processing appear in canonical/coding_rules.md. (source: session:copilot)
@@ -94,6 +94,9 @@
 
 ### git_push_state_main_ec56dea
 - [analysis][active;p=6] Verified repository push state: local HEAD equals origin/main at ec56dea (ahead/behind 0/0). Working tree has uncommitted changes, so only committed version is pushed. (source: session:copilot)
+
+### gitignore_env_file
+- [change][active;p=7] Added .env to .gitignore so local environment file is excluded from git status and accidental commits. (source: session:copilot)
 
 ### gitignore_messages_prompts_and_push
 - [change][active;p=8] Added messages.md and prompts/ to .gitignore, untracked previously tracked messages.md and prompts files via git rm --cached, committed as c90df3a and pushed to origin/main. (source: session:copilot)

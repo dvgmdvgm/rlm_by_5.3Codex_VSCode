@@ -53,7 +53,7 @@ For each task from `master_plan.md` in order:
 6. If reviewer returns `APPROVE`:
    - run `synthesizer` (mandatory memory-distribution + operational-rules gate)
    - synthesizer must evaluate ALL active operational rules for current task and execute matched actions
-   - only after `MEMORY_SYNC_OK` and `OP_RULES_OK`, mark task `done`
+   - only after `MEMORY_SYNC_OK` and strict `OP_RULES_OK`, mark task `done`
    - continue to next task
    - if diagnostic mode is ON, write `synthesizer_memory_gate_ok` and `synthesizer_operational_rules_gate_ok` before advancing
 
@@ -77,6 +77,8 @@ For each task from `master_plan.md` in order:
 - Record per-task attempt counters for reviewer loops.
 - Persist critical outcomes to memory logs after each approved task via `synthesizer`.
 - `synthesizer` must check all active operational rules from project memory for each approved task and execute only matched rules.
+- `synthesizer` must re-check all active operational rules independently for each approved task (no carry-over skip/match state).
+- `OP_RULES_OK` is valid only when matched rules include execution evidence (`command`, `exit_code`, `output_summary`) and no blocking-rule failures.
 - Keep only one current orchestrator checklist file: `memory/logs/orchestrator_memory_checklist.md` (overwrite each run).
 
 ## RLM memory policy

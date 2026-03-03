@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-02T18:51:47.848233+00:00
+- updated_at: 2026-03-03T00:46:03.398538+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 48
+- items: 52
 
 ### bootstrap_command_in_readme
 - [decision][active;p=7] README now contains explicit one-liner minimal bootstrap import command from GitHub raw installer. (source: session:readme_minimal_import_command_20260302)
@@ -21,6 +21,12 @@
 
 ### bootstrap_workflow_chain
 - [change][active;p=9] Updated bootstrap-memory prompt/command/docs to run two-step chain: generate_rlm_memory_from_code.py then seed_canonical_from_rlm_memory.py. (source: session:canonical_seed_workflow_20260302)
+
+### briefing_and_readme_op_rules_strictness_alignment
+- [documentation][active;p=9] Aligned README and docs/context-window-briefing.md with latest operational-rule hardening: strict OP_RULES_OK criteria, required evidence fields (command/exit_code/output_summary), RULES_FAILED_* and RULES_EVIDENCE_COMPLETE diagnostics, and structured operational payload guidance including rule_id verification in canonical outputs. (source: session:docs_alignment_op_rules_20260303)
+
+### briefing_cloud_payload_and_consolidation_signature_sync
+- [documentation][active;p=9] Updated docs/context-window-briefing.md to reflect current consolidate_memory signature (including hybrid changelog triggers) and explicit logs policy: cloud_payload_audit.md append-only, cloud_payload_current.md overwrite snapshot. (source: session:briefing_logs_policy_sync_20260303)
 
 ### changelog_retention
 - [architecture][active;p=7] Added auto-summarization pipeline for old rlm_consolidation changelogs into monthly summaries with optional archival of raw files. (source: session:auto_summarize_old_changelogs)
@@ -94,6 +100,9 @@
 ### migrate_legacy_facts_script
 - [feature][active;p=9] Created scripts/migrate_legacy_facts.py to one-time convert non-canonical JSONL records (flat layouts, wrong outer type, session-facts arrays) into strict extracted_fact format; supports --dry-run preview. (source: session:strict_fact_schema_20260302)
 
+### neighbor_project_canonical_and_synthesis_format_audit
+- [change][active;p=9] Audited d:/art_network_antigravity canonical memory and synthesis contracts. Canonical markdown structure is valid (meta and item-line patterns). Updated neighboring .github synthesizer/orchestrator/save-rule markdown contracts to strict operational-rule format and strict OP_RULES_OK evidence requirements for future canonical-safe synthesis. (source: session:neighbor_project_format_audit_20260303)
+
 ### Orchestration Diagnostic Mode
 - [rule][active;p=0] Use diagnostic:on for audit proof of role-stage invocations; use diagnostic:off to disable diagnostic logging and avoid extra overhead. (source: memory/changelog/orchestration_diagnostic_mode_20260302.md)
 
@@ -103,6 +112,9 @@
 
 ### project_purpose_summary
 - [analysis][active;p=7] Project is a Python MCP server and workflow for Hybrid RLM memory: local-first memory bootstrap/synthesis, stateful REPL tools, canonical memory consolidation, and per-project memory isolation with global server reuse. (source: session:project_about_summary_20260302)
+
+### readme_logs_quick_triage_cheatsheet
+- [documentation][active;p=8] Added Logs quick triage section to README with first-check guidance for extracted facts visibility, cloud payload mismatch, local LLM iterations, orchestration closure status, and rule execution diagnostics fields. (source: session:readme_logs_cheatsheet_20260303)
 
 ### REPL Runtime
 - [rule][active;p=0] Stateful REPL supports memory_context, llm_query, llm_query_many, FINAL and FINAL_VAR. (source: memory/changelog/memory_reset_20260302.md)

@@ -16,20 +16,27 @@ Convert the user's short/approximate memory request into a precise operational r
    - call `get_memory_metadata(project_path=<project_path>, max_files=20, include_headers=false, include_files=false)`
 
 3. Normalize the user request into a strict operational rule payload with explicit fields:
+   - `rule_id` (required, stable unique id; format: `OPS-RULE-<DOMAIN>-<NNN>`)
    - `scope` (e.g., mobile tasks only)
    - `trigger` (e.g., after APPROVE / task status done)
    - `action` (e.g., run BAT build+install command)
    - `preconditions` (device connected, script exists, path is valid)
    - `failure_policy` (attempt + capture output + report non-blocking unless user says blocking)
    - `evidence` (command, exit code, short output summary)
+   - `status` (must be `active`)
+   - `priority` (integer, default 9 for operational rules)
 
 4. Persist the normalized rule into memory log (`memory/logs/extracted_facts.jsonl`) as `type=extracted_fact` using active status and high priority.
+   - IMPORTANT: keep strict extracted_fact schema.
+   - Store normalized operational payload as JSON string in `value.value` with this minimum shape:
+     `{"category":"operational_rule","rule_id":"...","scope":"...","trigger":"...","action":"...","preconditions":"...","failure_policy":"...","evidence":"...","status":"active","priority":9}`
+   - Ensure `rule_id` is present both in `entity` and inside payload JSON string.
 
 5. Run `consolidate_memory(project_path=<project_path>)` immediately so the rule is promoted into canonical memory in the same workflow run.
 
 6. Mandatory post-check (no skip):
    - reload/read canonical outputs (`memory/canonical/coding_rules.md`, `memory/canonical/active_tasks.md`)
-   - verify the saved `RULE_ID` (or equivalent unique rule fingerprint) is present in canonical memory
+   - verify the saved `RULE_ID` token is present in canonical memory
    - if canonical does not contain the rule after consolidation, return `RULE_SAVED: no` and `BLOCKED` with reason `CANONICAL_PROMOTION_FAILED`
 
 7. Return strict confirmation block:
@@ -55,3 +62,4 @@ Convert the user's short/approximate memory request into a precise operational r
 - Never claim rule saved unless extracted_facts append + consolidation succeeded + canonical verification passed.
 - Do not overwrite unrelated memory entries.
 - Keep local-memory-first behavior.
+- If any required operational field is missing, return `BLOCKED: INVALID_RULE_PAYLOAD`.

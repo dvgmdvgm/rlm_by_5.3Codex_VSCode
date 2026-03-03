@@ -80,7 +80,9 @@ Local iteration log behavior:
 `summarize_old_changelogs: bool = True,`
 `older_than_days: int = 2,`
 `keep_raw_changelogs: bool = False,`
-`max_files_per_summary: int = 20`
+`max_files_per_summary: int = 20,`
+`max_changelog_files_trigger: int = 40,`
+`max_changelog_bytes_trigger: int = 25000`
 `) -> dict`
 
 Returns counters and output file paths:
@@ -202,6 +204,7 @@ $env:RLM_MEMORY_MUTATION_MODE = "on"
 Auto-summarization policy:
 
 - Old `memory/changelog/rlm_consolidation_*.md` files are summarized by the **local model**.
+- Summarization uses a hybrid trigger: age (`older_than_days`) OR changelog volume (`max_changelog_files_trigger` / `max_changelog_bytes_trigger`).
 - Raw old files are archived to `memory/_archive/changelog_raw/` by default (`keep_raw_changelogs=false`).
 - Archived files are excluded from active memory loading.
 - `memory/logs/*` is excluded from active memory loading to avoid retrieval noise.
@@ -252,6 +255,21 @@ Cloud payload audit logging:
 - Every major MCP tool response also overwrites one current snapshot file: `memory/logs/cloud_payload_current.md`.
 - Each record includes: tool name, payload size in chars, estimated tokens, top-level keys, and compact preview of what was returned to cloud model.
 - Audit record generation is local Python logic inside MCP server tool handlers and does not invoke local or cloud LLM for log formatting.
+
+Logs quick triage (what to check first):
+
+- Memory fact not appearing in canonical:
+	- check `memory/logs/extracted_facts.jsonl` for a valid `extracted_fact` row,
+	- then check latest `consolidate_memory` block in `memory/logs/cloud_payload_current.md`.
+- Tool response/content mismatch in cloud chat:
+	- check `memory/logs/cloud_payload_current.md` (last payload),
+	- then inspect history in `memory/logs/cloud_payload_audit.md`.
+- Local model iteration behavior:
+	- check `memory/logs/local_llm_iterations.log` (`request_start` / `iteration` / `response`).
+- Orchestration closure status:
+	- check `memory/logs/orchestrator_memory_checklist.md` (single latest overwrite snapshot).
+- Rule execution diagnostics:
+	- check synthesizer output fields in payload logs: `RULES_CHECKED`, `RULES_MATCHED`, `RULES_EXECUTED`, `RULES_EVIDENCE_COMPLETE`, `RULES_FAILED_BLOCKING`.
 
 Orchestrator memory-call checklist:
 
@@ -322,6 +340,17 @@ This workspace includes `.github/copilot-instructions.md`.
 - Command workflow: `.github/commands/save-memory-rule.md`
 - Use this when your request is short/high-level and you need deterministic persistence of an operational rule into memory.
 - Typical case: save a mobile post-task rule to run a specific `.bat` compile+install command after task success.
+- Rule payload should be structured and include: `rule_id`, `scope`, `trigger`, `action`, `preconditions`, `failure_policy`, `evidence`, `status=active`, `priority`.
+- For reliable canonical promotion, keep `rule_id` in both `value.entity` and payload JSON stored in `value.value`.
+
+## Strict orchestration gate requirements
+
+- Approved tasks may advance only after both `MEMORY_SYNC_OK` and strict `OP_RULES_OK`.
+- Strict `OP_RULES_OK` requires complete diagnostics and matched-rule execution evidence:
+	- `RULES_CHECKED`, `RULES_MATCHED`, `RULES_EXECUTED`, `RULE_EXECUTION_SUMMARY`
+	- `RULES_FAILED_NONBLOCKING`, `RULES_FAILED_BLOCKING`, `RULES_EVIDENCE_COMPLETE`
+	- per matched rule: `command`, `exit_code`, `output_summary`
+- If evidence is incomplete or any blocking rule fails, gate result must be `OP_RULES_BLOCKED`.
 
 ## Minimal bootstrap import command
 

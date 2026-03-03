@@ -37,10 +37,12 @@ For each approved task, synthesizer must evaluate ALL active operational rules i
 Rule source and selection:
 - Load canonical memory first (`memory/canonical/coding_rules.md`, `memory/canonical/active_tasks.md`).
 - Also inspect `memory/logs/extracted_facts.jsonl` for active rule records with operational fields (`rule_id`, `scope`, `trigger`, `action`, `preconditions`, `failure_policy`).
+- Prefer structured operational payload records; use legacy free-text fallback only when structured fields are missing.
 - Treat a rule as active if explicit active marker exists (e.g., `status=active`) or no deactivation marker is present.
 
 Execution semantics:
 - Evaluate every active operational rule against the current task context.
+- Re-evaluate all active rules independently for each approved task (no carry-over skip/match cache from prior tasks).
 - Execute action only for matched rules (scope + trigger + preconditions pass).
 - Non-matched rules must still be reported as checked.
 - Respect per-rule `failure_policy`; by default treat operational action failures as non-blocking unless rule marks blocking.
@@ -51,7 +53,14 @@ Required synthesizer output per approved task:
 - `RULES_CHECKED=<n_total_active>`
 - `RULES_MATCHED=<n_matched>`
 - `RULES_EXECUTED=<n_executed>`
+- `RULES_FAILED_NONBLOCKING=<n_failed_nonblocking>`
+- `RULES_FAILED_BLOCKING=<n_failed_blocking>`
+- `RULES_EVIDENCE_COMPLETE=yes|no`
 - `RULE_EXECUTION_SUMMARY` with per-rule status (`matched|skipped|failed`) and brief reason.
+
+Strict `OP_RULES_OK` criteria:
+- `OP_RULES_OK` is valid only if every matched rule has execution evidence (`command`, `exit_code`, `output_summary`) and `RULES_EVIDENCE_COMPLETE=yes`.
+- If any matched rule lacks evidence or any blocking rule failed, synthesizer must return `OP_RULES_BLOCKED`.
 </operational_rules>
 
 <diagnostic>

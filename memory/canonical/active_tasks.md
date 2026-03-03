@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-02T18:51:47.848233+00:00
+- updated_at: 2026-03-03T00:46:03.398538+00:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 54
+- items: 57
 
 ### Agentic Workflow
 - [rule][active;p=0] Planner queries RLM first, Worker queries targeted memory before coding, Reviewer enforces APPROVE/REJECT gate. (source: memory/changelog/memory_reset_20260302.md)
@@ -82,12 +82,18 @@
 ### Global MCP Server Routing
 - [rule][active;p=0] Use fixed server command path with workspace-bound cwd and RLM_MEMORY_DIR (${workspaceFolder}/memory) to keep memory project-local while reusing one global MCP server codebase. (source: memory/changelog/global_server_per_project_memory_20260302.md)
 
+### hybrid_changelog_trigger_and_logs_audit
+- [change][active;p=9] Implemented hybrid changelog autosummarization trigger in src/rlm_mcp/server.py using age OR volume thresholds (file count and bytes). Updated README Consolidation API and retention policy docs. Audited memory/logs outputs for both RLM_Realization and art_network_antigravity projects. (source: session:hybrid_changelog_policy_20260303)
+
 ### Memory Sync Gate Coverage
 - [task][active;p=0] Evidence exists for synthesizer memory sync on Task 02 and Task 03; no explicit standalone Task 01 memory-sync gate artifact was found, so strict per-approved-task gate traceability is partially blocked. (source: session:archivist_closure_pass_20260302)
 - [task][active;p=0] Task 01 gate remediation completed: per-approved-task evidence now exists for Task 01/02/03 (Task 01 explicit .vscode/tasks/task_01_memory_sync_gate.md with MEMORY_SYNC_OK; Task 02 and Task 03 synthesizer gate evidence recorded in memory/logs/extracted_facts.jsonl). No remaining gate blocker for closure. (source: session:archivist_closure_recheck_post_task01_gate_20260302)
 
 ### migrate_legacy_facts_script
 - [change][active;p=6] Created scripts/rlm/migrate_legacy_facts.py — one-time migration utility that converts non-canonical JSONL records to strict extracted_fact format. Supports --dry-run. Successfully migrated 21 facts in art_network_antigravity project. (source: session:refactor_scripts_rlm_20260302)
+
+### neighbor_mobile_rule_migration_and_consolidation
+- [change][active;p=9] Executed migration and consolidation in d:/art_network_antigravity: appended strict structured operational payload for OPS-RULE-MOBILE-BUILD-001 and reconsolidated canonical memory. Canonical active_tasks now contains structured OPS-RULE-MOBILE-BUILD-001 payload with rule_id/scope/trigger/action/preconditions/failure_policy/evidence/status/priority. Legacy unknown_session line remains as historical entry. (source: session:neighbor_rule_migration_20260303)
 
 ### operational_rule_trigger_diagnosis
 - [analysis][active;p=8] In external project chat, OPS-RULE-MOBILE-BUILD-001 existed in extracted_facts log, did not apply to backend-only serializer fix (scope mismatch), and should have applied to later mobile app task but was not triggered because orchestration flow lacks explicit post-task operational-rule execution and canonical memory there remained empty after consolidation. (source: session:rule_trigger_diagnosis_20260302)
@@ -103,6 +109,9 @@
 
 ### orchestration_cleanup_policy
 - [rule][active;p=9] Delete .vscode/tasks only after all tasks are done, all approved tasks passed MEMORY_SYNC_OK, and archivist returned ARCHIVE_OK; preserve diagnostic audit by copying to memory/logs before cleanup. (source: session:strict_tasks_cleanup_policy_20260302)
+
+### orchestration_operational_rule_hardening
+- [change][active;p=10] Hardened operational-rule workflows: save_operational_memory_rule and /save-memory-rule now require structured operational payload with stable rule_id and canonical token verification; synthesizer/orchestrator gate now requires strict OP_RULES_OK criteria with per-matched-rule execution evidence (command, exit_code, output_summary), per-task independent re-evaluation, and OP_RULES_BLOCKED on missing evidence or blocking failures. (source: session:op_rules_hardening_20260303)
 
 ### Planner Artifacts
 - [task][active;p=0] Created minimal planning artifacts for car-selection 3D rotating visualization request (diagnostic:off): updated .vscode/tasks/master_plan.md and added task_01_ui_selection_contract.md, task_02_3d_viewer_integration.md, task_03_validation_and_handoff.md; planning-only, no code implementation. (source: session:planner_car_3d_visualization_20260302)

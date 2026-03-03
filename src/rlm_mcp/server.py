@@ -453,6 +453,8 @@ def _auto_summarize_old_changelogs(
     older_than_days: int,
     keep_raw: bool,
     max_files_per_summary: int,
+    max_changelog_files_trigger: int,
+    max_changelog_bytes_trigger: int,
 ) -> dict:
     changelog_dir = memory_dir / "changelog"
     if not changelog_dir.exists():
@@ -464,18 +466,47 @@ def _auto_summarize_old_changelogs(
         }
 
     cutoff = datetime.now(timezone.utc) - timedelta(days=max(1, older_than_days))
-    candidates: list[tuple[Path, datetime]] = []
+    all_files: list[tuple[Path, datetime]] = []
     for path in sorted(changelog_dir.glob("rlm_consolidation_*.md")):
         ts = _parse_changelog_ts(path.name)
         if not ts:
             continue
-        if ts >= cutoff:
-            continue
-        candidates.append((path, ts))
+        all_files.append((path, ts))
+
+    total_files = len(all_files)
+    total_bytes = sum(path.stat().st_size for path, _ in all_files)
+
+    candidates: list[tuple[Path, datetime]] = [(path, ts) for path, ts in all_files if ts < cutoff]
+
+    over_file_limit = total_files > max(1, max_changelog_files_trigger)
+    over_size_limit = total_bytes > max(1, max_changelog_bytes_trigger)
+
+    if over_file_limit or over_size_limit:
+        selected = {path for path, _ in candidates}
+        ordered_oldest_first = sorted(all_files, key=lambda item: item[1])
+        projected_files = total_files - len(selected)
+        projected_bytes = total_bytes - sum(path.stat().st_size for path in selected)
+
+        target_files = max(0, int(max(1, max_changelog_files_trigger) * 0.8))
+        target_bytes = max(0, int(max(1, max_changelog_bytes_trigger) * 0.8))
+
+        for path, ts in ordered_oldest_first:
+            if path in selected:
+                continue
+            if projected_files <= target_files and projected_bytes <= target_bytes:
+                break
+            selected.add(path)
+            candidates.append((path, ts))
+            projected_files -= 1
+            projected_bytes -= path.stat().st_size
 
     if not candidates:
         return {
             "summarization_enabled": True,
+            "changelog_files_before": total_files,
+            "changelog_bytes_before": total_bytes,
+            "trigger_max_files": max_changelog_files_trigger,
+            "trigger_max_bytes": max_changelog_bytes_trigger,
             "summaries_created": 0,
             "raw_files_summarized": 0,
             "raw_files_archived": 0,
@@ -549,6 +580,10 @@ def _auto_summarize_old_changelogs(
 
     return {
         "summarization_enabled": True,
+        "changelog_files_before": total_files,
+        "changelog_bytes_before": total_bytes,
+        "trigger_max_files": max_changelog_files_trigger,
+        "trigger_max_bytes": max_changelog_bytes_trigger,
         "summaries_created": summaries_created,
         "raw_files_summarized": raw_files_summarized,
         "raw_files_archived": raw_files_archived,
@@ -1072,6 +1107,8 @@ def consolidate_memory(
     older_than_days: int = 2,
     keep_raw_changelogs: bool = False,
     max_files_per_summary: int = 20,
+    max_changelog_files_trigger: int = 40,
+    max_changelog_bytes_trigger: int = 25000,
 ) -> dict:
     """Consolidate extracted facts log into canonical memory files and optional changelog."""
     memory_dir = _resolve_memory_dir(project_path)
@@ -1092,6 +1129,8 @@ def consolidate_memory(
             older_than_days=older_than_days,
             keep_raw=keep_raw_changelogs,
             max_files_per_summary=max_files_per_summary,
+            max_changelog_files_trigger=max_changelog_files_trigger,
+            max_changelog_bytes_trigger=max_changelog_bytes_trigger,
         )
         response.update(summary_stats)
     else:

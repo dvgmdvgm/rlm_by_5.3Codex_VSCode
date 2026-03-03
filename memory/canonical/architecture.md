@@ -2,7 +2,7 @@
 
 ## META
 - id: architecture
-- updated_at: 2026-03-02T18:51:47.848233+00:00
+- updated_at: 2026-03-03T00:46:03.398538+00:00
 - source: memory/logs/extracted_facts.jsonl
 - items: 3
 

@@ -9,15 +9,18 @@ Expand a short user request into a strict, operational memory rule and persist i
    - `local_memory_bootstrap(question="...", project_path="<active_workspace_root>")`
    - `get_memory_metadata(project_path="<active_workspace_root>", max_files=20, include_headers=false, include_files=false)`
 3. Normalize into a strict rule with fields:
-   - `scope`, `trigger`, `action`, `preconditions`, `failure_policy`, `evidence`
+   - `rule_id`, `scope`, `trigger`, `action`, `preconditions`, `failure_policy`, `evidence`, `status=active`, `priority`
+   - Use stable `rule_id` format: `OPS-RULE-<DOMAIN>-<NNN>`.
+   - Serialize operational payload as JSON string inside `value.value`.
 4. Persist rule in `memory/logs/extracted_facts.jsonl` as active/high-priority extracted_fact.
 5. Run `consolidate_memory(project_path="<active_workspace_root>")` immediately.
-6. Verify canonical promotion by checking `memory/canonical/coding_rules.md` and `memory/canonical/active_tasks.md` for the saved `RULE_ID` (or unique fingerprint).
+6. Verify canonical promotion by checking `memory/canonical/coding_rules.md` and `memory/canonical/active_tasks.md` for exact `RULE_ID` token.
 7. Return compact confirmation:
    - `RULE_SAVED`, `RULE_ID`, normalized rule summary, updated canonical files.
    - Include `CANONICAL_VERIFIED=yes|no`.
 
 If canonical verification fails after consolidation, return `RULE_SAVED=no` and `BLOCKED: CANONICAL_PROMOTION_FAILED`.
+If any required operational field is missing, return `RULE_SAVED=no` and `BLOCKED: INVALID_RULE_PAYLOAD`.
 
 ## Example short request
 

@@ -41,6 +41,9 @@ Each task file must include:
 - `## Files to Modify`
 - `## Steps`
 - `## Acceptance Criteria`
+- `## Applied Rules` — list every rule from canonical memory that influenced this task's plan. Format each entry as:
+  - `- **<entity_name>** (from canonical/<file>.md): <one-line rule summary>`
+  - If no rules applied, write: `- None identified`
 - `## Notes from RLM`
 
 Also create/update a master plan file:
@@ -56,4 +59,5 @@ Also create/update a master plan file:
 
 - Prefer minimal, incremental delivery over broad rewrites.
 - Align all tasks with existing architecture and coding rules from memory.
+- Every task MUST explicitly cite which canonical rules it relies on in `## Applied Rules`. If a task has no applicable rules, state it explicitly.
 - Avoid adding features not requested by the user.

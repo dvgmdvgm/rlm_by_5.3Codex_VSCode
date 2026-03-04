@@ -3,45 +3,38 @@
 This file is overwritten on each payload transfer to cloud-facing response channel.
 It stores the full payload without compact preview truncation.
 ---
-ts: 2026-03-04T18:04:47.574335+01:00
-tool: local_memory_bootstrap
+ts: 2026-03-04T21:16:22.467087+01:00
+tool: consolidate_memory
 project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
 memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
-payload_chars: 2009
-payload_est_tokens: 502
-payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
 payload_full:
 ```json
 {
-  "question": "How to fix already misrouted facts in canonical memory after classifier fix",
-  "question_en": "How to fix already misrouted facts in canonical memory after classifier fix",
-  "question_translated": false,
-  "reloaded_files": 52,
-  "brief": "To fix already misrouted facts in canonical memory after a classifier fix, follow these steps:\n\n1. **Identify Misrouted Facts**: Review the consolidation logs and summaries to pinpoint facts that were incorrectly categorized or routed.\n\n2. **Update Classification Rules**: Modify the classifier rules to ensure accurate routing of similar facts in future consolidations.\n\n3. **Reclassify Existing Facts**: Manually reclassify the misrouted facts using the updated classification rules. This may involve updating metadata fields or moving entries to the correct canonical files.\n\n4. **Run Consolidation Process**: Execute the consolidation process again to integrate the corrected classifications into the canonical memory.\n\n5. **Verify Corrections**: After consolidation, verify that all facts are correctly routed by reviewing the updated canonical memory files and ensuring consistency with classification rules.",
-  "selected_files": [
-    "canonical/active_tasks.md",
-    "canonical/coding_rules.md",
-    "canonical/architecture.md",
-    "canonical/communication.md",
-    "changelog/summaries/rlm_monthly_summary_202603.md",
-    "changelog/memory_reset_20260302.md",
-    "changelog/rlm_consolidation_20260303_043156.md",
-    "changelog/rlm_consolidation_20260303_043431.md"
-  ],
-  "selected_count": 8,
-  "local_model_output_language": "en",
-  "user_response_language": "ru",
-  "user_response_style": {
-    "style": "preferences_based",
-    "style_source": "canonical/communication.md",
-    "style_hint": "Use structured sections, tables for comparisons/status, emoji section headers."
-  },
-  "memory_stats": {
-    "total_files": 52,
-    "total_chars": 95809,
-    "total_lines": 1671
-  },
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "total_log_records": 179,
+  "extracted_fact_records": 179,
+  "unique_facts": 177,
+  "architecture_items": 3,
+  "coding_rules_items": 96,
+  "active_tasks_items": 78,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260304_211622.md",
+  "conflicts_resolved": 0,
   "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
-  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory"
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "summarization_enabled": true,
+  "changelog_files_before": 32,
+  "changelog_bytes_before": 20832,
+  "trigger_max_files": 40,
+  "trigger_max_bytes": 25000,
+  "summaries_created": 0,
+  "raw_files_summarized": 0,
+  "raw_files_archived": 0,
+  "reloaded_files": 53
 }
 ```

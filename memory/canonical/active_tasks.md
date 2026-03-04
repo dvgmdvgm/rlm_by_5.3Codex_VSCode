@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-04T18:01:57.619546+01:00
+- updated_at: 2026-03-04T21:16:22.452995+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 77
+- items: 78
 
 ### added_configurable_local_timestamp_mode
 - [change][active;p=8] Implemented configurable timestamp mode across MCP server, REPL logs, and consolidator with new RLM_TIMESTAMP_MODE (local|utc), defaulting to local time for user-friendly timestamps. (source: session:copilot)
@@ -120,6 +120,9 @@
 
 ### orchestrator_routing_bypass_despite_slash_command
 - [analysis][active;p=8] Refined diagnosis: user may have invoked /orchestrate, but session evidence shows direct-agent execution path (no planner-worker-reviewer-synthesizer stage artifacts in chat trace), indicating orchestration routing/delegation did not engage in that run rather than user trigger error. (source: session:copilot)
+
+### planner_applied_rules_section
+- [feature][active;p=9] Added mandatory Applied Rules section to planner task file template in .github/agents/planner.md. Each task file must now list every canonical memory rule that influenced the plan, with entity name, source file, and one-line summary. Quality bar updated to enforce explicit rule citation. (source: session:copilot)
 
 ### project_scoped_mutation_mode_env_fallback
 - [fix][active;p=9] Made memory mutation mode project-aware: precedence is process env RLM_MEMORY_MUTATION_MODE, then credentials.env, then .env in project_path root, then default off. (source: session:copilot)

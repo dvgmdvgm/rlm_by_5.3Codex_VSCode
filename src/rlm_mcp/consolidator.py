@@ -88,55 +88,72 @@ def _pick_winner(items: list[FactItem]) -> FactItem:
 
 
 def _classify_fact(fact: FactItem) -> str:
+    """Classify a fact into a canonical bucket.
+
+    Two-level routing:
+    1. Primary signal — ``fact.type`` (the inner type field set by the author).
+       Explicit type values map directly to buckets without keyword scanning,
+       so ``type=rule`` always lands in coding_rules even if the text
+       contains task-like words such as "fix" or "plan".
+    2. Fallback — keyword scanning over entity + value (NOT type) with
+       word-boundary matching to avoid false substring hits.
+    """
+    fact_type = fact.type.lower().strip()
+
+    # --- Level 1: explicit type → deterministic bucket ---
+    _type_to_bucket: dict[str, str] = {
+        "rule": "coding_rules",
+        "policy": "coding_rules",
+        "convention": "coding_rules",
+        "style": "coding_rules",
+        "lint": "coding_rules",
+        "architecture": "architecture",
+        "section": "architecture",
+        "api": "architecture",
+        "task": "active_tasks",
+        "todo": "active_tasks",
+    }
+    if fact_type in _type_to_bucket:
+        return _type_to_bucket[fact_type]
+
+    # --- Level 2: keyword scan on entity + value only (no fact_type) ---
     source = fact.source.lower()
     entity = fact.entity.lower()
     value = fact.value.lower()
-    fact_type = fact.type.lower()
-    blob = " | ".join([source, entity, value, fact_type])
+    blob = " | ".join([source, entity, value])
 
-    arch_markers = [
-        "architecture/",
-        "mobile/",
-        "screens_architecture",
-        "project_architecture",
-        "system",
-        "layer",
-        "module",
-        "api",
+    # Compile word-boundary patterns to avoid substring false positives
+    # (e.g. "plan" matching "explanation", "fix" matching "prefix").
+    def _wb_match(markers: list[str], text: str) -> bool:
+        for m in markers:
+            if re.search(r"\b" + re.escape(m) + r"\b", text):
+                return True
+        return False
+
+    task_markers = [
+        "task", "todo", "next step", "plan", "fix", "bug",
+        "implement", "pending", "roadmap", "migration",
     ]
     rule_markers = [
-        "rule",
-        "policy",
-        "token",
-        "design system",
-        "coding",
-        "naming",
-        "style",
-        "convention",
-        "lint",
-        "theme",
+        "rule", "policy", "token", "design system", "coding",
+        "naming", "style", "convention", "lint", "theme",
     ]
-    task_markers = [
-        "task",
-        "todo",
-        "next",
-        "plan",
-        "fix",
-        "bug",
-        "implement",
-        "pending",
-        "roadmap",
-        "migration",
+    arch_markers = [
+        "architecture", "screens_architecture", "project_architecture",
+        "system", "layer", "module",
     ]
 
-    if any(marker in blob for marker in task_markers):
-        return "active_tasks"
-    if any(marker in blob for marker in rule_markers):
+    # Priority: rules > tasks > architecture (rules are the most common
+    # target for explicit user-saved facts; tasks only win if the text
+    # is unambiguously task-oriented).
+    if _wb_match(rule_markers, blob):
         return "coding_rules"
-    if any(marker in blob for marker in arch_markers):
+    if _wb_match(task_markers, blob):
+        return "active_tasks"
+    if _wb_match(arch_markers, blob):
         return "architecture"
-    if "section" in fact_type:
-        return "architecture"
+
+    # Fallback: coding_rules is the safest default for unclassified facts.
     return "coding_rules"
 
 

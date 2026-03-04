@@ -2,9 +2,9 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-04T17:11:48.404965+01:00
+- updated_at: 2026-03-04T18:01:57.619546+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 76
+- items: 77
 
 ### added_configurable_local_timestamp_mode
 - [change][active;p=8] Implemented configurable timestamp mode across MCP server, REPL logs, and consolidator with new RLM_TIMESTAMP_MODE (local|utc), defaulting to local time for user-friendly timestamps. (source: session:copilot)
@@ -38,6 +38,9 @@
 
 ### canonical_seed_from_rlm_memory_external_project
 - [feature][active;p=7] Executed seed_canonical_from_rlm_memory.py for external project D:/MCOC/NativeMod/STUDIO.ROJECTS/BNM dobby1/MyApplication; created memory/canonical files from memory/rlm_memory with counts architecture=47, coding_rules=20, active_tasks=11 and seeded_facts=78. (source: session:current_chat)
+
+### classify_fact_two_level_routing
+- [fix][active;p=10] Rewrote _classify_fact in consolidator.py: added two-level routing (Level 1: fact.type as primary deterministic signal via type-to-bucket map; Level 2: keyword scan on entity+value only with word-boundary regex). Fixes incorrect routing where type=rule facts with task-like words in value went to active_tasks instead of coding_rules. Changed priority order to rules > tasks > architecture. (source: session:copilot)
 
 ### communication_language_parser
 - [fix][active;p=9] Language parser now matches only non-comment COMMUNICATION_LANGUAGE lines to avoid false match on descriptive comment text. (source: session:language_parser_comment_fix_20260302)

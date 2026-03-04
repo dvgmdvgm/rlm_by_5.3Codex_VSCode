@@ -6784,3 +6784,991 @@ payload_preview:
   "__truncated_keys__": "+11 keys"
 }
 ```
+---
+ts: 2026-03-03T23:21:36.600660+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 92286,
+  "total_files": 53,
+  "total_lines": 1666,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T23:21:41.151127+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1000
+payload_est_tokens: 250
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The memory context does not provide explicit information about the snapshot generator excluding markdown and instruction files.\n- No direct statements or configurations related to file exclusions by the snapshot generator are found in the given context.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Проверить, исключает ли генератор слепка памяти markdown и instruction файлы",
+  "question_en": "Check if the snapshot generator excludes markdown and instruction files.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "changelog/summaries/rlm_monthly_summary_202603_01.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-03T23:21:41.151631+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1368
+payload_est_tokens: 342
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The memory context does not provide explicit information about the snapshot generator excluding markdown and instruction files.\n- No direct statements or configurations related to file exclusions by the snapshot generator are found in the given context.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 92286,
+    "total_files": 53,
+    "total_lines": 1666
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Проверить, исключает ли генератор слепка памяти markdown и instruction файлы",
+  "question_en": "Check if the snapshot generator excludes markdown and instruction files.",
+  "question_translated": true,
+  "reloaded_files": 53,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "changelog/summaries/rlm_monthly_summary_202603_01.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-03T23:21:41.164635+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 92286,
+  "total_files": 53,
+  "total_lines": 1666,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T23:25:00.704539+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 92286,
+  "total_files": 53,
+  "total_lines": 1666,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T23:25:05.818373+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1904
+payload_est_tokens: 476
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "## 🎯 Run Snapshot Generator Script\n\nBrief intro sentence (1-2 lines max).\n\n---\n\n## 📊 Analysis / Main Content\n\n| Action | Status |\n|--------|--------|\n| Execute snapshot generator script as-is against provided external project path | ✅ Completed |\n\n### Steps Executed:\n1. **Script Execution**: The `generate_rlm_memory_from_code.py` script was run directly.\n2. **Path Provided**: The script was executed with the external project path specified.\n\n---\n\n## ✅ Summary / Next Steps\n\n| Action | Status |\n|--------|--------|\n| Verify output of snapshot generator script | ⚠️ Pending |\n\n### Next Steps:\n- Review the generated files in the `memory/canonical/` directory.\n- Ensure that all expected data has been extracted and consolidated correctly.\n\n---\n\n## 🛠️ Tools / Scripts Used\n\n| Tool/Script | Purpose |\n|-------------|---------|\n| generate_rlm_memory_from_code.py | Generates snapshot of project memory |\n\n### Notes:\n- The script does not require additional parameters for execution.\n- Ensure that the target project path is accessible and contains the necessary files for processing.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Run snapshot generator script as-is against provided external project path and report output.",
+  "question_en": "Run snapshot generator script as-is against provided external project path and report output.",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-03T23:25:05.818876+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2272
+payload_est_tokens: 568
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "## 🎯 Run Snapshot Generator Script\n\nBrief intro sentence (1-2 lines max).\n\n---\n\n## 📊 Analysis / Main Content\n\n| Action | Status |\n|--------|--------|\n| Execute snapshot generator script as-is against provided external project path | ✅ Completed |\n\n### Steps Executed:\n1. **Script Execution**: The `generate_rlm_memory_from_code.py` script was run directly.\n2. **Path Provided**: The script was executed with the external project path specified.\n\n---\n\n## ✅ Summary / Next Steps\n\n| Action | Status |\n|--------|--------|\n| Verify output of snapshot generator script | ⚠️ Pending |\n\n### Next Steps:\n- Review the generated files in the `memory/canonical/` directory.\n- Ensure that all expected data has been extracted and consolidated correctly.\n\n---\n\n## 🛠️ Tools / Scripts Used\n\n| Tool/Script | Purpose |\n|-------------|---------|\n| generate_rlm_memory_from_code.py | Generates snapshot of project memory |\n\n### Notes:\n- The script does not require additional parameters for execution.\n- Ensure that the target project path is accessible and contains the necessary files for processing.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 92286,
+    "total_files": 53,
+    "total_lines": 1666
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Run snapshot generator script as-is against provided external project path and report output.",
+  "question_en": "Run snapshot generator script as-is against provided external project path and report output.",
+  "question_translated": false,
+  "reloaded_files": 53,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-03T23:25:08.603338+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 92286,
+  "total_files": 53,
+  "total_lines": 1666,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T23:25:16.975978+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 73,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 21483,
+  "changelog_files_before": 33,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_232516.md",
+  "coding_rules_items": 93,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 171,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-03T23:29:35.997665+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 93632,
+  "total_files": 54,
+  "total_lines": 1694,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T23:29:47.389995+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3265
+payload_est_tokens: 816
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "### Canonical Active Tasks Memory (active_tasks)\n- **META**: id: active_tasks, updated_at: 2026-03-03T23:25:16.963908+01:00, source: memory/logs/extracted_facts.jsonl, items: 73\n\n#### Changes\n- **Configurable Timestamp Mode**: Implemented local or UTC timestamps with a default to local time.\n- **Installer TargetProjectPath**: Made optional and defaulted to the current directory for one-command installs.\n\n#### Fixes\n- **Installer Scripts**:\n  - Fixed GitHub copy logic in `install_rlm_bootstrap.ps1`.\n  - Improved installer reliability by switching to shallow clone and direct copy of paths.\n  - Ensured auto-creation of TargetProjectPath if it does not exist.\n\n- **Language Parser**: Adjusted to match only non-comment COMMUNICATION_LANGUAGE lines.\n\n#### Analyses\n- **Dry Run Delete UI Buttons Rule**: Proposed a memory mutation for deleting UI button color rules, generated mutation plans without applying.\n- **End-to-End Memory Flow**: Detailed the cloud-local memory interaction flow.\n\n### Canonical Coding Rules Memory (coding_rules)\n- **META**: id: coding_rules, updated_at: 2026-03-03T23:25:16.963908+01:00, source: memory/logs/extracted_facts.jsonl, items: 93\n\n#### Changes\n- **Language Po ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Проверить сгенерированную RLM-память в соседнем проекте и дать понятный детальный отчёт по категориям и данным.",
+  "question_en": "Check the generated RLM memory in the neighboring project and provide a clear detailed report by categories and data.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-03T23:29:47.390498+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3633
+payload_est_tokens: 908
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "### Canonical Active Tasks Memory (active_tasks)\n- **META**: id: active_tasks, updated_at: 2026-03-03T23:25:16.963908+01:00, source: memory/logs/extracted_facts.jsonl, items: 73\n\n#### Changes\n- **Configurable Timestamp Mode**: Implemented local or UTC timestamps with a default to local time.\n- **Installer TargetProjectPath**: Made optional and defaulted to the current directory for one-command installs.\n\n#### Fixes\n- **Installer Scripts**:\n  - Fixed GitHub copy logic in `install_rlm_bootstrap.ps1`.\n  - Improved installer reliability by switching to shallow clone and direct copy of paths.\n  - Ensured auto-creation of TargetProjectPath if it does not exist.\n\n- **Language Parser**: Adjusted to match only non-comment COMMUNICATION_LANGUAGE lines.\n\n#### Analyses\n- **Dry Run Delete UI Buttons Rule**: Proposed a memory mutation for deleting UI button color rules, generated mutation plans without applying.\n- **End-to-End Memory Flow**: Detailed the cloud-local memory interaction flow.\n\n### Canonical Coding Rules Memory (coding_rules)\n- **META**: id: coding_rules, updated_at: 2026-03-03T23:25:16.963908+01:00, source: memory/logs/extracted_facts.jsonl, items: 93\n\n#### Changes\n- **Language Po ...<truncated>",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 93632,
+    "total_files": 54,
+    "total_lines": 1694
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Проверить сгенерированную RLM-память в соседнем проекте и дать понятный детальный отчёт по категориям и данным.",
+  "question_en": "Check the generated RLM memory in the neighboring project and provide a clear detailed report by categories and data.",
+  "question_translated": true,
+  "reloaded_files": 54,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-03T23:29:47.406532+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 93632,
+  "total_files": 54,
+  "total_lines": 1694,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T23:31:26.838694+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 73,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 22134,
+  "changelog_files_before": 34,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_233126.md",
+  "coding_rules_items": 94,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 172,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-03T23:34:40.424995+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 74,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 22785,
+  "changelog_files_before": 35,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_233440.md",
+  "coding_rules_items": 94,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 173,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-03T23:37:22.465240+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 74,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 23436,
+  "changelog_files_before": 36,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_233722.md",
+  "coding_rules_items": 95,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 174,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-03T23:40:43.818693+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 96553,
+  "total_files": 57,
+  "total_lines": 1769,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T23:40:51.712157+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2093
+payload_est_tokens: 523
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Initialize Canonical Files**: Start by creating or updating the `canonical/architecture.md`, `canonical/coding_rules.md`, and `canonical/active_tasks.md` files in your neighboring project. Use the content from the provided examples as a template.\n  \n- **Run Extraction Script**: Execute the `scripts/generate_rlm_memory_from_code.py` script to generate the initial RLM memory based on your codebase.\n\n- **Seed Canonical Memory**: Use the `scripts/seed_canonical_from_rlm_memory.py` script to seed your canonical memory with facts extracted from the RLM memory. This step ensures that your canonical files are populated with relevant data.\n  \n- **Consolidate Memory**: Run the consolidation process using the updated scripts and configuration. Ensure that all necessary environment variables, such as `RLM_MEMORY_MUTATION_MODE`, are set correctly to enable memory mutation.\n\n- **Monitor for Conflicts**: Regularly check for conflicts in your canonical memory and resolve them according to the defined conflict resolution policy (`conflict_resolution_policy_20260302.md`). This helps maintain data integrity and consistency.\n\n- **Review and Validate**: After each consolidation run, review the gene ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Как создать canonical память на основе сгенерированной rlm_memory в соседнем проекте",
+  "question_en": "How to create a canonical memory based on the generated rlm_memory in the neighboring project?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "changelog/memory_reset_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-03T23:40:51.712157+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2461
+payload_est_tokens: 615
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Initialize Canonical Files**: Start by creating or updating the `canonical/architecture.md`, `canonical/coding_rules.md`, and `canonical/active_tasks.md` files in your neighboring project. Use the content from the provided examples as a template.\n  \n- **Run Extraction Script**: Execute the `scripts/generate_rlm_memory_from_code.py` script to generate the initial RLM memory based on your codebase.\n\n- **Seed Canonical Memory**: Use the `scripts/seed_canonical_from_rlm_memory.py` script to seed your canonical memory with facts extracted from the RLM memory. This step ensures that your canonical files are populated with relevant data.\n  \n- **Consolidate Memory**: Run the consolidation process using the updated scripts and configuration. Ensure that all necessary environment variables, such as `RLM_MEMORY_MUTATION_MODE`, are set correctly to enable memory mutation.\n\n- **Monitor for Conflicts**: Regularly check for conflicts in your canonical memory and resolve them according to the defined conflict resolution policy (`conflict_resolution_policy_20260302.md`). This helps maintain data integrity and consistency.\n\n- **Review and Validate**: After each consolidation run, review the gene ...<truncated>",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 96553,
+    "total_files": 57,
+    "total_lines": 1769
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Как создать canonical память на основе сгенерированной rlm_memory в соседнем проекте",
+  "question_en": "How to create a canonical memory based on the generated rlm_memory in the neighboring project?",
+  "question_translated": true,
+  "reloaded_files": 57,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "changelog/memory_reset_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-03T23:40:51.726632+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 96553,
+  "total_files": 57,
+  "total_lines": 1769,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-03T23:41:36.330764+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 75,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 24087,
+  "changelog_files_before": 37,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260303_234136.md",
+  "coding_rules_items": 95,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 175,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-04T13:00:54.182295+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 97551,
+  "total_files": 58,
+  "total_lines": 1794,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-04T13:00:57.753108+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1004
+payload_est_tokens: 251
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- Memory mutation has been enabled globally.\n- The environment setting `RLM_MEMORY_MUTATION_MODE=on` has been set in the external `.env` file with a backup.\n- This change was validated through an isolated ON-mode smoke test of the apply pipeline.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Enable memory mutation globally regardless of ENV settings for all MCP server connections",
+  "question_en": "Enable memory mutation globally regardless of ENV settings for all MCP server connections",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/button_color_rule_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-04T13:00:57.753612+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1372
+payload_est_tokens: 343
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- Memory mutation has been enabled globally.\n- The environment setting `RLM_MEMORY_MUTATION_MODE=on` has been set in the external `.env` file with a backup.\n- This change was validated through an isolated ON-mode smoke test of the apply pipeline.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 97551,
+    "total_files": 58,
+    "total_lines": 1794
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Enable memory mutation globally regardless of ENV settings for all MCP server connections",
+  "question_en": "Enable memory mutation globally regardless of ENV settings for all MCP server connections",
+  "question_translated": false,
+  "reloaded_files": 58,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/button_color_rule_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-04T13:03:05.729339+01:00
+tool: execute_repl_code
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 319
+payload_est_tokens: 79
+payload_keys: error, final, llm_trace, memory_dir, project_path, stderr, stdout
+payload_preview:
+```json
+{
+  "error": null,
+  "final": null,
+  "llm_trace": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "stderr": "",
+  "stdout": "Fact written to d:\\AI Projects\\VSCode_Projects\\RLM_Realization\\memory\\logs\\extracted_facts.jsonl\n"
+}
+```
+---
+ts: 2026-03-04T13:03:11.561001+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 75,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 24738,
+  "changelog_files_before": 38,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260304_130311.md",
+  "coding_rules_items": 96,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 176,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-04T17:08:22.019744+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 98487,
+  "total_files": 59,
+  "total_lines": 1819,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-04T17:08:29.276856+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1746
+payload_est_tokens: 436
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The `copilot-instructions.md` file does not always enforce the model to run the memory bootstrap as the first step because it may depend on the specific configuration and setup of the project.\n- There could be variations in how the autopilot is configured, leading to different behaviors regarding the execution order of commands or scripts.\n- The absence of a strict enforcement mechanism in `copilot-instructions.md` allows for flexibility in the bootstrap process, which might be influenced by other settings or environmental factors.\n- Potential conflicts or inconsistencies may arise if the autopilot's behavior is not explicitly defined or if there are multiple sources controlling the execution flow.\n- It is recommended to review the project's configuration and ensure that all relevant instructions and scripts are aligned to achieve consistent bootstrap behavior.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Почему copilot-instructions.md не всегда заставляет модель запускать memory bootstrap первым шагом? Анализ проблемы с автопилотом.",
+  "question_en": "Why does copilot-instructions.md not always force the model to run the memory bootstrap as the first step? Analyze the problem with the autopilot.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "changelog/strict_orchestration_state_machine_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-04T17:08:29.277360+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2114
+payload_est_tokens: 528
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The `copilot-instructions.md` file does not always enforce the model to run the memory bootstrap as the first step because it may depend on the specific configuration and setup of the project.\n- There could be variations in how the autopilot is configured, leading to different behaviors regarding the execution order of commands or scripts.\n- The absence of a strict enforcement mechanism in `copilot-instructions.md` allows for flexibility in the bootstrap process, which might be influenced by other settings or environmental factors.\n- Potential conflicts or inconsistencies may arise if the autopilot's behavior is not explicitly defined or if there are multiple sources controlling the execution flow.\n- It is recommended to review the project's configuration and ensure that all relevant instructions and scripts are aligned to achieve consistent bootstrap behavior.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 98487,
+    "total_files": 59,
+    "total_lines": 1819
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Почему copilot-instructions.md не всегда заставляет модель запускать memory bootstrap первым шагом? Анализ проблемы с автопилотом.",
+  "question_en": "Why does copilot-instructions.md not always force the model to run the memory bootstrap as the first step? Analyze the problem with the autopilot.",
+  "question_translated": true,
+  "reloaded_files": 59,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "changelog/strict_orchestration_state_machine_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-04T17:11:43.334575+01:00
+tool: execute_repl_code
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 232
+payload_est_tokens: 58
+payload_keys: error, final, llm_trace, memory_dir, project_path, stderr, stdout
+payload_preview:
+```json
+{
+  "error": null,
+  "final": null,
+  "llm_trace": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "stderr": "",
+  "stdout": "Fact written OK\n"
+}
+```
+---
+ts: 2026-03-04T17:11:55.254169+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 76,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 3,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 25389,
+  "changelog_files_before": 39,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260304_171148.md",
+  "coding_rules_items": 96,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 177,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-04T17:13:10.174085+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 94704,
+  "total_files": 51,
+  "total_lines": 1646,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-04T17:13:12.367097+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 995
+payload_est_tokens: 248
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- Check status: Use `git status` to review changes.\n- Commit changes: Run `git commit -m \"Your commit message\"` to save changes locally.\n- Push changes: Execute `git push origin main` to update the remote repository.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Git push workflow: check status, commit, push recent changes to autopilot instructions file",
+  "question_en": "Git push workflow: check status, commit, push recent changes to autopilot instructions file",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/orchestrate_promptfile_fix_20260302.md",
+    "changelog/slash_orchestrator_routing_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-04T17:13:12.367605+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1363
+payload_est_tokens: 340
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- Check status: Use `git status` to review changes.\n- Commit changes: Run `git commit -m \"Your commit message\"` to save changes locally.\n- Push changes: Execute `git push origin main` to update the remote repository.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 94704,
+    "total_files": 51,
+    "total_lines": 1646
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Git push workflow: check status, commit, push recent changes to autopilot instructions file",
+  "question_en": "Git push workflow: check status, commit, push recent changes to autopilot instructions file",
+  "question_translated": false,
+  "reloaded_files": 51,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/orchestrate_promptfile_fix_20260302.md",
+    "changelog/slash_orchestrator_routing_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```

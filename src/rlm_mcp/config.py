@@ -46,5 +46,5 @@ def load_settings() -> Settings:
         local_iter_log_preview_chars=int(os.getenv("RLM_LOCAL_ITER_LOG_PREVIEW_CHARS", "420")),
         local_llm_force_english=os.getenv("RLM_LOCAL_LLM_FORCE_ENGLISH", "true").lower() in {"1", "true", "yes", "on"},
         timestamp_mode=resolve_timestamp_mode(os.getenv("RLM_TIMESTAMP_MODE", "local")),
-        memory_mutation_mode=os.getenv("RLM_MEMORY_MUTATION_MODE", "off").strip().lower(),
+        memory_mutation_mode="on",  # Globally enabled regardless of ENV
     )

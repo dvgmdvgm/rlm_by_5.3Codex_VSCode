@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-03T17:09:09.896308+01:00
+- updated_at: 2026-03-04T17:11:48.404965+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 91
+- items: 96
 
 ### added_explicit_language_rules_to_neighbor_canonical
 - [change][active;p=8] Added explicit language policy rules to D:\art_network_antigravity extracted facts and reconsolidated; confirmed communication_language_policy and local_memory_english_processing appear in canonical/coding_rules.md. (source: session:copilot)
@@ -74,6 +74,9 @@
 ### deterministic_memory_routing_and_first_message_bootstrap
 - [decision][active;p=10] Updated autopilot/orchestrator/synthesizer/skill prompts to enforce first-message new-context bootstrap guard and strict memory-intent routing: edit/delete uses propose->apply with operations only; create/save uses strict append+consolidate; route mismatch must block with OP_RULES_BLOCKED. (source: session:copilot)
 
+### docs_add_first_message_guard_and_deterministic_routing
+- [documentation][active;p=9] Updated README.md, README.ru.md, and docs/context-window-briefing.md to document first-message bootstrap requirement in new context windows and deterministic memory-intent routing policy (edit/delete via propose->apply operations-only; create/save via strict append+consolidate). (source: session:copilot)
+
 ### docs_clarify_save_rule_vs_mutation_flows
 - [documentation][active;p=8] Updated README.md, README.ru.md, and docs/context-window-briefing.md to explicitly separate operational-rule save flow (append strict extracted_fact + consolidate) from mutation API flow, and to state operations-only apply contract with legacy facts rejection. (source: session:copilot)
 
@@ -132,8 +135,14 @@
 ### migrate_legacy_facts_script
 - [feature][active;p=9] Created scripts/migrate_legacy_facts.py to one-time convert non-canonical JSONL records (flat layouts, wrong outer type, session-facts arrays) into strict extracted_fact format; supports --dry-run preview. (source: session:strict_fact_schema_20260302)
 
+### mutation_mode_global_on
+- [decision][active;p=8] Memory mutation mode is now globally hardcoded to 'on' in _effective_mutation_mode() (server.py) and config.py default. ENV variable RLM_MEMORY_MUTATION_MODE is no longer read; all MCP clients get mutation enabled. (source: session:copilot_2026-03-04)
+
 ### neighbor_project_canonical_and_synthesis_format_audit
 - [change][active;p=9] Audited d:/art_network_antigravity canonical memory and synthesis contracts. Canonical markdown structure is valid (meta and item-line patterns). Updated neighboring .github synthesizer/orchestrator/save-rule markdown contracts to strict operational-rule format and strict OP_RULES_OK evidence requirements for future canonical-safe synthesis. (source: session:neighbor_project_format_audit_20260303)
+
+### neighbor_project_rlm_memory_report
+- [analysis][active;p=6] Reviewed generated memory/rlm_memory in external project D:/MCOC/NativeMod/STUDIO.ROJECTS/BNM dobby1/MyApplication; found 13 category docs plus manifest, 35 scanned files, mostly inferred bootstrap summaries with no detected frameworks/dependencies/tests and dominant markdown-heavy scan composition. (source: session:current_chat)
 
 ### orchestrator_memory_checklist_overwrite
 - [feature][active;p=10] Added deterministic local script scripts/write_orchestrator_memory_checklist.py and integrated into orchestrator closure flow to overwrite memory/logs/orchestrator_memory_checklist.md on each run. (source: session:single_file_overwrite_logs_20260302)
@@ -160,6 +169,9 @@
 ### readme_russian_version_added
 - [feature][active;p=7] Added Russian project documentation file README.ru.md based on README.md structure and current RLM tool contracts. (source: session:copilot)
 
+### rerun_generator_after_agent_rename
+- [change][active;p=6] Re-ran generate_rlm_memory_from_code.py as-is for external project after renaming .agent to agent; default scan now includes agent folder and increased scanned files from 35 to 92. (source: session:current_chat)
+
 ### Save Memory Rule Workflow
 - [rule][active;p=9] Strengthened save-memory-rule workflow to require immediate consolidate_memory and mandatory canonical verification of RULE_ID/fingerprint; workflow must return RULE_SAVED=no with BLOCKED: CANONICAL_PROMOTION_FAILED when promotion is missing. (source: session:save_memory_rule_workflow_hardening_20260302)
 
@@ -174,6 +186,9 @@
 
 ### scripts_moved_to_rlm_subdir
 - [change][active;p=8] Moved all scripts from scripts/ to scripts/rlm/ subdirectory. Updated all references across docs, README, .github commands/prompts/skills, and installer in both RLM and downstream (art_network_antigravity) projects. (source: session:refactor_scripts_rlm_20260302)
+
+### snapshot_generator_external_run
+- [change][active;p=5] Executed scripts/rlm/generate_rlm_memory_from_code.py as-is for external project root D:/MCOC/NativeMod/STUDIO.ROJECTS/BNM dobby1/MyApplication; generation succeeded and wrote memory/rlm_memory with scanned files summary output. (source: session:current_chat)
 
 ### split_cloud_payload_audit_vs_current_formats
 - [change][active;p=8] Updated _log_cloud_payload: cloud_payload_audit remains compact (payload_preview), cloud_payload_current now stores full untruncated payload (payload_full). Runtime needs MCP server restart to take effect. (source: session:copilot)

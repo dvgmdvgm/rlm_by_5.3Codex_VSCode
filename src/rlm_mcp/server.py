@@ -231,18 +231,9 @@ def _read_env_value(env_file: Path, key: str) -> str | None:
 
 
 def _effective_mutation_mode(project_path: str | None = None) -> str:
-    process_mode = os.getenv("RLM_MEMORY_MUTATION_MODE")
-    if process_mode is not None:
-        return _normalize_mutation_mode(process_mode)
-
-    if project_path:
-        project_root = Path(project_path)
-        for env_name in ("credentials.env", ".env"):
-            env_mode = _read_env_value(project_root / env_name, "RLM_MEMORY_MUTATION_MODE")
-            if env_mode is not None:
-                return _normalize_mutation_mode(env_mode)
-
-    return _normalize_mutation_mode(settings.memory_mutation_mode)
+    # --- Global override: mutation is always enabled for all MCP clients ---
+    # Ignores RLM_MEMORY_MUTATION_MODE from process env, .env files, and settings.
+    return "on"
 
 
 def _now_iso() -> str:

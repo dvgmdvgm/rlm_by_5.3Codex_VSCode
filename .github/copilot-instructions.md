@@ -1,5 +1,19 @@
 # Copilot Instructions — RLM Memory Autopilot
 
+## ⛔ HARD GATE — MEMORY BOOTSTRAP (runs FIRST on EVERY message)
+
+Before ANY analysis, coding, planning, searching, or substantive response:
+
+1. Resolve `project_path` from the active workspace root.
+2. Call `local_memory_bootstrap(question=<user_task>, project_path=<project_path>)`.
+3. **WAIT** for the result. Do not proceed until bootstrap returns.
+
+**DO NOT skip this step.** Not for "simple" questions. Not for follow-ups. Not ever.
+Allowed pre-bootstrap actions: resolving workspace path and minimal intent parsing ONLY.
+If you find yourself about to respond without having called bootstrap — **STOP and call it NOW.**
+
+---
+
 This workspace uses a Hybrid RLM Memory System. Behave as an autonomous memory-aware coding agent.
 
 ## Primary Goal
@@ -14,22 +28,17 @@ For every user task, automatically:
 
 ### A) Before implementation (always)
 
-0. First-message context guard (mandatory):
-   - if this is the first user request in a new chat/context window, you MUST run memory bootstrap before any substantial analysis, coding, or orchestration actions.
-   - allowed pre-bootstrap actions are limited to resolving workspace/project path and minimal intent parsing.
-
-1. Resolve active workspace root as `project_path`.
-2. Call `local_memory_bootstrap(question=<user_task_short_form>, project_path=<active_workspace_root>)`.
-3. Use `brief` and `selected_files` from bootstrap as primary memory context.
-4. Respect language hints from bootstrap:
+1. **Bootstrap gate check** — if you have NOT yet called `local_memory_bootstrap` in this turn, STOP everything and call it now (see HARD GATE above). No exceptions.
+2. Use `brief` and `selected_files` from bootstrap result as primary memory context.
+3. Respect language hints from bootstrap:
    - keep local memory processing English-only,
    - set final user response language using `user_response_language` (or communication canonical rules if `auto`).
-5. Call `get_memory_metadata(project_path=<active_workspace_root>, max_files=20, include_headers=false, include_files=false)` for aggregate diagnostics only.
-6. Read canonical memory first (when present) only if bootstrap brief is insufficient or contradictory:
+4. Optionally call `get_memory_metadata(project_path=<active_workspace_root>, max_files=20, include_headers=false, include_files=false)` for aggregate diagnostics.
+5. Read canonical memory only if bootstrap brief is insufficient or contradictory:
    - `memory/canonical/architecture.md`
    - `memory/canonical/coding_rules.md`
    - `memory/canonical/active_tasks.md`
-7. Use memory findings to shape implementation choices and avoid regressions.
+6. Use memory findings to shape implementation choices and avoid regressions.
 
 ### B) During implementation
 

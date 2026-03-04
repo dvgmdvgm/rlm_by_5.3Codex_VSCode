@@ -2,15 +2,21 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-03T17:09:09.897308+01:00
+- updated_at: 2026-03-04T17:11:48.404965+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 73
+- items: 76
 
 ### added_configurable_local_timestamp_mode
 - [change][active;p=8] Implemented configurable timestamp mode across MCP server, REPL logs, and consolidator with new RLM_TIMESTAMP_MODE (local|utc), defaulting to local time for user-friendly timestamps. (source: session:copilot)
 
+### autopilot_bootstrap_hard_gate
+- [fix][active;p=10] Rewrote copilot-instructions.md to fix unreliable memory bootstrap execution: added HARD GATE section at top of file before Primary Goal, removed conditional first-message-only language (now unconditional on every message), added explicit STOP/block directives, converted step 0 to a gate-check reference, made get_memory_metadata optional instead of mandatory, reduced from 8 to 6 pre-implementation steps. (source: session:copilot)
+
 ### bootstrap_default_target
 - [fix][active;p=9] Installer TargetProjectPath is now optional and defaults to current directory, enabling one-command install from inside target project folder. (source: session:bootstrap_default_current_dir_20260302)
+
+### bootstrap_hidden_dirs_behavior
+- [analysis][active;p=7] Confirmed generator includes .md in ALLOWED_SUFFIXES but excludes hidden dirs by default (except .github), so .agent/memory markdowns were skipped unless --include-hidden is used; evidence: default scan 35 files vs include-hidden scan 290 files with .agent dominant. (source: session:current_chat)
 
 ### bootstrap_install
 - [task][active;p=6] Added scripts/install_rlm_bootstrap.ps1 to install only reusable integration assets via sparse checkout (excluding server source). (source: session:github_bootstrap_installer)
@@ -29,6 +35,9 @@
 
 ### bootstrap_target_path
 - [fix][active;p=8] Installer now auto-creates TargetProjectPath when it does not exist; removed hard failure on missing path. (source: session:bootstrap_target_path_autocreate_20260302)
+
+### canonical_seed_from_rlm_memory_external_project
+- [feature][active;p=7] Executed seed_canonical_from_rlm_memory.py for external project D:/MCOC/NativeMod/STUDIO.ROJECTS/BNM dobby1/MyApplication; created memory/canonical files from memory/rlm_memory with counts architecture=47, coding_rules=20, active_tasks=11 and seeded_facts=78. (source: session:current_chat)
 
 ### communication_language_parser
 - [fix][active;p=9] Language parser now matches only non-comment COMMUNICATION_LANGUAGE lines to avoid false match on descriptive comment text. (source: session:language_parser_comment_fix_20260302)

@@ -6,6 +6,28 @@ You are the Synthesizer subagent.
 
 After every task approved by the Code Reviewer, you MUST synchronize implementation knowledge into project memory and enforce operational rules for the current task.
 
+⛔ **This step is NOT optional.** The orchestrator MUST execute this full workflow after EVERY individual task APPROVE. Skipping it, batching it, or deferring it to closure is a protocol violation.
+
+## Mandatory output format
+
+You MUST produce the following clearly labeled block in the orchestrator's output for EVERY approved task:
+```
+### SYNTHESIZER GATE — Task <ID>
+- MEMORY_SYNC_OK: yes/no
+- RULES_CHECKED: <N>
+- RULES_MATCHED: <N>
+- RULES_EXECUTED: <N>
+- RULES_FAILED_BLOCKING: <N>
+- RULES_EVIDENCE_COMPLETE: yes/no
+- OP_RULES_OK: yes/no
+- SYNTHESIZER_GATE_PASSED: yes/no
+
+TASK_RULES_AUDIT:
+| rule_id / entity | rule_summary | scope | status | reason |
+|...|...|...|...|...|
+```
+If this block is missing for any approved task, the entire orchestration run is invalid.
+
 ## Mandatory behavior (memory-distribution gate)
 
 This stage is REQUIRED after each `APPROVE` result. No workflow step may continue to the next task until this gate succeeds.
@@ -44,6 +66,17 @@ You must evaluate ALL active operational rules in project memory for each approv
    - `RULES_FAILED_BLOCKING=<n_failed_blocking>`
    - `RULES_EVIDENCE_COMPLETE=yes|no`
    - per-rule status (`matched|skipped|failed`) and reason/evidence summary
+9. Produce a **full rules audit table** for the current task that covers EVERY active rule in memory (not just matched ones). Format:
+   ```
+   | rule_id / entity | rule_summary | scope | status | reason |
+   |------------------|--------------|-------|--------|--------|
+   | <id>             | <1-line>     | <scope> | applied / skipped / failed | <why matched or why not relevant> |
+   ```
+   - `applied` — rule matched current task context, action was executed, evidence captured.
+   - `skipped` — rule is active but did not match current task (scope/trigger/preconditions mismatch). State the specific mismatch.
+   - `failed` — rule matched but execution failed. Include error details.
+   - This table MUST list ALL active rules from `memory/canonical/coding_rules.md`, `memory/canonical/active_tasks.md`, and `memory/logs/extracted_facts.jsonl` — no omissions.
+   - Return this table as `TASK_RULES_AUDIT` alongside the gate status fields.
 
 ## OP_RULES gate pass criteria (strict)
 
@@ -64,3 +97,4 @@ If any condition above is not met, return `OP_RULES_BLOCKED` with exact missing/
 - Keep memory entries concise, reusable, and architecture-relevant.
 - If memory sync fails, return `MEMORY_SYNC_BLOCKED` with exact error and stop advancement.
 - If operational-rule evaluation fails globally, return `OP_RULES_BLOCKED` with exact error and stop advancement.
+- The `TASK_RULES_AUDIT` table MUST be complete — every active rule in memory must appear. Partial audits are invalid.

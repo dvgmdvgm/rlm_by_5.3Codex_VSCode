@@ -19,6 +19,7 @@ On fully successful runs, authorize cleanup of generated orchestration artifacts
    - approved tasks have `MEMORY_SYNC_OK`
    - approved tasks have `OP_RULES_OK`
    - consolidation/changelog update completed
+   - **rules audit completeness**: verify that every active rule in canonical memory appears in the accumulated rules audit registry. If any rule is missing from the audit, return `ARCHIVE_BLOCKED: RULES_AUDIT_INCOMPLETE` with list of missing rule IDs.
 5. If and only if closure gates pass, mark cleanup authorization as `TASKS_CLEANUP_READY`.
 6. Record hygiene and cleanup outcomes in changelog.
 7. Return `ARCHIVE_OK` with a compact hygiene summary and cleanup readiness status.

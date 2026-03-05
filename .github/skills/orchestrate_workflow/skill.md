@@ -25,6 +25,17 @@ Use this skill when the user asks for a large or multi-step task.
 When diagnostic mode is ON, append an audit JSON line for each stage transition with fields:
 - `ts`, `run_id`, `task_id`, `agent_role`, `agent_invocation_id`, `attempt`, `event`, `status`, `notes`
 
+## ⛔ CRITICAL: ANTI-BATCHING ENFORCEMENT
+
+The following violations are FORBIDDEN and invalidate the entire run:
+- **NO batch execution**: Do NOT implement multiple tasks before reviewing each one.
+- **NO batch review**: Do NOT review multiple tasks in a single review pass.
+- **NO skipping synthesizer**: After EVERY individual task APPROVE, you MUST run the synthesizer gate BEFORE starting the next task.
+- **NO skipping archivist**: You MUST invoke archivist at closure.
+- **Strict sequence per task**: Worker → Code Reviewer → Synthesizer → (next task). Breaking this order is a protocol violation.
+
+If you find yourself about to start the next task without having produced `SYNTHESIZER_GATE_PASSED` for the previous task — **STOP. Go back and run the synthesizer.**
+
 ## Workflow (strict state machine)
 
 ### PHASE 1 — PLANNING
@@ -36,6 +47,8 @@ When diagnostic mode is ON, append an audit JSON line for each stage transition 
 3. If diagnostic mode is ON, write `planner_started` and `planner_finished` audit events.
 
 ### PHASE 2 — TASK EXECUTION LOOP
+
+⛔ **ONE TASK AT A TIME. COMPLETE THE FULL CYCLE (worker → reviewer → synthesizer) FOR EACH TASK BEFORE STARTING THE NEXT.**
 
 For each task from `master_plan.md` in order:
 
@@ -51,19 +64,37 @@ For each task from `master_plan.md` in order:
    - HALT orchestration
    - return `HUMAN_INTERVENTION_REQUIRED` with blocker details
 6. If reviewer returns `APPROVE`:
-   - run `synthesizer` (mandatory memory-distribution + operational-rules gate)
-   - synthesizer must evaluate ALL active operational rules for current task and execute matched actions
-   - synthesizer must enforce deterministic memory-intent routing:
-      - `edit/delete` -> `propose_memory_mutation` then `apply_memory_mutation` with `mutation_plan.operations`
-      - `create/save new` -> strict extracted_fact append + consolidation
-      - route mismatch -> `OP_RULES_BLOCKED` (no silent fallback)
-   - only after `MEMORY_SYNC_OK` and strict `OP_RULES_OK`, mark task `done`
-   - continue to next task
-   - if diagnostic mode is ON, write `synthesizer_memory_gate_ok` and `synthesizer_operational_rules_gate_ok` before advancing
+   - ⛔ **HARD STOP — SYNTHESIZER GATE (mandatory, cannot be skipped)**
+   - Before doing ANYTHING else, you MUST execute the full synthesizer workflow:
+     a. Read `memory/canonical/coding_rules.md` and `memory/canonical/active_tasks.md` to load ALL active rules.
+     b. For each active rule: evaluate scope/trigger/preconditions against the current task.
+     c. For matched rules: execute the action and capture evidence (command, exit_code, output_summary).
+     d. For unmatched rules: record specific reason (scope mismatch, trigger not met, etc.).
+     e. Persist memory updates: append facts to `memory/logs/extracted_facts.jsonl`, run `consolidate_memory`.
+     f. Produce the `TASK_RULES_AUDIT` table covering ALL rules (applied/skipped/failed).
+     g. Output the following gate tokens (ALL are required, absence = protocol violation):
+        ```
+        SYNTHESIZER_GATE for Task <ID>:
+        - MEMORY_SYNC_OK: yes/no
+        - RULES_CHECKED: <N>
+        - RULES_MATCHED: <N>
+        - RULES_EXECUTED: <N>
+        - RULES_FAILED_BLOCKING: <N>
+        - RULES_EVIDENCE_COMPLETE: yes/no
+        - OP_RULES_OK: yes/no
+        - SYNTHESIZER_GATE_PASSED: yes/no
+        ```
+   - Only after `SYNTHESIZER_GATE_PASSED: yes`, mark task `done` and continue to next task.
+   - If `SYNTHESIZER_GATE_PASSED: no`, HALT and return blocker details.
+   - If diagnostic mode is ON, write `synthesizer_memory_gate_ok` and `synthesizer_operational_rules_gate_ok` before advancing.
+   - **accumulate** the synthesizer's `TASK_RULES_AUDIT` table into a run-level rules audit registry (one entry per task per rule).
+   - ⛔ **You MUST NOT start the next task until SYNTHESIZER_GATE_PASSED appears in your output.**
 
 ### PHASE 3 — CLOSURE & CLEANUP
 
-1. Run `archivist` to perform memory hygiene pass.
+⛔ **ARCHIVIST IS MANDATORY. Do NOT skip this phase. Do NOT go directly to final summary.**
+
+1. Run `archivist` to perform memory hygiene pass (verify rules audit completeness, canonical consistency, closure gates).
 2. If and only if all tasks are `done`, all approved tasks passed `MEMORY_SYNC_OK` and `OP_RULES_OK`, and archivist returned `ARCHIVE_OK`, cleanup generated orchestration artifacts.
 3. Success cleanup policy:
    - if diagnostic mode is ON and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
@@ -73,6 +104,30 @@ For each task from `master_plan.md` in order:
 4. If workflow halts, any gate fails, or archivist does not return `ARCHIVE_OK`, do not delete `.vscode/tasks/`.
    - still run checklist writer with `--status "halted"` or `--status "failed"` to overwrite previous run report.
 5. Return final condensed summary: completed tasks, halted tasks (if any), memory sync status, cleanup status.
+6. **MANDATORY: Comprehensive Rules Audit Report.**
+   After all tasks are processed (or workflow halts), the orchestrator MUST include in the final user-facing response a **full rules audit report** compiled from accumulated per-task `TASK_RULES_AUDIT` data:
+
+   ```
+   ## 📋 Rules Audit Report
+
+   ### Summary
+   - Total active rules in memory: <N>
+   - Rules applied (at least once across all tasks): <N>
+   - Rules never applied (skipped in all tasks): <N>
+   - Rules failed: <N>
+
+   ### Per-rule breakdown
+   | # | rule_id / entity | rule_summary | applied_in_tasks | skipped_in_tasks | status | reason_for_skip_or_match |
+   |---|------------------|--------------|------------------|------------------|--------|--------------------------|
+   | 1 | <id>             | <1-line>     | Task 1, Task 3   | Task 2           | applied | scope matched: frontend CSS |
+   | 2 | <id>             | <1-line>     | —                | Task 1, 2, 3     | never applied | scope: mobile deploy; no mobile tasks in run |
+   ```
+
+   - Every active rule from memory MUST appear — no omissions.
+   - For rules applied in some tasks but skipped in others, show both columns.
+   - For rules never applied in any task, clearly state the reason (scope mismatch, trigger not met, preconditions unsatisfied).
+   - For failed rules, include error summary.
+   - This report is part of the final user-facing answer — not just internal state.
 
 ## State management
 
@@ -84,6 +139,7 @@ For each task from `master_plan.md` in order:
 - `synthesizer` must re-check all active operational rules independently for each approved task (no carry-over skip/match state).
 - `OP_RULES_OK` is valid only when matched rules include execution evidence (`command`, `exit_code`, `output_summary`) and no blocking-rule failures.
 - Keep only one current orchestrator checklist file: `memory/logs/orchestrator_memory_checklist.md` (overwrite each run).
+- Maintain a run-level **rules audit registry** that accumulates `TASK_RULES_AUDIT` from each synthesizer invocation. This registry is the source for the final Comprehensive Rules Audit Report.
 
 ## RLM memory policy
 
@@ -107,7 +163,12 @@ For each task from `master_plan.md` in order:
 Workflow is complete only when:
 - all tasks are `done`
 - reviewer has approved each task
-- synthesizer memory gate passed for every approved task
+- synthesizer memory gate passed for every approved task — verified by presence of `SYNTHESIZER_GATE_PASSED: yes` per task
 - synthesizer operational-rules gate passed for every approved task
-- archivist closure pass completed
+- archivist closure pass completed — verified by `ARCHIVE_OK`
+- Comprehensive Rules Audit Report is present in the final response
 - on successful completion, `.vscode/tasks/` generated artifacts are cleaned up
+
+⛔ **SELF-CHECK before producing final answer**: Count how many tasks exist. Count how many `SYNTHESIZER_GATE_PASSED` tokens you produced. If they don't match — you skipped a synthesizer gate. STOP and fix it before responding.
+
+⛔ **If your final response does not contain the Rules Audit Report table — the run is INVALID. Add it.**

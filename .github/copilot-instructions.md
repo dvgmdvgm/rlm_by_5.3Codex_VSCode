@@ -14,15 +14,52 @@ If you find yourself about to respond without having called bootstrap — **STOP
 
 ---
 
+## ⛔ ORCHESTRATOR MODE OVERRIDE
+
+When orchestration is active (triggered by `/orchestrate`, `orchestrate.prompt.md`, or `orchestrator_skill.prompt.md`), the following autopilot sections are **SUSPENDED**:
+
+| Suspended section | Reason | Who handles it instead |
+|---|---|---|
+| **Primary Goal** ("Execute the requested coding/research work") | Orchestrator MUST NOT code directly — only delegate to subagents | `#agent:worker` |
+| **Section B** ("During implementation") | Orchestrator does not implement — workers do | `#agent:worker` |
+| **Section B1** ("Strict RLM-First Mode") | Memory-heavy ops are delegated to synthesizer | `#agent:synthesizer` |
+| **Section B2** ("Deterministic Memory Routing") | Memory writes routed through synthesizer gate | `#agent:synthesizer` |
+| **Section C** ("After implementation") | Memory persistence is synthesizer's job, not orchestrator's | `#agent:synthesizer` |
+| **Autonomy Policy** ("Execute memory sync proactively") | Memory sync follows strict gate protocol per task | `#agent:synthesizer` + `#agent:archivist` |
+| **Response Style** ("Prefer execution over proposing long plans") | Orchestrator REQUIRES a formal planning phase | `#agent:planner` |
+
+What REMAINS active during orchestration:
+- **HARD GATE** — bootstrap still runs first
+- **Section A** — memory loading before work (planner uses it)
+- **Safety** — always active
+- **Slash Commands** — routing logic below
+
+If you are the orchestrator: you are a **state-machine manager**, not a coding agent. Delegate everything. If in doubt, re-read `orchestrator_skill.prompt.md`.
+
+---
+
+## SLASH COMMANDS
+
+- `/orchestrate`: If the user starts a prompt with exactly this word, you MUST immediately invoke the rules defined in `.github/prompts/orchestrator_skill.prompt.md`.
+- Equivalent explicit trigger: if user message explicitly asks to follow `.github/prompts/orchestrate.prompt.md` (for example, "Follow instructions in orchestrate.prompt.md"), treat it as `/orchestrate` and route to orchestrator workflow.
+- Delegate planning to `#agent:planner` first.
+- Do NOT perform planning/implementation/review/synthesis directly as the orchestrator role.
+- The orchestrator role is a state-machine manager only.
+- Fail-fast guard: if orchestrator activation was requested but planner delegation did not start, STOP and return `ORCHESTRATOR_NOT_AVAILABLE` with concise recovery steps; do not continue in direct execution mode.
+
+---
+
 This workspace uses a Hybrid RLM Memory System. Behave as an autonomous memory-aware coding agent.
 
-## Primary Goal
+## Primary Goal [DIRECT MODE ONLY]
 
 For every user task, automatically:
 1. Load and use project memory context before coding.
 2. Execute the requested coding/research work.
 3. Persist important new decisions/facts into memory.
 4. Consolidate memory so canonical files stay up to date.
+
+> ⚠️ **This section applies only in DIRECT mode.** When orchestrator is active, these goals are handled by subagents — see ORCHESTRATOR MODE OVERRIDE above.
 
 ## Mandatory Workflow
 
@@ -40,7 +77,9 @@ For every user task, automatically:
    - `memory/canonical/active_tasks.md`
 6. Use memory findings to shape implementation choices and avoid regressions.
 
-### B) During implementation
+### B) During implementation [DIRECT MODE ONLY]
+
+> ⚠️ **Suspended when orchestrator is active.** Worker agents handle implementation.
 
 - Follow decisions from canonical memory unless user explicitly overrides.
 - If memory is stale or missing key info, call `local_memory_bootstrap(question=..., project_path=<active_workspace_root>)` first.
@@ -48,7 +87,9 @@ For every user task, automatically:
 - If still insufficient, extract facts via REPL (`execute_repl_code(..., project_path=...)` + `llm_query` / `llm_query_many`) from relevant memory files only.
 - Keep prompts to local model strict and extraction-focused.
 
-### B1) Strict RLM-First Mode (default)
+### B1) Strict RLM-First Mode (default) [DIRECT MODE ONLY]
+
+> ⚠️ **Suspended when orchestrator is active.** Synthesizer handles memory operations.
 
 - For memory-heavy operations (fact extraction, summarization, synthesis, classification), ALWAYS use local Sub-LM via `llm_query` / `llm_query_many`.
 - Do NOT summarize large memory files directly in cloud context if Sub-LM can do it first.
@@ -58,7 +99,9 @@ For every user task, automatically:
    - mechanical metadata updates (timestamps, status fields)
    - final file write operations after Sub-LM extraction is complete
 
-### B2) Deterministic Memory Routing Policy (strict)
+### B2) Deterministic Memory Routing Policy (strict) [DIRECT MODE ONLY]
+
+> ⚠️ **Suspended when orchestrator is active.** Synthesizer handles memory routing.
 
 - Classify memory intent before write path selection:
    - `edit/delete existing memory facts` -> MUST use mutation pipeline only:
@@ -68,7 +111,9 @@ For every user task, automatically:
 - For mutation apply, only `mutation_plan.operations` is valid; legacy `mutation_plan.facts` is invalid.
 - Any path-policy mismatch must return/emit blocked status (`OP_RULES_BLOCKED` or equivalent gate block) and MUST NOT silently fallback to another write path.
 
-### C) After implementation (always)
+### C) After implementation [DIRECT MODE ONLY]
+
+> ⚠️ **Suspended when orchestrator is active.** Synthesizer persists memory; archivist verifies at closure.
 
 1. Write a compact session memory entry to `memory/logs/extracted_facts.jsonl` with key outcomes:
    - architectural decisions
@@ -109,11 +154,3 @@ For every user task, automatically:
 - Mark uncertain inferences as assumptions.
 - Preserve existing memory files; avoid destructive rewrites outside canonical/changelog outputs.
 
-## SLASH COMMANDS
-
-- `/orchestrate`: If the user starts a prompt with exactly this word, you MUST immediately invoke the rules defined in `.github/prompts/orchestrator_skill.prompt.md`.
-- Equivalent explicit trigger: if user message explicitly asks to follow `.github/prompts/orchestrate.prompt.md` (for example, "Follow instructions in orchestrate.prompt.md"), treat it as `/orchestrate` and route to orchestrator workflow.
-- Delegate planning to `#agent:planner` first.
-- Do NOT perform planning/implementation/review/synthesis directly as the orchestrator role.
-- The orchestrator role is a state-machine manager only.
-- Fail-fast guard: if orchestrator activation was requested but planner delegation did not start, STOP and return `ORCHESTRATOR_NOT_AVAILABLE` with concise recovery steps; do not continue in direct execution mode.

@@ -2,9 +2,12 @@
 
 ## META
 - id: architecture
-- updated_at: 2026-03-05T16:20:35.321135+01:00
+- updated_at: 2026-03-05T16:38:04.369867+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 4
+- items: 5
+
+### autopilot_orchestrator_mode_override
+- [architecture][active;p=9] Added ORCHESTRATOR MODE OVERRIDE section to copilot-instructions.md. When orchestration is active, Primary Goal, Sections B/B1/B2/C, Autonomy Policy, and Response Style are SUSPENDED. Only HARD GATE, Section A, Safety, and Slash Commands remain active. Slash Commands moved up near HARD GATE for higher LLM attention weight. All suspended sections marked [DIRECT MODE ONLY] with warning blocks. (source: session:autopilot_orchestrator_conflict_fix)
 
 ### canonical_seed_from_rlm_memory_external_project
 - [feature][active;p=7] Executed seed_canonical_from_rlm_memory.py for external project D:/MCOC/NativeMod/STUDIO.ROJECTS/BNM dobby1/MyApplication; created memory/canonical files from memory/rlm_memory with counts architecture=47, coding_rules=20, active_tasks=11 and seeded_facts=78. (source: session:current_chat)

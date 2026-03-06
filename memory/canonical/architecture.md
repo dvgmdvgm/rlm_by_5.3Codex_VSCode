@@ -2,9 +2,9 @@
 
 ## META
 - id: architecture
-- updated_at: 2026-03-05T16:38:04.369867+01:00
+- updated_at: 2026-03-06T01:59:29.116001+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 5
+- items: 6
 
 ### autopilot_orchestrator_mode_override
 - [architecture][active;p=9] Added ORCHESTRATOR MODE OVERRIDE section to copilot-instructions.md. When orchestration is active, Primary Goal, Sections B/B1/B2/C, Autonomy Policy, and Response Style are SUSPENDED. Only HARD GATE, Section A, Safety, and Slash Commands remain active. Slash Commands moved up near HARD GATE for higher LLM attention weight. All suspended sections marked [DIRECT MODE ONLY] with warning blocks. (source: session:autopilot_orchestrator_conflict_fix)
@@ -20,3 +20,6 @@
 
 ### consolidate_memory_tool
 - [api][active;p=8] Extended consolidate_memory with summarize_old_changelogs, older_than_days, keep_raw_changelogs, max_files_per_summary. (source: session:consolidate_memory_api_update)
+
+### orchestrator_context_resilience_checkpoint
+- [architecture][active;p=9] Added context resilience mechanism to orchestrator: checkpoint file (.vscode/tasks/orchestrator_state.json) written after every state transition, mandatory re-orientation step (re-read checkpoint + master_plan + protocol reminder) before every new task and before closure. Solves context window degradation in long orchestration runs where LLM forgets instructions, skips archivist, and fails to clean .vscode/tasks/. (source: session:context_resilience_fix)

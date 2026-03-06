@@ -9327,3 +9327,451 @@ payload_preview:
   "__truncated_keys__": "+11 keys"
 }
 ```
+---
+ts: 2026-03-06T01:41:08.348681+01:00
+tool: get_memory_metadata
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 305
+payload_est_tokens: 76
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": null,
+  "total_chars": 89361,
+  "total_files": 39,
+  "total_lines": 1409,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-06T01:41:13.332161+01:00
+tool: local_memory_brief
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1865
+payload_est_tokens: 466
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **2-level Genre Taxonomy**: Not directly addressed in the provided memory context. No specific implementation details are available for this task.\n  \n- **Required Documents for Jobs**: The memory context does not contain specific information regarding required documents for jobs. There's no clear reference to document requirements within the given data.\n\n- **Strict Deal Memo Validation**: No explicit mention of deal memo validation rules or their strictness in the provided memory context.\n\n- **Show Group Representative Role**: This role is not detailed in the memory context. There's no information on its implementation or responsibilities.\n\n- **Update Mobile App**: While there are updates mentioned for the mobile app, such as changes to `RLM_MEMORY_DIR` and workspace configuration, these do not specifically address an update to the mobile application itself. The context does not provide explicit steps or details for updating a mobile app beyond configuration changes.",
+  "memory_dir": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": null,
+  "question": "Implement Scenica extensions: 2-level genre taxonomy, required documents for jobs, strict deal memo validation, Show Group Representative role, and update mobile app.",
+  "question_en": "Implement Scenica extensions: 2-level genre taxonomy, required documents for jobs, strict deal memo validation, Show Group Representative role, and update mobile app.",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/strict_orchestration_state_machine_20260302.md",
+    "changelog/button_color_rule_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-06T01:41:13.332665+01:00
+tool: local_memory_bootstrap
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2233
+payload_est_tokens: 558
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **2-level Genre Taxonomy**: Not directly addressed in the provided memory context. No specific implementation details are available for this task.\n  \n- **Required Documents for Jobs**: The memory context does not contain specific information regarding required documents for jobs. There's no clear reference to document requirements within the given data.\n\n- **Strict Deal Memo Validation**: No explicit mention of deal memo validation rules or their strictness in the provided memory context.\n\n- **Show Group Representative Role**: This role is not detailed in the memory context. There's no information on its implementation or responsibilities.\n\n- **Update Mobile App**: While there are updates mentioned for the mobile app, such as changes to `RLM_MEMORY_DIR` and workspace configuration, these do not specifically address an update to the mobile application itself. The context does not provide explicit steps or details for updating a mobile app beyond configuration changes.",
+  "local_model_output_language": "en",
+  "memory_dir": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 89361,
+    "total_files": 39,
+    "total_lines": 1409
+  },
+  "project_path": null,
+  "question": "Implement Scenica extensions: 2-level genre taxonomy, required documents for jobs, strict deal memo validation, Show Group Representative role, and update mobile app.",
+  "question_en": "Implement Scenica extensions: 2-level genre taxonomy, required documents for jobs, strict deal memo validation, Show Group Representative role, and update mobile app.",
+  "question_translated": false,
+  "reloaded_files": 39,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/strict_orchestration_state_machine_20260302.md",
+    "changelog/button_color_rule_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-06T01:44:46.725556+01:00
+tool: get_memory_metadata
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 305
+payload_est_tokens: 76
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": null,
+  "total_chars": 89361,
+  "total_files": 39,
+  "total_lines": 1409,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-06T01:44:49.374760+01:00
+tool: local_memory_brief
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1069
+payload_est_tokens: 267
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The task \"Genre Taxonomy from master plan\" does not appear to be listed under any of the files or sections in the provided memory context. There is no specific information related to this task.\n- It's possible that the task was not recorded or has not been executed yet within the current memory context.\n- Review the project documentation or communication channels for more details on the \"Genre Taxonomy from master plan\" task.",
+  "memory_dir": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": null,
+  "question": "Execute task 1: Genre Taxonomy from master plan.",
+  "question_en": "Execute task 1: Genre Taxonomy from master plan.",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_01.md",
+    "changelog/memory_reset_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-06T01:44:49.374760+01:00
+tool: local_memory_bootstrap
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1437
+payload_est_tokens: 359
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The task \"Genre Taxonomy from master plan\" does not appear to be listed under any of the files or sections in the provided memory context. There is no specific information related to this task.\n- It's possible that the task was not recorded or has not been executed yet within the current memory context.\n- Review the project documentation or communication channels for more details on the \"Genre Taxonomy from master plan\" task.",
+  "local_model_output_language": "en",
+  "memory_dir": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 89361,
+    "total_files": 39,
+    "total_lines": 1409
+  },
+  "project_path": null,
+  "question": "Execute task 1: Genre Taxonomy from master plan.",
+  "question_en": "Execute task 1: Genre Taxonomy from master plan.",
+  "question_translated": false,
+  "reloaded_files": 39,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/active_tasks.md",
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_01.md",
+    "changelog/memory_reset_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-06T01:48:29.966315+01:00
+tool: get_memory_metadata
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 305
+payload_est_tokens: 76
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": null,
+  "total_chars": 89361,
+  "total_files": 39,
+  "total_lines": 1409,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-06T01:48:47.148118+01:00
+tool: local_memory_brief
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1561
+payload_est_tokens: 390
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "### Implementation Steps\n\n- **API Endpoints**: Implemented API endpoints for GenreCategory and GenreSubcategory.\n- **Backend Forms and Templates**: Updated backend forms and templates to reflect the new genre taxonomy.\n- **Mobile Frontend Hooks and Components**: Added or updated mobile frontend hooks and components to support the new taxonomy.\n- **Backward Compatibility Signals**: Added backward compatibility signals to ensure existing systems continue to function.\n- **Unit Tests for Genre Taxonomy**: Created unit tests to validate the functionality of the new genre taxonomy.",
+  "memory_dir": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": null,
+  "question": "Implement API Endpoints (GenreCategory, GenreSubcategory), update backend forms and templates, update mobile frontend hooks and components, add backward compatibility signals, and add unit tests for genre taxonomy.",
+  "question_en": "Implement API Endpoints (GenreCategory, GenreSubcategory), update backend forms and templates, update mobile frontend hooks and components, add backward compatibility signals, and add unit tests for genre taxonomy.",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/llm_trace_visibility_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-06T01:48:47.148622+01:00
+tool: local_memory_bootstrap
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1929
+payload_est_tokens: 482
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "### Implementation Steps\n\n- **API Endpoints**: Implemented API endpoints for GenreCategory and GenreSubcategory.\n- **Backend Forms and Templates**: Updated backend forms and templates to reflect the new genre taxonomy.\n- **Mobile Frontend Hooks and Components**: Added or updated mobile frontend hooks and components to support the new taxonomy.\n- **Backward Compatibility Signals**: Added backward compatibility signals to ensure existing systems continue to function.\n- **Unit Tests for Genre Taxonomy**: Created unit tests to validate the functionality of the new genre taxonomy.",
+  "local_model_output_language": "en",
+  "memory_dir": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 89361,
+    "total_files": 39,
+    "total_lines": 1409
+  },
+  "project_path": null,
+  "question": "Implement API Endpoints (GenreCategory, GenreSubcategory), update backend forms and templates, update mobile frontend hooks and components, add backward compatibility signals, and add unit tests for genre taxonomy.",
+  "question_en": "Implement API Endpoints (GenreCategory, GenreSubcategory), update backend forms and templates, update mobile frontend hooks and components, add backward compatibility signals, and add unit tests for genre taxonomy.",
+  "question_translated": false,
+  "reloaded_files": 39,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/llm_trace_visibility_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-06T01:55:06.486863+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 89361,
+  "total_files": 39,
+  "total_lines": 1409,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-06T01:55:13.500932+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1956
+payload_est_tokens: 489
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Diagnostic Mode**: Enable diagnostic mode to track the behavior of the orchestrator during long runs. This can help identify when and where context loss occurs.\n  \n- **Audit Artifacts**: Use audit artifacts specified at `.vscode/tasks/orchestration_audit.jsonl` to monitor the state of the orchestrator periodically.\n\n- **Memory Reset**: Implement a memory reset process similar to what was done on 2026-03-02. This ensures that the context is reinitialized and avoids long-term memory overflow.\n\n- **Regular Consolidation**: Schedule regular consolidation tasks to ensure that the memory remains clean and does not accumulate redundant data over time.\n\n- **Conflict Resolution**: Review and document the conflict resolution strategy used during consolidation to prevent future issues of context loss.\n\n- **Performance Monitoring**: Monitor the performance of the orchestrator, especially as it handles increasing log records and extracted facts, to identify potential bottlenecks or areas for optimization.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Orchestrator loses context completely during long runs - forgets rules, forgets to clean .vscode/tasks/, forgets everything. How to fix context window overflow in orchestration.",
+  "question_en": "Orchestrator loses context completely during long runs - forgets rules, forgets to clean .vscode/tasks/, forgets everything. How to fix context window overflow in orchestration.",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/orchestration_diagnostic_mode_20260302.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-06T01:55:13.501964+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2324
+payload_est_tokens: 581
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Diagnostic Mode**: Enable diagnostic mode to track the behavior of the orchestrator during long runs. This can help identify when and where context loss occurs.\n  \n- **Audit Artifacts**: Use audit artifacts specified at `.vscode/tasks/orchestration_audit.jsonl` to monitor the state of the orchestrator periodically.\n\n- **Memory Reset**: Implement a memory reset process similar to what was done on 2026-03-02. This ensures that the context is reinitialized and avoids long-term memory overflow.\n\n- **Regular Consolidation**: Schedule regular consolidation tasks to ensure that the memory remains clean and does not accumulate redundant data over time.\n\n- **Conflict Resolution**: Review and document the conflict resolution strategy used during consolidation to prevent future issues of context loss.\n\n- **Performance Monitoring**: Monitor the performance of the orchestrator, especially as it handles increasing log records and extracted facts, to identify potential bottlenecks or areas for optimization.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 89361,
+    "total_files": 39,
+    "total_lines": 1409
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Orchestrator loses context completely during long runs - forgets rules, forgets to clean .vscode/tasks/, forgets everything. How to fix context window overflow in orchestration.",
+  "question_en": "Orchestrator loses context completely during long runs - forgets rules, forgets to clean .vscode/tasks/, forgets everything. How to fix context window overflow in orchestration.",
+  "question_translated": false,
+  "reloaded_files": 39,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/orchestration_diagnostic_mode_20260302.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-06T01:57:04.388958+01:00
+tool: consolidate_memory
+project_path: <none>
+memory_dir: D:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1051
+payload_est_tokens: 262
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 27,
+  "active_tasks_path": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 5,
+  "architecture_path": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 12374,
+  "changelog_files_before": 19,
+  "changelog_path": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260306_015552.md",
+  "coding_rules_items": 148,
+  "coding_rules_path": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 182,
+  "log_path": "D:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-06T01:59:24.820251+01:00
+tool: execute_repl_code
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 231
+payload_est_tokens: 57
+payload_keys: error, final, llm_trace, memory_dir, project_path, stderr, stdout
+payload_preview:
+```json
+{
+  "error": null,
+  "final": "Appended 1 fact(s)",
+  "llm_trace": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "stderr": "",
+  "stdout": ""
+}
+```
+---
+ts: 2026-03-06T01:59:29.133100+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 27,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 6,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 6516,
+  "changelog_files_before": 10,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260306_015929.md",
+  "coding_rules_items": 148,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 183,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```

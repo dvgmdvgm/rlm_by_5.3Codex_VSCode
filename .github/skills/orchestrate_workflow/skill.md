@@ -36,6 +36,58 @@ The following violations are FORBIDDEN and invalidate the entire run:
 
 If you find yourself about to start the next task without having produced `SYNTHESIZER_GATE_PASSED` for the previous task — **STOP. Go back and run the synthesizer.**
 
+## ⛔ CONTEXT RESILIENCE — CHECKPOINT & RE-READ PROTOCOL
+
+**Problem**: During long runs the conversation grows and early instructions fall out of LLM attention.
+**Solution**: Externalize state to files and re-read critical instructions before every transition.
+
+### Checkpoint file: `.vscode/tasks/orchestrator_state.json`
+
+After EVERY state transition (planning done, task started, task reviewed, synthesizer passed, closure started), **overwrite** this file with current state:
+
+```json
+{
+  "run_id": "<run_id>",
+  "phase": "planning|execution|closure",
+  "current_task_index": 1,
+  "total_tasks": 4,
+  "tasks_completed": ["task_01"],
+  "tasks_remaining": ["task_02", "task_03", "task_04"],
+  "last_gate_tokens": {
+    "task_01": "SYNTHESIZER_GATE_PASSED: yes"
+  },
+  "rules_audit_accumulated": [],
+  "archivist_status": "not_started|ARCHIVE_OK|ARCHIVE_BLOCKED",
+  "cleanup_done": false,
+  "next_action": "start_task_02"
+}
+```
+
+### Mandatory re-orientation (before EVERY new task and before closure)
+
+Before starting each new task or entering Phase 3, you MUST:
+
+1. **Re-read** `.vscode/tasks/orchestrator_state.json` to recall where you are.
+2. **Re-read** `.vscode/tasks/master_plan.md` to recall the full plan and task statuses.
+3. **Re-read** the PROTOCOL REMINDER below to refresh critical rules.
+4. Only then proceed with the next action indicated by `next_action` in the checkpoint.
+
+If you skip re-orientation and proceed from conversation memory alone — you WILL lose track. This is not optional.
+
+### ⛔ PROTOCOL REMINDER (re-read this before every task transition)
+
+```
+CRITICAL RULES — ORCHESTRATOR PROTOCOL REMINDER
+1. ONE task at a time: Worker → Reviewer → Synthesizer → next task.
+2. After APPROVE: run synthesizer gate. Produce SYNTHESIZER_GATE_PASSED.
+3. Do NOT start next task until SYNTHESIZER_GATE_PASSED appears.
+4. After ALL tasks: run archivist. Wait for ARCHIVE_OK.
+5. On success: run checklist writer, then delete .vscode/tasks/.
+6. On failure: do NOT delete .vscode/tasks/.
+7. Final response MUST contain Rules Audit Report table.
+8. Update orchestrator_state.json after every transition.
+```
+
 ## Workflow (strict state machine)
 
 ### PHASE 1 — PLANNING
@@ -52,7 +104,13 @@ If you find yourself about to start the next task without having produced `SYNTH
 
 For each task from `master_plan.md` in order:
 
-1. Set task status to `in_progress`.
+0. **RE-ORIENT** (mandatory before every task):
+   - Re-read `.vscode/tasks/orchestrator_state.json`
+   - Re-read `.vscode/tasks/master_plan.md`
+   - Re-read the PROTOCOL REMINDER section above
+   - Confirm: which task am I about to start? What is `next_action`?
+
+1. Set task status to `in_progress`. Update `orchestrator_state.json` with `current_task_index` and `next_action: "worker_executing"`.
 2. Run `worker` on that task.
 3. Run `code_reviewer`.
    - If diagnostic mode is ON, write worker/reviewer invocation events with unique `agent_invocation_id`.
@@ -62,8 +120,10 @@ For each task from `master_plan.md` in order:
    - hard limit: 3 total attempts per task
 5. If 3rd review is still `REJECT`:
    - HALT orchestration
+   - Update `orchestrator_state.json` with `next_action: "HALTED"`
    - return `HUMAN_INTERVENTION_REQUIRED` with blocker details
 6. If reviewer returns `APPROVE`:
+   - Update `orchestrator_state.json` with `next_action: "synthesizer_gate"`
    - ⛔ **HARD STOP — SYNTHESIZER GATE (mandatory, cannot be skipped)**
    - Before doing ANYTHING else, you MUST execute the full synthesizer workflow:
      a. Read `memory/canonical/coding_rules.md` and `memory/canonical/active_tasks.md` to load ALL active rules.
@@ -88,11 +148,18 @@ For each task from `master_plan.md` in order:
    - If `SYNTHESIZER_GATE_PASSED: no`, HALT and return blocker details.
    - If diagnostic mode is ON, write `synthesizer_memory_gate_ok` and `synthesizer_operational_rules_gate_ok` before advancing.
    - **accumulate** the synthesizer's `TASK_RULES_AUDIT` table into a run-level rules audit registry (one entry per task per rule).
+   - **Update `orchestrator_state.json`**: move completed task to `tasks_completed`, update `tasks_remaining`, record `last_gate_tokens`, set `next_action` to the next task or `"closure"` if this was the last task.
    - ⛔ **You MUST NOT start the next task until SYNTHESIZER_GATE_PASSED appears in your output.**
 
 ### PHASE 3 — CLOSURE & CLEANUP
 
 ⛔ **ARCHIVIST IS MANDATORY. Do NOT skip this phase. Do NOT go directly to final summary.**
+
+0. **RE-ORIENT before closure** (mandatory):
+   - Re-read `.vscode/tasks/orchestrator_state.json` — confirm all tasks are in `tasks_completed`.
+   - Re-read `.vscode/tasks/master_plan.md` — confirm all tasks are `done`.
+   - Re-read the PROTOCOL REMINDER section — refresh closure rules.
+   - Update `orchestrator_state.json` with `phase: "closure"`, `next_action: "archivist"`.
 
 1. Run `archivist` to perform memory hygiene pass (verify rules audit completeness, canonical consistency, closure gates).
 2. If and only if all tasks are `done`, all approved tasks passed `MEMORY_SYNC_OK` and `OP_RULES_OK`, and archivist returned `ARCHIVE_OK`, cleanup generated orchestration artifacts.
@@ -100,9 +167,10 @@ For each task from `master_plan.md` in order:
    - if diagnostic mode is ON and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
    - run local deterministic checklist report writer (overwrite mode):
      - `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
-   - then remove `.vscode/tasks/` recursively (including generated `master_plan.md` and `task_*.md` files)
+   - then remove `.vscode/tasks/` recursively (including generated `master_plan.md`, `task_*.md`, and `orchestrator_state.json`)
 4. If workflow halts, any gate fails, or archivist does not return `ARCHIVE_OK`, do not delete `.vscode/tasks/`.
    - still run checklist writer with `--status "halted"` or `--status "failed"` to overwrite previous run report.
+   - `orchestrator_state.json` remains for post-mortem debugging.
 5. Return final condensed summary: completed tasks, halted tasks (if any), memory sync status, cleanup status.
 6. **MANDATORY: Comprehensive Rules Audit Report.**
    After all tasks are processed (or workflow halts), the orchestrator MUST include in the final user-facing response a **full rules audit report** compiled from accumulated per-task `TASK_RULES_AUDIT` data:

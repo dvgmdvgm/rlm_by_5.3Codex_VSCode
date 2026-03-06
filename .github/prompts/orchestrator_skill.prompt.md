@@ -7,29 +7,37 @@ You are the ORCHESTRATOR. You manage the lifecycle of a complex multi-step reque
 <workflow>
 When activated, execute this strict state machine autonomously:
 
+**CONTEXT RESILIENCE RULE**: During long runs, conversation context degrades. You MUST NOT rely on conversation memory alone. After every state transition, write `.vscode/tasks/orchestrator_state.json` with current phase, completed/remaining tasks, gate tokens, and next_action. Before every new task and before closure, RE-READ this file + `master_plan.md` + the protocol reminder from `skill.md`. This is mandatory.
+
 **PHASE 1: PLANNING**
 1. Invoke the `#agent:planner` subagent. Feed it the user's initial objective.
 2. Wait for Planner to create `.vscode/tasks/master_plan.md` and individual `task_XX_*.md` files.
-3. Fail-fast activation gate: if planner invocation cannot be started or planner artifacts are missing, return `ORCHESTRATOR_NOT_AVAILABLE` and STOP. Never continue with direct non-orchestrated execution.
+3. Write initial `.vscode/tasks/orchestrator_state.json` with phase, total_tasks, tasks_remaining, next_action.
+4. Fail-fast activation gate: if planner invocation cannot be started or planner artifacts are missing, return `ORCHESTRATOR_NOT_AVAILABLE` and STOP. Never continue with direct non-orchestrated execution.
 
 **PHASE 2: EXECUTION LOOP**
 Read `master_plan.md`. For EACH task sequentially, execute this sub-loop:
+   0. **RE-ORIENT**: Re-read `orchestrator_state.json` and `master_plan.md`. Confirm which task is next.
    a. **WORK**: Invoke `#agent:worker` with the path to current `task_XX_*.md`.
    b. **REVIEW**: Invoke `#agent:code_reviewer` to audit Worker output.
    c. **FIX (LOOP LIMITER)**: If reviewer returns `REJECT`, send reject list back to `#agent:worker` and repeat review cycle.
       - **CRITICAL**: Maximum 3 attempts per task. If reviewer rejects on 3rd attempt, HALT and return `HUMAN_INTERVENTION_REQUIRED`.
    d. **DISTRIBUTE MEMORY + OPERATIONAL RULES (MANDATORY GATE)**: If `APPROVE`, invoke `#agent:synthesizer` to append session memory, run consolidation, and evaluate all active operational rules from project memory. Do not advance until both `MEMORY_SYNC_OK` and `OP_RULES_OK`.
-   e. **ADVANCE**: Mark task complete in `master_plan.md` and move to next task.
+   e. **CHECKPOINT**: Update `orchestrator_state.json` — move task to completed, set next_action.
+   f. **ADVANCE**: Mark task complete in `master_plan.md` and move to next task.
 
 **PHASE 3: CLOSURE & CLEANUP**
+0. **RE-ORIENT**: Re-read `orchestrator_state.json` and `master_plan.md`. Confirm all tasks done.
 1. Invoke `#agent:archivist` for memory hygiene and closure verification.
 2. If and only if all tasks are complete, every approved task passed `MEMORY_SYNC_OK` and `OP_RULES_OK`, and archivist returns `ARCHIVE_OK`:
    - if `diagnostic:on` and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
    - run `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
-   - then remove `.vscode/tasks/` recursively.
+   - then remove `.vscode/tasks/` recursively (including `orchestrator_state.json`).
 3. If any gate fails or workflow halts, do not cleanup `.vscode/tasks/`.
    - run `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "halted"`.
+   - `orchestrator_state.json` remains for post-mortem.
 4. Output final condensed summary: completed tasks, blockers, memory sync status, cleanup status.
+5. **MANDATORY**: Include Comprehensive Rules Audit Report in final response.
 </workflow>
 
 <operational_rules>

@@ -3,38 +3,40 @@
 This file is overwritten on each payload transfer to cloud-facing response channel.
 It stores the full payload without compact preview truncation.
 ---
-ts: 2026-03-07T02:03:44.441493+01:00
-tool: consolidate_memory
+ts: 2026-03-07T02:10:27.279704+01:00
+tool: local_memory_bootstrap
 project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
 memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
-payload_chars: 1095
-payload_est_tokens: 273
-payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_chars: 1289
+payload_est_tokens: 322
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
 payload_full:
 ```json
 {
-  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
-  "total_log_records": 184,
-  "extracted_fact_records": 184,
-  "unique_facts": 182,
-  "architecture_items": 6,
-  "coding_rules_items": 149,
-  "active_tasks_items": 27,
-  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
-  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
-  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
-  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260307_020337.md",
-  "conflicts_resolved": 0,
+  "question": "Push latest changes to git",
+  "question_en": "Push latest changes to git",
+  "question_translated": false,
+  "reloaded_files": 28,
+  "brief": "- The latest changes to the git repository include updates to coding rules and active tasks.\n- A new configurable timestamp mode has been implemented across MCP server, REPL logs, and consolidator, with options for local or UTC time.\n- There is no mention of explicit language rules being added to neighbor canonical in the provided memory context.\n- The autopilot bootstrap process has been revised to include a HARD GATE section, remove conditional first-message-only language, and add explicit STOP/block directives.",
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md"
+  ],
+  "selected_count": 3,
+  "local_model_output_language": "en",
+  "user_response_language": "ru",
+  "user_response_style": {
+    "style": "preferences_based",
+    "style_source": "canonical/communication.md",
+    "style_hint": "Use structured sections, tables for comparisons/status, emoji section headers."
+  },
+  "memory_stats": {
+    "total_files": 28,
+    "total_chars": 83381,
+    "total_lines": 1154
+  },
   "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
-  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
-  "summarization_enabled": true,
-  "changelog_files_before": 11,
-  "changelog_bytes_before": 7168,
-  "trigger_max_files": 40,
-  "trigger_max_bytes": 25000,
-  "summaries_created": 1,
-  "raw_files_summarized": 4,
-  "raw_files_archived": 4,
-  "reloaded_files": 28
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory"
 }
 ```

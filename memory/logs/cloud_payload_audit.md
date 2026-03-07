@@ -10197,3 +10197,89 @@ payload_preview:
   "__truncated_keys__": "+11 keys"
 }
 ```
+---
+ts: 2026-03-07T02:10:25.408338+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 83381,
+  "total_files": 28,
+  "total_lines": 1154,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T02:10:27.279198+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 921
+payload_est_tokens: 230
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The latest changes to the git repository include updates to coding rules and active tasks.\n- A new configurable timestamp mode has been implemented across MCP server, REPL logs, and consolidator, with options for local or UTC time.\n- There is no mention of explicit language rules being added to neighbor canonical in the provided memory context.\n- The autopilot bootstrap process has been revised to include a HARD GATE section, remove conditional first-message-only language, and add explicit STOP/block directives.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Push latest changes to git",
+  "question_en": "Push latest changes to git",
+  "question_translated": false,
+  "selected_count": 3,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md"
+  ]
+}
+```
+---
+ts: 2026-03-07T02:10:27.279704+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1289
+payload_est_tokens: 322
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The latest changes to the git repository include updates to coding rules and active tasks.\n- A new configurable timestamp mode has been implemented across MCP server, REPL logs, and consolidator, with options for local or UTC time.\n- There is no mention of explicit language rules being added to neighbor canonical in the provided memory context.\n- The autopilot bootstrap process has been revised to include a HARD GATE section, remove conditional first-message-only language, and add explicit STOP/block directives.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 83381,
+    "total_files": 28,
+    "total_lines": 1154
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Push latest changes to git",
+  "question_en": "Push latest changes to git",
+  "question_translated": false,
+  "reloaded_files": 28,
+  "selected_count": 3,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```

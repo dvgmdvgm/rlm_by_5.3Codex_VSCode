@@ -10283,3 +10283,2806 @@ payload_preview:
   "__truncated_keys__": "+1 keys"
 }
 ```
+---
+ts: 2026-03-07T11:29:53.806223+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 83381,
+  "total_files": 28,
+  "total_lines": 1154,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T11:29:58.361575+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1890
+payload_est_tokens: 472
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Bootstrap Command in README**: The README file now includes an explicit one-liner minimal bootstrap import command from GitHub raw installer.\n- **Configurable Timestamp Mode**: Implemented configurable timestamp mode across MCP server, REPL logs, and consolidator with new RLM_TIMESTAMP_MODE (local|utc), defaulting to local time for user-friendly timestamps.\n- **Memory Mutation Audit**: Performed mutation audit for D:\\art_network_antigravity: validated extracted_facts schema, confirmed apply blocked in mode off, ran isolated ON-mode smoke test of apply pipeline, enabled RLM_MEMORY_MUTATION_MODE=on in external .env with backup, and verified consolidation succeeds.\n- **GitHub Repository Management**: Initialized git repo, created root commit, added origin https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git, and pushed main successfully. Pushed workflow hardening changes to main branch with commit 55c197f.\n- **Memory Initialization**: Previous memory files (from unrelated project context) were removed. New baseline memory was recreated for this repository only. Canonical files were initialized from current chat/session context. Initial extracted facts log was seeded for future c ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Analyze external GitHub repository jcodemunch-mcp",
+  "question_en": "Analyze external GitHub repository jcodemunch-mcp",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/memory_reset_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T11:29:58.362086+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2258
+payload_est_tokens: 564
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Bootstrap Command in README**: The README file now includes an explicit one-liner minimal bootstrap import command from GitHub raw installer.\n- **Configurable Timestamp Mode**: Implemented configurable timestamp mode across MCP server, REPL logs, and consolidator with new RLM_TIMESTAMP_MODE (local|utc), defaulting to local time for user-friendly timestamps.\n- **Memory Mutation Audit**: Performed mutation audit for D:\\art_network_antigravity: validated extracted_facts schema, confirmed apply blocked in mode off, ran isolated ON-mode smoke test of apply pipeline, enabled RLM_MEMORY_MUTATION_MODE=on in external .env with backup, and verified consolidation succeeds.\n- **GitHub Repository Management**: Initialized git repo, created root commit, added origin https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git, and pushed main successfully. Pushed workflow hardening changes to main branch with commit 55c197f.\n- **Memory Initialization**: Previous memory files (from unrelated project context) were removed. New baseline memory was recreated for this repository only. Canonical files were initialized from current chat/session context. Initial extracted facts log was seeded for future c ...<truncated>",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 83381,
+    "total_files": 28,
+    "total_lines": 1154
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Analyze external GitHub repository jcodemunch-mcp",
+  "question_en": "Analyze external GitHub repository jcodemunch-mcp",
+  "question_translated": false,
+  "reloaded_files": 28,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/memory_reset_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-07T11:32:46.457415+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 83381,
+  "total_files": 28,
+  "total_lines": 1154,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T11:32:51.745086+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2066
+payload_est_tokens: 516
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "## 🎯 Implementation of Tree-sitter Based Code Indexing with MCP Tools\n\nBrief intro sentence (1-2 lines max).\n\n---\n\n## 📊 Analysis / Main Content\n\n| **Aspect** | **Details** |\n|------------|-------------|\n| **Toolset** | Implementing tree-sitter for parsing and indexing code, similar to jCodeMunch. |\n| **Integration** | Utilize MCP tools to facilitate symbol-level indexing within the RLM system. |\n| **Scope** | Focus on enhancing code navigation and comprehension through precise symbol identification. |\n| **Implementation Steps** | 1. Integrate tree-sitter parser.<br>2. Develop or adapt MCP tools for symbol-level indexing.<br>3. Test with sample projects to ensure accuracy.<br>4. Optimize for performance across various languages. |\n\n---\n\n## ✅ Summary / Next Steps\n\n| **Action** | **Status** |\n|------------|------------|\n| Integrate tree-sitter parser | In progress |\n| Develop MCP tools adaptation | Pending |\n| Conduct initial testing | ⏳ Scheduled |\n| Performance optimization | ⚠️ Consideration required |\n\n---\n\n## 🔍 Notes and Recommendations\n\n- Ensure compatibility with existing RLM system architecture.\n- Monitor for potential conflicts or overlaps in symbol indexing between different ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Implementing tree-sitter based code indexing with symbol-level MCP tools similar to jCodeMunch for the RLM system",
+  "question_en": "Implementing tree-sitter based code indexing with symbol-level MCP tools similar to jCodeMunch for the RLM system",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T11:32:51.746090+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2434
+payload_est_tokens: 608
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "## 🎯 Implementation of Tree-sitter Based Code Indexing with MCP Tools\n\nBrief intro sentence (1-2 lines max).\n\n---\n\n## 📊 Analysis / Main Content\n\n| **Aspect** | **Details** |\n|------------|-------------|\n| **Toolset** | Implementing tree-sitter for parsing and indexing code, similar to jCodeMunch. |\n| **Integration** | Utilize MCP tools to facilitate symbol-level indexing within the RLM system. |\n| **Scope** | Focus on enhancing code navigation and comprehension through precise symbol identification. |\n| **Implementation Steps** | 1. Integrate tree-sitter parser.<br>2. Develop or adapt MCP tools for symbol-level indexing.<br>3. Test with sample projects to ensure accuracy.<br>4. Optimize for performance across various languages. |\n\n---\n\n## ✅ Summary / Next Steps\n\n| **Action** | **Status** |\n|------------|------------|\n| Integrate tree-sitter parser | In progress |\n| Develop MCP tools adaptation | Pending |\n| Conduct initial testing | ⏳ Scheduled |\n| Performance optimization | ⚠️ Consideration required |\n\n---\n\n## 🔍 Notes and Recommendations\n\n- Ensure compatibility with existing RLM system architecture.\n- Monitor for potential conflicts or overlaps in symbol indexing between different ...<truncated>",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 83381,
+    "total_files": 28,
+    "total_lines": 1154
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Implementing tree-sitter based code indexing with symbol-level MCP tools similar to jCodeMunch for the RLM system",
+  "question_en": "Implementing tree-sitter based code indexing with symbol-level MCP tools similar to jCodeMunch for the RLM system",
+  "question_translated": false,
+  "reloaded_files": 28,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-07T11:36:42.660829+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 83381,
+  "total_files": 28,
+  "total_lines": 1154,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T11:36:47.925586+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2137
+payload_est_tokens: 534
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Python AST**: Python's Abstract Syntax Tree (AST) is well-suited for analyzing and transforming Python code. It provides a detailed representation of the source code structure, making it effective for symbol extraction in Python projects.\n  \n- **Tree-sitter**: Tree-sitter is a general-purpose parsing library that can be used to parse multiple languages beyond just Python. It offers robust support for syntax highlighting, language analysis, and code navigation across various programming languages.\n\n- **Multi-language Support**:\n  - **Python AST**: Limited to Python only.\n  - **Tree-sitter**: Supports multiple languages by using different grammars, making it more versatile for projects involving mixed-language codebases.\n\n- **Symbol Extraction Scope**:\n  - **Python AST**: Ideal for extracting symbols within Python files accurately due to its native support and deep integration with Python's syntax.\n  - **Tree-sitter**: Can extract symbols from multiple languages, offering a unified approach to handling diverse codebases. However, accuracy may vary slightly depending on the language and its grammar implementation.\n\n- **Conclusion**: For projects requiring symbol extraction across  ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Code indexing language support scope: Python ast vs tree-sitter for multi-language symbol extraction",
+  "question_en": "Code indexing language support scope: Python ast vs tree-sitter for multi-language symbol extraction",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T11:36:47.925586+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2505
+payload_est_tokens: 626
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Python AST**: Python's Abstract Syntax Tree (AST) is well-suited for analyzing and transforming Python code. It provides a detailed representation of the source code structure, making it effective for symbol extraction in Python projects.\n  \n- **Tree-sitter**: Tree-sitter is a general-purpose parsing library that can be used to parse multiple languages beyond just Python. It offers robust support for syntax highlighting, language analysis, and code navigation across various programming languages.\n\n- **Multi-language Support**:\n  - **Python AST**: Limited to Python only.\n  - **Tree-sitter**: Supports multiple languages by using different grammars, making it more versatile for projects involving mixed-language codebases.\n\n- **Symbol Extraction Scope**:\n  - **Python AST**: Ideal for extracting symbols within Python files accurately due to its native support and deep integration with Python's syntax.\n  - **Tree-sitter**: Can extract symbols from multiple languages, offering a unified approach to handling diverse codebases. However, accuracy may vary slightly depending on the language and its grammar implementation.\n\n- **Conclusion**: For projects requiring symbol extraction across  ...<truncated>",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 83381,
+    "total_files": 28,
+    "total_lines": 1154
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Code indexing language support scope: Python ast vs tree-sitter for multi-language symbol extraction",
+  "question_en": "Code indexing language support scope: Python ast vs tree-sitter for multi-language symbol extraction",
+  "question_translated": false,
+  "reloaded_files": 28,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-07T11:42:55.840397+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 352
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 83381,
+  "total_files": 28,
+  "total_lines": 1154,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T11:43:00.390468+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1628
+payload_est_tokens: 407
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Implementation of Code Index Module with Tree-sitter**: The memory context does not provide specific details on implementing a code index module using tree-sitter. This task seems to be outside the current scope or not yet recorded in the provided memory.\n  \n- **Adding MCP Tools**: The memory context mentions several tasks related to MCP tools, such as:\n  - Adding an explicit language policy rule for D:\\art_network_antigravity (source: session:copilot).\n  - Auditing external memory capacity and scaling risk (source: session:copilot).\n  - Performing mutation audit on the project (source: session:copilot).\n\n- **Testing Token Savings**: The context does not explicitly mention testing token savings. It refers to consolidating memory tools, but there's no specific mention of a token saving test (source: session:consolidate_memory_api_update).",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Implementing code index module with tree-sitter, adding MCP tools, testing token savings",
+  "question_en": "Implementing code index module with tree-sitter, adding MCP tools, testing token savings",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "canonical/active_tasks.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T11:43:00.390972+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1996
+payload_est_tokens: 499
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Implementation of Code Index Module with Tree-sitter**: The memory context does not provide specific details on implementing a code index module using tree-sitter. This task seems to be outside the current scope or not yet recorded in the provided memory.\n  \n- **Adding MCP Tools**: The memory context mentions several tasks related to MCP tools, such as:\n  - Adding an explicit language policy rule for D:\\art_network_antigravity (source: session:copilot).\n  - Auditing external memory capacity and scaling risk (source: session:copilot).\n  - Performing mutation audit on the project (source: session:copilot).\n\n- **Testing Token Savings**: The context does not explicitly mention testing token savings. It refers to consolidating memory tools, but there's no specific mention of a token saving test (source: session:consolidate_memory_api_update).",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 83381,
+    "total_files": 28,
+    "total_lines": 1154
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Implementing code index module with tree-sitter, adding MCP tools, testing token savings",
+  "question_en": "Implementing code index module with tree-sitter, adding MCP tools, testing token savings",
+  "question_translated": false,
+  "reloaded_files": 28,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "canonical/active_tasks.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-07T11:50:43.228272+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1094
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 27,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 7,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 5216,
+  "changelog_files_before": 8,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260307_115043.md",
+  "coding_rules_items": 152,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 188,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-07T11:58:11.149752+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 187819,
+  "total_files": 30,
+  "total_lines": 3855,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T11:58:14.038106+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1098
+payload_est_tokens: 274
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The code index MCP tools are not automatically called by the cloud LLM during user requests. They require manual invocation.\n- The current integration involves manually triggering the MCP tools as needed.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Are code index MCP tools automatically called by the cloud LLM during user requests, or do they require manual invocation? How does the current integration work?",
+  "question_en": "Are code index MCP tools automatically called by the cloud LLM during user requests, or do they require manual invocation? How does the current integration work?",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T11:58:14.038609+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1467
+payload_est_tokens: 366
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The code index MCP tools are not automatically called by the cloud LLM during user requests. They require manual invocation.\n- The current integration involves manually triggering the MCP tools as needed.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 187819,
+    "total_files": 30,
+    "total_lines": 3855
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Are code index MCP tools automatically called by the cloud LLM during user requests, or do they require manual invocation? How does the current integration work?",
+  "question_en": "Are code index MCP tools automatically called by the cloud LLM during user requests, or do they require manual invocation? How does the current integration work?",
+  "question_translated": false,
+  "reloaded_files": 30,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-07T12:02:11.438712+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 187819,
+  "total_files": 30,
+  "total_lines": 3855,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T12:02:15.294710+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1097
+payload_est_tokens: 274
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The code index integration uses `tree-sitter>=0.24` with individual language packages (e.g., tree-sitter-python, tree-sitter-javascript) as optional dependencies.\n- The indexed project root is `D:/AI Projects/VSCode_Projects/RLM_Realization`.\n- The code index includes 16 Python files with a total of 188 symbols.\n- The estimated number of source tokens is around 46,868.\n- Grammars loaded include C, C#, C++, CSS, Go, Java, JavaScript, Python, Ruby, Rust, TSX, and TypeScript.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "test code index integration",
+  "question_en": "test code index integration",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T12:02:15.295218+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1466
+payload_est_tokens: 366
+payload_keys: brief, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The code index integration uses `tree-sitter>=0.24` with individual language packages (e.g., tree-sitter-python, tree-sitter-javascript) as optional dependencies.\n- The indexed project root is `D:/AI Projects/VSCode_Projects/RLM_Realization`.\n- The code index includes 16 Python files with a total of 188 symbols.\n- The estimated number of source tokens is around 46,868.\n- Grammars loaded include C, C#, C++, CSS, Go, Java, JavaScript, Python, Ruby, Rust, TSX, and TypeScript.",
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 187819,
+    "total_files": 30,
+    "total_lines": 3855
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "test code index integration",
+  "question_en": "test code index integration",
+  "question_translated": false,
+  "reloaded_files": 30,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ],
+  "user_response_language": "ru",
+  "__truncated_keys__": "+1 keys"
+}
+```
+---
+ts: 2026-03-07T12:02:45.372039+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1094
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 28,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 7,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 5868,
+  "changelog_files_before": 9,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260307_120245.md",
+  "coding_rules_items": 153,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 190,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-07T12:04:34.657119+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189156,
+  "total_files": 31,
+  "total_lines": 3883,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T12:04:37.970309+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1110
+payload_est_tokens: 277
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Code Indexing Enabled**: Code indexing is enabled for the project at `D:/AI Projects/VSCode_Projects/RLM_Realization`.\n- **Indexed Files**: 16 files were indexed, all of which are Python scripts.\n- **Total Symbols**: 188 symbols were extracted from these files.\n- **Estimated Tokens**: With code indexing, an estimated 46,868 tokens were saved compared to reading the entire source files without indexing.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Run code indexing and compare token savings with vs without code index",
+  "question_en": "Run code indexing and compare token savings with vs without code index",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T12:04:37.971816+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2318
+payload_est_tokens: 579
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Code Indexing Enabled**: Code indexing is enabled for the project at `D:/AI Projects/VSCode_Projects/RLM_Realization`.\n- **Indexed Files**: 16 files were indexed, all of which are Python scripts.\n- **Total Symbols**: 188 symbols were extracted from these files.\n- **Estimated Tokens**: With code indexing, an estimated 46,868 tokens were saved compared to reading the entire source files without indexing.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 19,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T10:50:09.603423+00:00",
+    "languages": {
+      "python": 16
+    },
+    "total_files": 16,
+    "total_source_tokens_est": 46868,
+    "total_symbols": 188
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189156,
+    "total_files": 31,
+    "total_lines": 3883
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Run code indexing and compare token savings with vs without code index",
+  "question_en": "Run code indexing and compare token savings with vs without code index",
+  "question_translated": false,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T12:04:45.418368+01:00
+tool: index_project_code
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 570
+payload_est_tokens: 142
+payload_keys: grammars_loaded, index_path, languages_files, languages_symbols, memory_dir, ok, project_path, total_files, total_source_bytes, total_source_tokens_est, total_symbols, tree_sitter
+payload_preview:
+```json
+{
+  "grammars_loaded": [
+    "c",
+    "c_sharp",
+    "cpp",
+    "css",
+    "go",
+    "java",
+    "... +6 more"
+  ],
+  "index_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/code_index/index.json",
+  "languages_files": {
+    "python": 14
+  },
+  "languages_symbols": {
+    "python": 189
+  },
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_files": 14,
+  "total_source_bytes": 180355,
+  "total_source_tokens_est": 45088,
+  "total_symbols": 189,
+  "tree_sitter": true
+}
+```
+---
+ts: 2026-03-07T12:04:50.654096+01:00
+tool: search_code_symbols
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1235
+payload_est_tokens: 308
+payload_keys: matches, memory_dir, ok, project_path, query, token_savings, total_matches
+payload_preview:
+```json
+{
+  "matches": [
+    {
+      "chars": 7351,
+      "end_byte": 13291,
+      "end_line": 383,
+      "file_path": "src/rlm_mcp/consolidator.py",
+      "kind": "function",
+      "language": "python",
+      "name": "consolidate_memory",
+      "qualified_name": "consolidate_memory",
+      "signature": "def consolidate_memory(     *,     memory_dir: Path,     log_rel_path: str = \"logs/extracted_facts.jsonl\",",
+      "start_byte": 5940,
+      "start_line": 196,
+      "symbol_id": "src/rlm_mcp/consolidator.py::consolidate_memory#function"
+    },
+    {
+      "chars": 1849,
+      "end_byte": 44378,
+      "end_line": 1260,
+      "file_path": "src/rlm_mcp/server.py",
+      "kind": "function",
+      "language": "python",
+      "name": "consolidate_memory",
+      "qualified_name": "consolidate_memory",
+      "signature": "def consolidate_memory(     log_rel_path: str = \"logs/extracted_facts.jsonl\",     write_changelog: bool = True,     refresh_context: bool = True,",
+      "start_byte": 42529,
+      "start_line": 1211,
+      "symbol_id": "src/rlm_mcp/server.py::consolidate_memory#function"
+    }
+  ],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "query": "consolidate_memory",
+  "token_savings": {
+    "savings_pct": 98.6,
+    "tokens_with_index": 229,
+    "tokens_without_index": 16015
+  },
+  "total_matches": 2
+}
+```
+---
+ts: 2026-03-07T12:04:54.884473+01:00
+tool: get_code_symbol
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2742
+payload_est_tokens: 685
+payload_keys: chars, end_byte, end_line, file_path, kind, language, memory_dir, name, ok, project_path, qualified_name, signature, source, source_chars, source_tokens_est, start_byte, start_line, symbol_id, token_savings
+payload_preview:
+```json
+{
+  "chars": 1849,
+  "end_byte": 44378,
+  "end_line": 1260,
+  "file_path": "src/rlm_mcp/server.py",
+  "kind": "function",
+  "language": "python",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "name": "consolidate_memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "qualified_name": "consolidate_memory",
+  "signature": "def consolidate_memory(     log_rel_path: str = \"logs/extracted_facts.jsonl\",     write_changelog: bool = True,     refresh_context: bool = True,",
+  "__truncated_keys__": "+7 keys"
+}
+```
+---
+ts: 2026-03-07T12:06:14.951552+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T12:06:18.308574+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1192
+payload_est_tokens: 298
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The code index supports a global server configuration.\n- Per-project memory isolation can be achieved using the `project_path`.\n- This setup ensures that each project has its own isolated memory context.\n- The global server runs from a fixed location, while the runtime is bound to the active `${workspaceFolder}`.\n- `cwd` uses `${workspaceFolder}`, and `RLM_MEMORY_DIR` uses `${workspaceFolder}/memory`, facilitating per-project memory isolation.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Does code index support global server with per-project memory isolation via project_path?",
+  "question_en": "Does code index support global server with per-project memory isolation via project_path?",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "code_index/index.json",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "canonical/communication.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T12:06:18.309080+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2400
+payload_est_tokens: 600
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The code index supports a global server configuration.\n- Per-project memory isolation can be achieved using the `project_path`.\n- This setup ensures that each project has its own isolated memory context.\n- The global server runs from a fixed location, while the runtime is bound to the active `${workspaceFolder}`.\n- `cwd` uses `${workspaceFolder}`, and `RLM_MEMORY_DIR` uses `${workspaceFolder}/memory`, facilitating per-project memory isolation.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Does code index support global server with per-project memory isolation via project_path?",
+  "question_en": "Does code index support global server with per-project memory isolation via project_path?",
+  "question_translated": false,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "code_index/index.json",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "canonical/communication.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T12:08:28.807317+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T12:08:32.174173+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1150
+payload_est_tokens: 287
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- There is no explicit mention of a PowerShell command specifically for installing a bootstrap script in the provided memory context.\n- The closest reference is to `scripts/install_rlm_bootstrap.ps1`, which is mentioned as being added to install reusable integration assets via sparse checkout. However, it does not explicitly state that this script installs a bootstrap script.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Есть ли в памяти упоминания о powershell-команде для установки bootstrap-скрипта или аналогичных инструкциях?",
+  "question_en": "Is there a mention in memory of a PowerShell command for installing a bootstrap script or similar instructions?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T12:08:32.174678+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2358
+payload_est_tokens: 589
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- There is no explicit mention of a PowerShell command specifically for installing a bootstrap script in the provided memory context.\n- The closest reference is to `scripts/install_rlm_bootstrap.ps1`, which is mentioned as being added to install reusable integration assets via sparse checkout. However, it does not explicitly state that this script installs a bootstrap script.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Есть ли в памяти упоминания о powershell-команде для установки bootstrap-скрипта или аналогичных инструкциях?",
+  "question_en": "Is there a mention in memory of a PowerShell command for installing a bootstrap script or similar instructions?",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T13:34:00.502070+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T13:34:03.512471+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1152
+payload_est_tokens: 288
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The validation of rules is not exclusively tied to working with the orchestrator. \n- Rules validation occurs during regular requests without the orchestrator as well, ensuring consistent adherence to coding standards and policies.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает: проверка правил запускается только после работы с оркестратором или также при обычных запросах без оркестратора? Нужно ответить по правилам проекта.",
+  "question_en": "Does the validation of rules run only after working with the orchestrator or also during regular requests without the orchestrator? Please answer according to project guidelines.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T13:34:03.512976+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2360
+payload_est_tokens: 590
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The validation of rules is not exclusively tied to working with the orchestrator. \n- Rules validation occurs during regular requests without the orchestrator as well, ensuring consistent adherence to coding standards and policies.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает: проверка правил запускается только после работы с оркестратором или также при обычных запросах без оркестратора? Нужно ответить по правилам проекта.",
+  "question_en": "Does the validation of rules run only after working with the orchestrator or also during regular requests without the orchestrator? Please answer according to project guidelines.",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:30:23.824739+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T22:30:28.412505+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1778
+payload_est_tokens: 444
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "Based on the memory context provided:\n\n1. **Manual Triggering**:\n   - Code indexing can be manually triggered using scripts like `generate_rlm_memory_from_code.py` and `seed_canonical_from_rlm_memory.py`.\n   \n2. **Frequency of Indexing**:\n   - The code index should ideally be re-indexed after files are modified to ensure that the latest changes are captured.\n\n3. **Criteria for Triggering**:\n   - Indexing should occur if the summary is missing during a task that requires code indexing.\n   - Changes in project files, especially those with significant code content, should trigger re-indexing.\n\n4. **Automatic Triggers**:\n   - Automatic triggers are not explicitly mentioned in the provided context. However, based on the rules and policies described, it seems that automatic indexing could be implemented using tools or scripts that monitor file changes and trigger re-indexing automatically when necessary.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, когда в проектах нужно запускать индексацию кода: вручную ли, однократно ли, по каким критериям, и когда она происходит автоматически.",
+  "question_en": "When should code indexing be triggered in projects: manually, once, based on what criteria, and when does it happen automatically?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "code_index/index.json",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T22:30:28.414014+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2986
+payload_est_tokens: 746
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "Based on the memory context provided:\n\n1. **Manual Triggering**:\n   - Code indexing can be manually triggered using scripts like `generate_rlm_memory_from_code.py` and `seed_canonical_from_rlm_memory.py`.\n   \n2. **Frequency of Indexing**:\n   - The code index should ideally be re-indexed after files are modified to ensure that the latest changes are captured.\n\n3. **Criteria for Triggering**:\n   - Indexing should occur if the summary is missing during a task that requires code indexing.\n   - Changes in project files, especially those with significant code content, should trigger re-indexing.\n\n4. **Automatic Triggers**:\n   - Automatic triggers are not explicitly mentioned in the provided context. However, based on the rules and policies described, it seems that automatic indexing could be implemented using tools or scripts that monitor file changes and trigger re-indexing automatically when necessary.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, когда в проектах нужно запускать индексацию кода: вручную ли, однократно ли, по каким критериям, и когда она происходит автоматически.",
+  "question_en": "When should code indexing be triggered in projects: manually, once, based on what criteria, and when does it happen automatically?",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "code_index/index.json",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:37:04.013811+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T22:37:14.185601+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3049
+payload_est_tokens: 762
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "To practically verify that the code indexing and search system is working and saving tokens in your own or neighboring project:\n\n1. **Check `code_index/index.json`:** Look at the `indexed_at` field to see when the last indexing occurred. This file, located in the root of your project (e.g., `D:/AI Projects/VSCode_Projects/RLM_Realization/code_index/index.json`), contains metadata about the current state of code indexing.\n\n2. **Review Index Statistics:** Within `code_index/index.json`, examine the `stats` section for details such as:\n   - `total_files`: Number of files indexed.\n   - `files_skipped`: Number of files skipped during indexing.\n   - `total_symbols`: Total number of symbols (functions, classes, etc.) identified.\n   - `total_source_bytes`: Total bytes processed from source code.\n\n3. **Inspect Symbol Entries:** The `symbols` array in `code_index/index.json` lists all indexed symbols with their details like name, kind, file path, and signature. This helps ensure that the indexing has captured the expected code elements.\n\n4. **Verify `canonical/coding_rules.md`:** Check this file for any newly added or updated coding rules that may indicate successful processing and integrati ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, как practically проверить в своем или соседнем проекте, что система индексации и быстрого поиска кода реально работает и экономит токены, и где это видно.",
+  "question_en": "How can a user practically verify in their own or neighboring project that the code indexing and search system is actually working and saving tokens, and where this can be seen?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T22:37:14.186104+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 4257
+payload_est_tokens: 1064
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "To practically verify that the code indexing and search system is working and saving tokens in your own or neighboring project:\n\n1. **Check `code_index/index.json`:** Look at the `indexed_at` field to see when the last indexing occurred. This file, located in the root of your project (e.g., `D:/AI Projects/VSCode_Projects/RLM_Realization/code_index/index.json`), contains metadata about the current state of code indexing.\n\n2. **Review Index Statistics:** Within `code_index/index.json`, examine the `stats` section for details such as:\n   - `total_files`: Number of files indexed.\n   - `files_skipped`: Number of files skipped during indexing.\n   - `total_symbols`: Total number of symbols (functions, classes, etc.) identified.\n   - `total_source_bytes`: Total bytes processed from source code.\n\n3. **Inspect Symbol Entries:** The `symbols` array in `code_index/index.json` lists all indexed symbols with their details like name, kind, file path, and signature. This helps ensure that the indexing has captured the expected code elements.\n\n4. **Verify `canonical/coding_rules.md`:** Check this file for any newly added or updated coding rules that may indicate successful processing and integrati ...<truncated>",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, как practically проверить в своем или соседнем проекте, что система индексации и быстрого поиска кода реально работает и экономит токены, и где это видно.",
+  "question_en": "How can a user practically verify in their own or neighboring project that the code indexing and search system is actually working and saving tokens, and where this can be seen?",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:37:25.470474+01:00
+tool: search_code_symbols
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 738
+payload_est_tokens: 184
+payload_keys: matches, memory_dir, ok, project_path, query, token_savings, total_matches
+payload_preview:
+```json
+{
+  "matches": [
+    {
+      "chars": 735,
+      "end_byte": 45742,
+      "end_line": 1300,
+      "file_path": "src/rlm_mcp/server.py",
+      "kind": "function",
+      "language": "python",
+      "name": "index_project_code",
+      "qualified_name": "index_project_code",
+      "signature": "def index_project_code(     project_path: str | None = None,     max_files: int = 500, ) -> dict:",
+      "start_byte": 45007,
+      "start_line": 1281,
+      "symbol_id": "src/rlm_mcp/server.py::index_project_code#function"
+    }
+  ],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "query": "index_project_code",
+  "token_savings": {
+    "savings_pct": 99.2,
+    "tokens_with_index": 105,
+    "tokens_without_index": 12692
+  },
+  "total_matches": 1
+}
+```
+---
+ts: 2026-03-07T22:37:25.475477+01:00
+tool: get_code_file_outline
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 15712
+payload_est_tokens: 3928
+payload_keys: file_path, memory_dir, ok, project_path, symbols, token_savings, total_symbols
+payload_preview:
+```json
+{
+  "file_path": "src/rlm_mcp/server.py",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "symbols": [
+    {
+      "chars": 158,
+      "end_line": 43,
+      "kind": "function",
+      "language": "python",
+      "name": "_resolve_memory_dir",
+      "qualified_name": "_resolve_memory_dir",
+      "signature": "def _resolve_memory_dir(project_path: str | None) -> Path:     if project_path:",
+      "start_line": 40,
+      "symbol_id": "src/rlm_mcp/server.py::_resolve_memory_dir#function"
+    },
+    {
+      "chars": 78,
+      "end_line": 47,
+      "kind": "function",
+      "language": "python",
+      "name": "_key",
+      "qualified_name": "_key",
+      "signature": "def _key(memory_dir: Path) -> str:     return memory_dir.resolve().as_posix()",
+      "start_line": 46,
+      "symbol_id": "src/rlm_mcp/server.py::_key#function"
+    },
+    {
+      "chars": 110,
+      "end_line": 53,
+      "kind": "function",
+      "language": "python",
+      "name": "_estimate_tokens",
+      "qualified_name": "_estimate_tokens",
+      "signature": "def _estimate_tokens(text: str) -> int:     if not text:",
+      "start_line": 50,
+      "symbol_id": "src/rlm_mcp/server.py::_estimate_tokens#function"
+    },
+    {
+      "chars": 177,
+      "end_line": 59,
+      "kind": "function",
+      "language": "python",
+      "name": "_truncate_text",
+      "qualified_name": "_truncate_text",
+      "signature": "def _truncate_text(value: str, limit: int = CLOUD_PAYLOAD_PREVIEW_CHARS) -> str:     if len(value) <= limit:",
+      "start_line": 56,
+      "symbol_id": "src/rlm_mcp/server.py::_truncate_text#function"
+    },
+    {
+      "chars": 794,
+      "end_line": 80,
+      "kind": "function",
+      "language": "python",
+      "name": "_compact_preview",
+      "qualified_name": "_compact_preview",
+      "signature": "def _compact_preview(value):     if isinstance(value, str):",
+      "start_line": 62,
+      "symbol_id": "src/rlm_mcp/server.py::_compact_preview#function"
+    },
+    {
+      "chars": 2374,
+      "end_line": 148,
+      "kind": "function",
+      "language": "python",
+      "name": "_log_cloud_payload",
+      "qualified_name": "_log_cloud_payload",
+      "signature": "def _log_cloud_payload(     *,     tool_name: str,     project_path: str | None,",
+      "start_line": 83,
+      "symbol_id": "src/rlm_mcp/server.py::_log_cloud_payload#function"
+    },
+    "... +36 more"
+  ],
+  "token_savings": {
+    "full_file_tokens": 12692,
+    "outline_tokens": 3833,
+    "savings_pct": 69.8
+  },
+  "total_symbols": 42
+}
+```
+---
+ts: 2026-03-07T22:37:35.822060+01:00
+tool: get_code_symbol
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1510
+payload_est_tokens: 377
+payload_keys: chars, end_byte, end_line, file_path, kind, language, memory_dir, name, ok, project_path, qualified_name, signature, source, source_chars, source_tokens_est, start_byte, start_line, symbol_id, token_savings
+payload_preview:
+```json
+{
+  "chars": 735,
+  "end_byte": 45742,
+  "end_line": 1300,
+  "file_path": "src/rlm_mcp/server.py",
+  "kind": "function",
+  "language": "python",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "name": "index_project_code",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "qualified_name": "index_project_code",
+  "signature": "def index_project_code(     project_path: str | None = None,     max_files: int = 500, ) -> dict:",
+  "__truncated_keys__": "+7 keys"
+}
+```
+---
+ts: 2026-03-07T22:38:49.059941+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T22:38:58.492834+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2833
+payload_est_tokens: 708
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "### Mini-Guide: Checking Neighbor Project in 1 Minute\n\n#### 1. **Navigate to the Neighbor Project Directory**\n   ```bash\n   cd D:/art_network_antigravity\n   ```\n\n#### 2. **Verify Code Indexing Status**\n   - Check `code_index/index.json` for recent indexing metadata:\n     ```json\n     {\n       \"indexed_at\": \"2026-03-07T11:04:45.416369+00:00\",\n       \"project_root\": \"D:/AI Projects/VSCode_Projects/RLM_Realization\",\n       ...\n     }\n     ```\n   - Ensure `indexed_at` is recent and matches the current timestamp.\n\n#### 3. **Review Canonical Files for Updated Facts**\n   - Open canonical files like:\n     - `canonical/coding_rules.md`\n     - `canonical/architecture.md`\n     - `canonical/active_tasks.md`\n   - Look for recently added or updated rules, tasks, or architecture items.\n\n#### 4. **Check Logs and Changelogs for Recent Activity**\n   - Review recent logs in `memory/logs`:\n     ```bash\n     ls memory/logs/*.jsonl | tail\n     ```\n   - Check changelogs for summaries:\n     ```bash\n     cat changelog/summaries/rlm_monthly_summary_*.md | grep \"2026-03\"\n     ```\n\n#### 5. **Ensure Memory Mutation Mode is Active**\n   - Verify in `.env` or project settings:\n     ```\n     RLM_MEMORY_MUTATION_MO ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь просит краткую готовую мини-инструкцию: как проверить соседний проект за 1 минуту, что индексация и быстрый поиск кода работают и экономят токены.",
+  "question_en": "The user requests a brief ready-made mini-guide on how to check the neighboring project in 1 minute to ensure that indexing and fast code search are working and saving tokens.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T22:38:58.493338+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 4041
+payload_est_tokens: 1010
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "### Mini-Guide: Checking Neighbor Project in 1 Minute\n\n#### 1. **Navigate to the Neighbor Project Directory**\n   ```bash\n   cd D:/art_network_antigravity\n   ```\n\n#### 2. **Verify Code Indexing Status**\n   - Check `code_index/index.json` for recent indexing metadata:\n     ```json\n     {\n       \"indexed_at\": \"2026-03-07T11:04:45.416369+00:00\",\n       \"project_root\": \"D:/AI Projects/VSCode_Projects/RLM_Realization\",\n       ...\n     }\n     ```\n   - Ensure `indexed_at` is recent and matches the current timestamp.\n\n#### 3. **Review Canonical Files for Updated Facts**\n   - Open canonical files like:\n     - `canonical/coding_rules.md`\n     - `canonical/architecture.md`\n     - `canonical/active_tasks.md`\n   - Look for recently added or updated rules, tasks, or architecture items.\n\n#### 4. **Check Logs and Changelogs for Recent Activity**\n   - Review recent logs in `memory/logs`:\n     ```bash\n     ls memory/logs/*.jsonl | tail\n     ```\n   - Check changelogs for summaries:\n     ```bash\n     cat changelog/summaries/rlm_monthly_summary_*.md | grep \"2026-03\"\n     ```\n\n#### 5. **Ensure Memory Mutation Mode is Active**\n   - Verify in `.env` or project settings:\n     ```\n     RLM_MEMORY_MUTATION_MO ...<truncated>",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь просит краткую готовую мини-инструкцию: как проверить соседний проект за 1 минуту, что индексация и быстрый поиск кода работают и экономят токены.",
+  "question_en": "The user requests a brief ready-made mini-guide on how to check the neighboring project in 1 minute to ensure that indexing and fast code search are working and saving tokens.",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:43:12.908971+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T22:43:16.075087+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1122
+payload_est_tokens: 280
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "To check if the file payload currently contains `code_index_summary`, the query should be formulated as follows:\n\n- **Query:** \"Check for the presence of 'code_index_summary' in the current file payload.\"\n\nThis query will search through the file contents to determine if the specified term is present.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, какой запрос сформулировать для облачной LLM, чтобы проверить файл payload current на наличие code_index_summary.",
+  "question_en": "What query should be formulated for the cloud-based LLM to check if the file payload current contains code_index_summary?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/strict_rlm_first_mode_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T22:43:16.075590+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2330
+payload_est_tokens: 582
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "To check if the file payload currently contains `code_index_summary`, the query should be formulated as follows:\n\n- **Query:** \"Check for the presence of 'code_index_summary' in the current file payload.\"\n\nThis query will search through the file contents to determine if the specified term is present.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, какой запрос сформулировать для облачной LLM, чтобы проверить файл payload current на наличие code_index_summary.",
+  "question_en": "What query should be formulated for the cloud-based LLM to check if the file payload current contains code_index_summary?",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "changelog/strict_rlm_first_mode_20260302.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:44:29.950607+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T22:44:34.805636+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1810
+payload_est_tokens: 452
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Prompt for Cloud-Based LLM Code Search**: \"Please initiate a code search process that specifically checks whether indexing is involved. Observe if the cloud-based LLM utilizes indexing tools or performs full file reads during this operation.\"\n- **Code Index Rule Reference**: According to `copilot-instructions.md`, prefer code index tools over full file reads when a `code_index_summary` is present in the bootstrap. If the summary is missing and the task requires code, auto-trigger `index_project_code`.\n- **Re-indexing Condition**: Re-index if files are modified.\n- **Observation Steps**:\n  - Monitor if indexing tools are invoked during the search process.\n  - Check for full file reads if no indexing tools are detected.\n- **Tools to Use**: Ensure that the LLM has access to and can utilize tree-sitter grammar packages for efficient code parsing and indexing.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь уточняет: нужен не промпт для проверки файла, а промпт к облачной LLM, который спровоцирует именно процесс поиска кода так, чтобы можно было увидеть, задействована ли индексация или нет.",
+  "question_en": "User clarifies: They need a prompt for the cloud-based LLM to initiate the code search process specifically so that one can observe whether indexing is involved or not.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T22:44:34.806153+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3018
+payload_est_tokens: 754
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Prompt for Cloud-Based LLM Code Search**: \"Please initiate a code search process that specifically checks whether indexing is involved. Observe if the cloud-based LLM utilizes indexing tools or performs full file reads during this operation.\"\n- **Code Index Rule Reference**: According to `copilot-instructions.md`, prefer code index tools over full file reads when a `code_index_summary` is present in the bootstrap. If the summary is missing and the task requires code, auto-trigger `index_project_code`.\n- **Re-indexing Condition**: Re-index if files are modified.\n- **Observation Steps**:\n  - Monitor if indexing tools are invoked during the search process.\n  - Check for full file reads if no indexing tools are detected.\n- **Tools to Use**: Ensure that the LLM has access to and can utilize tree-sitter grammar packages for efficient code parsing and indexing.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь уточняет: нужен не промпт для проверки файла, а промпт к облачной LLM, который спровоцирует именно процесс поиска кода так, чтобы можно было увидеть, задействована ли индексация или нет.",
+  "question_en": "User clarifies: They need a prompt for the cloud-based LLM to initiate the code search process specifically so that one can observe whether indexing is involved or not.",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:47:09.412266+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T22:47:12.738970+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1305
+payload_est_tokens: 326
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "Based on the provided context, here is a short factual answer regarding the indexing test result for the symbol VideoCard:\n\n- **Interpretation**: The memory context does not contain any information about an indexing test specifically for \"VideoCard.\"\n- **Conclusion**: There is insufficient data to determine if the indexing works and saves tokens for \"VideoCard\" based on the given context.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь привел результат теста индексации по символу VideoCard и, по сути, хочет понять интерпретацию: подтверждает ли это работу индексации и экономию токенов.",
+  "question_en": "The user presented the result of an indexing test for the symbol VideoCard and essentially wants to understand the interpretation: does this confirm that the indexing works and saves tokens?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "canonical/active_tasks.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "canonical/architecture.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T22:47:12.739473+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2513
+payload_est_tokens: 628
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "Based on the provided context, here is a short factual answer regarding the indexing test result for the symbol VideoCard:\n\n- **Interpretation**: The memory context does not contain any information about an indexing test specifically for \"VideoCard.\"\n- **Conclusion**: There is insufficient data to determine if the indexing works and saves tokens for \"VideoCard\" based on the given context.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь привел результат теста индексации по символу VideoCard и, по сути, хочет понять интерпретацию: подтверждает ли это работу индексации и экономию токенов.",
+  "question_en": "The user presented the result of an indexing test for the symbol VideoCard and essentially wants to understand the interpretation: does this confirm that the indexing works and saves tokens?",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "canonical/active_tasks.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "canonical/architecture.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:49:06.620452+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T22:49:13.122508+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2506
+payload_est_tokens: 626
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **User Observation**: The user only sees the call to `local_memory_bootstrap` in normal development but not `search_code_symbols`.\n  \n- **Potential Reasons**:\n  - **Configuration or Environment**: The environment might be configured to prioritize `local_memory_bootstrap` over `search_code_symbols`, causing the latter to be ignored or hidden.\n  - **Code Execution Flow**: In the current code execution flow, `local_memory_bootstrap` might be called first and completes its tasks before `search_code_symbols` is executed, leading to the user only noticing the former.\n\n- **Does This Mean Indexing Isn’t Working?**:\n  - **No Direct Indication**: The observation doesn't directly indicate that indexing isn’t working. It could simply mean that `search_code_symbols` is being executed but its output isn't visible or isn't being processed as expected.\n  \n- **Mechanism Understanding**:\n  - **Local Memory Bootstrap**: This function initializes the local memory, which might be a prerequisite for other operations like code searching.\n  - **Search Code Symbols**: This function presumably searches through symbols indexed in the codebase. If it’s not visible, there could be issues with how its output  ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, почему в обычной разработке он видит только вызов local_memory_bootstrap, а не видит search_code_symbols, и означает ли это, что индексация не работает или он неправильно понимает механизм.",
+  "question_en": "Why does the user only see the call to local_memory_bootstrap in normal development and not see search_code_symbols? Does this mean that indexing is not working or is there a misunderstanding of the mechanism?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "code_index/index.json",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T22:49:13.123011+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3714
+payload_est_tokens: 928
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **User Observation**: The user only sees the call to `local_memory_bootstrap` in normal development but not `search_code_symbols`.\n  \n- **Potential Reasons**:\n  - **Configuration or Environment**: The environment might be configured to prioritize `local_memory_bootstrap` over `search_code_symbols`, causing the latter to be ignored or hidden.\n  - **Code Execution Flow**: In the current code execution flow, `local_memory_bootstrap` might be called first and completes its tasks before `search_code_symbols` is executed, leading to the user only noticing the former.\n\n- **Does This Mean Indexing Isn’t Working?**:\n  - **No Direct Indication**: The observation doesn't directly indicate that indexing isn’t working. It could simply mean that `search_code_symbols` is being executed but its output isn't visible or isn't being processed as expected.\n  \n- **Mechanism Understanding**:\n  - **Local Memory Bootstrap**: This function initializes the local memory, which might be a prerequisite for other operations like code searching.\n  - **Search Code Symbols**: This function presumably searches through symbols indexed in the codebase. If it’s not visible, there could be issues with how its output  ...<truncated>",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, почему в обычной разработке он видит только вызов local_memory_bootstrap, а не видит search_code_symbols, и означает ли это, что индексация не работает или он неправильно понимает механизм.",
+  "question_en": "Why does the user only see the call to local_memory_bootstrap in normal development and not see search_code_symbols? Does this mean that indexing is not working or is there a misunderstanding of the mechanism?",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "code_index/index.json",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:52:22.217733+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T22:52:25.406237+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1190
+payload_est_tokens: 297
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The user has suggested opening a new chat with their LLM to fix something in the project.\n- The task involves sending me the conversation history after the fix to check if token economy was achieved.\n- There is no conflicting information regarding this suggestion.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь предлагает открыть новый чат со своей LLM, дать ей задачу пофикcить что-то в проекте, а потом прислать сюда историю переписки, чтобы я проверил, была ли экономия токенов.",
+  "question_en": "User suggests opening a new chat with their LLM, giving it a task to fix something in the project, and then sending me the conversation history so I can check if token economy was achieved.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T22:52:25.406740+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2398
+payload_est_tokens: 599
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The user has suggested opening a new chat with their LLM to fix something in the project.\n- The task involves sending me the conversation history after the fix to check if token economy was achieved.\n- There is no conflicting information regarding this suggestion.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь предлагает открыть новый чат со своей LLM, дать ей задачу пофикcить что-то в проекте, а потом прислать сюда историю переписки, чтобы я проверил, была ли экономия токенов.",
+  "question_en": "User suggests opening a new chat with their LLM, giving it a task to fix something in the project, and then sending me the conversation history so I can check if token economy was achieved.",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:53:54.411815+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189770,
+  "total_files": 31,
+  "total_lines": 3897,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T22:53:58.657448+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1478
+payload_est_tokens: 369
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The `cloud_payload_audit` file having more than 25,000 lines indicates a significant amount of log data being generated.\n- This level of growth could be normal depending on the frequency and volume of operations or audits conducted by the neighboring project.\n- If the file size continues to grow without proper management, it may lead to increased storage requirements and potential performance issues.\n- Consider implementing log rotation, archiving, or summarization strategies to manage the growing size of the `cloud_payload_audit` file effectively.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает: нормально ли, что в соседнем проекте файл cloud_payload_audit имеет уже более 25000 строк, и стоит ли оставлять его расти дальше или что-то делать.",
+  "question_en": "Is it normal for the file cloud_payload_audit in the neighboring project to already have more than 25,000 lines, and should it be allowed to grow further or is something else needed?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "code_index/index.json",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_01.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T22:53:58.657951+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2686
+payload_est_tokens: 671
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The `cloud_payload_audit` file having more than 25,000 lines indicates a significant amount of log data being generated.\n- This level of growth could be normal depending on the frequency and volume of operations or audits conducted by the neighboring project.\n- If the file size continues to grow without proper management, it may lead to increased storage requirements and potential performance issues.\n- Consider implementing log rotation, archiving, or summarization strategies to manage the growing size of the `cloud_payload_audit` file effectively.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189770,
+    "total_files": 31,
+    "total_lines": 3897
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает: нормально ли, что в соседнем проекте файл cloud_payload_audit имеет уже более 25000 строк, и стоит ли оставлять его расти дальше или что-то делать.",
+  "question_en": "Is it normal for the file cloud_payload_audit in the neighboring project to already have more than 25,000 lines, and should it be allowed to grow further or is something else needed?",
+  "question_translated": true,
+  "reloaded_files": 31,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "code_index/index.json",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_01.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T22:56:54.316967+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 29,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 7,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 6520,
+  "changelog_files_before": 10,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260307_225649.md",
+  "coding_rules_items": 154,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 192,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-07T23:05:04.207281+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 188491,
+  "total_files": 28,
+  "total_lines": 3838,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T23:05:08.003597+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1427
+payload_est_tokens: 356
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Token Savings**: The provided memory context does not contain specific details about token usage or savings in this session. Therefore, it's not possible to determine if there were actual token savings.\n  \n- **Code Indexing Usage**: Code indexing was used according to the `code_index/index.json` file, which shows that code indexing has been performed on the project located at \"D:/AI Projects/VSCode_Projects/RLM_Realization\". The index includes details about indexed files, total symbols, and languages processed.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь просит проанализировать присланную историю работы LLM из messages.md: понять, была ли в этой сессии реальная экономия токенов и использовалась ли индексация кода.",
+  "question_en": "User requests to analyze the provided LLM work history from messages.md: determine if there was actual token savings in this session and if code indexing was used.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T23:05:08.004103+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2635
+payload_est_tokens: 658
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Token Savings**: The provided memory context does not contain specific details about token usage or savings in this session. Therefore, it's not possible to determine if there were actual token savings.\n  \n- **Code Indexing Usage**: Code indexing was used according to the `code_index/index.json` file, which shows that code indexing has been performed on the project located at \"D:/AI Projects/VSCode_Projects/RLM_Realization\". The index includes details about indexed files, total symbols, and languages processed.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 188491,
+    "total_files": 28,
+    "total_lines": 3838
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь просит проанализировать присланную историю работы LLM из messages.md: понять, была ли в этой сессии реальная экономия токенов и использовалась ли индексация кода.",
+  "question_en": "User requests to analyze the provided LLM work history from messages.md: determine if there was actual token savings in this session and if code indexing was used.",
+  "question_translated": true,
+  "reloaded_files": 28,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T23:07:32.879325+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 188491,
+  "total_files": 28,
+  "total_lines": 3838,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T23:07:37.675159+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1820
+payload_est_tokens: 455
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Token Savings**: Yes, cloud and local LLMs can be configured to prioritize token savings by offloading less critical tasks like template generation or UI rendering to the local model.\n- **Usefulness**: This configuration is useful as it reduces the load on cloud models, potentially lowering costs and speeding up response times for users.\n- **Difficulty**: The implementation difficulty varies depending on the specific models and frameworks being used. It requires careful design to ensure seamless communication between the cloud and local models, particularly in managing state and task delegation.\n- **Challenges**: Potential challenges include maintaining consistency between the outputs of the cloud and local models, ensuring that the local model can handle all delegated tasks efficiently, and managing data synchronization to avoid discrepancies.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, можно ли настроить связку облачной и локальной LLM так, чтобы даже для template/UI-задач чаще использовалась экономия токенов и, возможно, делегация на локальную модель, и насколько это полезно/сложно.",
+  "question_en": "Can cloud and local LLMs be configured to prioritize token savings and possibly delegate tasks like templates/UI to the local model, and how useful/difficult is this?",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T23:07:37.675707+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3028
+payload_est_tokens: 757
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Token Savings**: Yes, cloud and local LLMs can be configured to prioritize token savings by offloading less critical tasks like template generation or UI rendering to the local model.\n- **Usefulness**: This configuration is useful as it reduces the load on cloud models, potentially lowering costs and speeding up response times for users.\n- **Difficulty**: The implementation difficulty varies depending on the specific models and frameworks being used. It requires careful design to ensure seamless communication between the cloud and local models, particularly in managing state and task delegation.\n- **Challenges**: Potential challenges include maintaining consistency between the outputs of the cloud and local models, ensuring that the local model can handle all delegated tasks efficiently, and managing data synchronization to avoid discrepancies.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 188491,
+    "total_files": 28,
+    "total_lines": 3838
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь спрашивает, можно ли настроить связку облачной и локальной LLM так, чтобы даже для template/UI-задач чаще использовалась экономия токенов и, возможно, делегация на локальную модель, и насколько это полезно/сложно.",
+  "question_en": "Can cloud and local LLMs be configured to prioritize token savings and possibly delegate tasks like templates/UI to the local model, and how useful/difficult is this?",
+  "question_translated": true,
+  "reloaded_files": 28,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```
+---
+ts: 2026-03-07T23:10:44.301598+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 188491,
+  "total_files": 28,
+  "total_lines": 3838,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-07T23:10:48.044267+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1365
+payload_est_tokens: 341
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- The user requests to push the current stage to GitHub to create a rollback option before making changes.\n- There is no direct conflict or range mentioned in the memory context regarding this request.\n- The user also wants to improve cloud/local LLM routing to save tokens on tasks like UI/template.\n- There is no specific information about the current implementation of LLM routing in the provided context.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь просит перед началом изменений запушить текущую стадию на GitHub для возможности отката, а затем попробовать улучшить маршрутизацию cloud/local LLM для экономии токенов на задачах вроде UI/template.",
+  "question_en": "User requests to push the current stage to GitHub before making changes for rollback options, then try improving cloud/local LLM routing to save tokens on tasks like UI/template.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-07T23:10:48.044770+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2573
+payload_est_tokens: 643
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- The user requests to push the current stage to GitHub to create a rollback option before making changes.\n- There is no direct conflict or range mentioned in the memory context regarding this request.\n- The user also wants to improve cloud/local LLM routing to save tokens on tasks like UI/template.\n- There is no specific information about the current implementation of LLM routing in the provided context.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 188491,
+    "total_files": 28,
+    "total_lines": 3838
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Пользователь просит перед началом изменений запушить текущую стадию на GitHub для возможности отката, а затем попробовать улучшить маршрутизацию cloud/local LLM для экономии токенов на задачах вроде UI/template.",
+  "question_en": "User requests to push the current stage to GitHub before making changes for rollback options, then try improving cloud/local LLM routing to save tokens on tasks like UI/template.",
+  "question_translated": true,
+  "reloaded_files": 28,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "changelog/summaries/rlm_monthly_summary_202603.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "... +2 more"
+  ],
+  "__truncated_keys__": "+2 keys"
+}
+```

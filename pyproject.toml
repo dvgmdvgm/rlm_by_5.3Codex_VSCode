@@ -13,6 +13,22 @@ dependencies = [
   "httpx>=0.27.0"
 ]
 
+[project.optional-dependencies]
+code-index = [
+  "tree-sitter>=0.24",
+  "tree-sitter-python",
+  "tree-sitter-javascript",
+  "tree-sitter-typescript",
+  "tree-sitter-css",
+  "tree-sitter-go",
+  "tree-sitter-rust",
+  "tree-sitter-java",
+  "tree-sitter-c-sharp",
+  "tree-sitter-c",
+  "tree-sitter-cpp",
+  "tree-sitter-ruby",
+]
+
 [project.scripts]
 rlm-memory-mcp = "rlm_mcp.server:run"
 

@@ -2,15 +2,18 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-07T02:03:37.557374+01:00
+- updated_at: 2026-03-07T22:56:49.986690+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 27
+- items: 29
 
 ### autopilot_bootstrap_hard_gate
 - [fix][active;p=10] Rewrote copilot-instructions.md to fix unreliable memory bootstrap execution: added HARD GATE section at top of file before Primary Goal, removed conditional first-message-only language (now unconditional on every message), added explicit STOP/block directives, converted step 0 to a gate-check reference, made get_memory_metadata optional instead of mandatory, reduced from 8 to 6 pre-implementation steps. (source: session:copilot)
 
 ### bootstrap_install
 - [task][active;p=6] Added scripts/install_rlm_bootstrap.ps1 to install only reusable integration assets via sparse checkout (excluding server source). (source: session:github_bootstrap_installer)
+
+### copilot_instructions_code_index_rule
+- [change][active;p=7] Added section A1 Code Index Integration to copilot-instructions.md. Rules: prefer code index tools over full file reads when code_index_summary present in bootstrap; auto-trigger index_project_code if summary missing and task needs code; re-index if files modified. (source: session:copilot)
 
 ### External Project Memory Repair
 - [task][active;p=8] Executed seed_canonical_from_rlm_memory.py for d:/art_network_antigravity and appended OPS-RULE-MOBILE-BUILD-001 in compatible extracted_fact.value format; subsequent consolidation produced non-empty canonical files and promoted rule into canonical/active_tasks.md. (source: session:external_project_seed_and_rule_repair_20260302)
@@ -30,6 +33,9 @@
 
 ### migrate_legacy_facts_summary_type_guard
 - [fix][active;p=8] Fixed scripts/rlm/migrate_legacy_facts.py to safely coerce non-string legacy summary/value payloads before truncation, preventing KeyError during migration. (source: session:legacy_migration_current_and_neighbor_20260303)
+
+### my_jobs_card_layout_fix
+- [fix][active;p=7] Fixed my_jobs.html and my_applications.html card layout: content was pushed to bottom with huge empty space at top. Root cause: h-100 on glass-card inside flex-growing main-content-container created tall cards. Fix: replaced h-100 with w-100 on card, added d-flex to .col wrapper. Equal-height cards achieved through col flex stretch instead of percentage height. (source: session:my_jobs_layout)
 
 ### neighbor_project_already_strict_no_migration_needed
 - [analysis][active;p=8] Neighbor project d:/art_network_antigravity extracted_facts.jsonl already conforms to strict extracted_fact schema (outer_bad=0, inner_bad=0); no migration writes required. (source: session:legacy_migration_current_and_neighbor_20260303)

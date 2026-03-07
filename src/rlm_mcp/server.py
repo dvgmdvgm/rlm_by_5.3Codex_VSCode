@@ -10,6 +10,7 @@ from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
+from .code_index import CodeIndex
 from .config import load_settings
 from .consolidator import consolidate_memory as consolidate_memory_impl
 from .llm_adapter import OllamaAdapter
@@ -79,6 +80,38 @@ def _compact_preview(value):
     return _truncate_text(str(value))
 
 
+def _count_lines(path: Path) -> int:
+    if not path.exists() or not path.is_file():
+        return 0
+    count = 0
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            count += chunk.count(b"\n")
+    return count
+
+
+def _archive_cloud_payload_log_if_needed(log_path: Path, memory_dir: Path) -> None:
+    if not settings.cloud_payload_audit_auto_archive:
+        return
+    if not log_path.exists() or not log_path.is_file():
+        return
+
+    line_count = _count_lines(log_path)
+    if line_count < settings.cloud_payload_audit_max_lines:
+        return
+
+    archive_dir = memory_dir / "_archive" / "logs" / settings.cloud_payload_audit_archive_dir_name
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    timestamp = now_dt(settings.timestamp_mode).strftime("%Y%m%d_%H%M%S")
+    destination = archive_dir / f"cloud_payload_audit_{timestamp}.md"
+    suffix = 1
+    while destination.exists():
+        destination = archive_dir / f"cloud_payload_audit_{timestamp}_{suffix}.md"
+        suffix += 1
+
+    log_path.replace(destination)
+
+
 def _log_cloud_payload(
     *,
     tool_name: str,
@@ -90,6 +123,7 @@ def _log_cloud_payload(
     snapshot_path = memory_dir / CLOUD_PAYLOAD_SNAPSHOT_REL_PATH
     log_path.parent.mkdir(parents=True, exist_ok=True)
     snapshot_path.parent.mkdir(parents=True, exist_ok=True)
+    _archive_cloud_payload_log_if_needed(log_path, memory_dir)
 
     serialized = json.dumps(payload, ensure_ascii=False, default=str)
     payload_preview = _compact_preview(payload)
@@ -868,6 +902,16 @@ def local_memory_bootstrap(
         "project_path": project_path,
         "memory_dir": memory_dir.as_posix(),
     }
+
+    # Auto-attach code index summary if index exists
+    try:
+        code_idx = _get_code_index(project_path)
+        code_summary = code_idx.get_compact_summary()
+        if code_summary:
+            response["code_index_summary"] = code_summary
+    except Exception:
+        pass  # code index not available — non-blocking
+
     _log_cloud_payload(
         tool_name="local_memory_bootstrap",
         project_path=project_path,
@@ -1242,6 +1286,199 @@ def consolidate_memory(
 
     _log_cloud_payload(
         tool_name="consolidate_memory",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
+
+
+# ================================================================
+# Code index tools
+# ================================================================
+
+_code_indexes: dict[str, CodeIndex] = {}
+
+
+def _get_code_index(project_path: str | None) -> CodeIndex:
+    project_root = Path(project_path) if project_path else Path.cwd()
+    memory_dir = _resolve_memory_dir(project_path)
+    index_dir = memory_dir / "code_index"
+    key = project_root.resolve().as_posix()
+    if key not in _code_indexes:
+        _code_indexes[key] = CodeIndex(project_root, index_dir)
+    return _code_indexes[key]
+
+
+@mcp.tool()
+def index_project_code(
+    project_path: str | None = None,
+    max_files: int = 500,
+) -> dict:
+    """Index project source code for symbol-level retrieval. Extracts functions, classes, methods, types across 15+ languages using tree-sitter AST parsing."""
+    code_idx = _get_code_index(project_path)
+    result = code_idx.index_project(max_files=max_files)
+    memory_dir = _resolve_memory_dir(project_path)
+    response = {
+        **result,
+        "project_path": project_path,
+        "memory_dir": memory_dir.as_posix(),
+    }
+    _log_cloud_payload(
+        tool_name="index_project_code",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
+
+
+@mcp.tool()
+def search_code_symbols(
+    query: str,
+    kind: str | None = None,
+    language: str | None = None,
+    project_path: str | None = None,
+    max_results: int = 20,
+) -> dict:
+    """Search indexed code symbols by name, kind (function/class/method/type), or language. Returns compact metadata with token savings estimate."""
+    code_idx = _get_code_index(project_path)
+    matches = code_idx.search_symbols(
+        query, kind=kind, language=language, max_results=max_results,
+    )
+    memory_dir = _resolve_memory_dir(project_path)
+
+    tokens_if_read_files = 0
+    unique_files: set[str] = set()
+    for m in matches:
+        fp = m["file_path"]
+        if fp not in unique_files:
+            unique_files.add(fp)
+            abs_fp = code_idx.project_root / fp
+            try:
+                tokens_if_read_files += max(1, abs_fp.stat().st_size // 4)
+            except OSError:
+                pass
+
+    tokens_returned = max(1, sum(len(json.dumps(m)) for m in matches) // 4)
+
+    response = {
+        "ok": True,
+        "matches": matches,
+        "total_matches": len(matches),
+        "query": query,
+        "token_savings": {
+            "tokens_without_index": tokens_if_read_files,
+            "tokens_with_index": tokens_returned,
+            "savings_pct": round(
+                (1 - tokens_returned / max(1, tokens_if_read_files)) * 100, 1,
+            )
+            if tokens_if_read_files
+            else 0,
+        },
+        "project_path": project_path,
+        "memory_dir": memory_dir.as_posix(),
+    }
+    _log_cloud_payload(
+        tool_name="search_code_symbols",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
+
+
+@mcp.tool()
+def get_code_symbol(
+    symbol_id: str,
+    project_path: str | None = None,
+) -> dict:
+    """Retrieve full source code of a symbol by its stable ID using O(1) byte-offset seeking. Returns source + token savings vs reading entire file."""
+    code_idx = _get_code_index(project_path)
+    result = code_idx.get_symbol(symbol_id)
+    memory_dir = _resolve_memory_dir(project_path)
+
+    if result is None:
+        response = {
+            "ok": False,
+            "error": f"Symbol not found: {symbol_id}",
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+    else:
+        file_path = code_idx.project_root / result["file_path"]
+        file_size = 0
+        try:
+            file_size = file_path.stat().st_size
+        except OSError:
+            pass
+        full_file_tokens = max(1, file_size // 4)
+        symbol_tokens = result.get("source_tokens_est", 0)
+        response = {
+            "ok": True,
+            **result,
+            "token_savings": {
+                "full_file_tokens": full_file_tokens,
+                "symbol_tokens": symbol_tokens,
+                "savings_pct": round(
+                    (1 - symbol_tokens / max(1, full_file_tokens)) * 100, 1,
+                )
+                if file_size
+                else 0,
+            },
+            "project_path": project_path,
+            "memory_dir": memory_dir.as_posix(),
+        }
+
+    _log_cloud_payload(
+        tool_name="get_code_symbol",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
+
+
+@mcp.tool()
+def get_code_file_outline(
+    file_path: str,
+    project_path: str | None = None,
+) -> dict:
+    """Get symbol hierarchy outline for a file without loading full source. Returns compact list of symbols with signatures, lines, kinds."""
+    code_idx = _get_code_index(project_path)
+    outline = code_idx.get_file_outline(file_path)
+    memory_dir = _resolve_memory_dir(project_path)
+
+    abs_file_path = code_idx.project_root / file_path
+    file_size = 0
+    try:
+        file_size = abs_file_path.stat().st_size
+    except OSError:
+        pass
+
+    outline_chars = sum(len(json.dumps(s)) for s in outline)
+    full_file_tokens = max(1, file_size // 4)
+    outline_tokens = max(1, outline_chars // 4)
+
+    response = {
+        "ok": True,
+        "file_path": file_path,
+        "symbols": outline,
+        "total_symbols": len(outline),
+        "token_savings": {
+            "full_file_tokens": full_file_tokens,
+            "outline_tokens": outline_tokens,
+            "savings_pct": round(
+                (1 - outline_tokens / max(1, full_file_tokens)) * 100, 1,
+            )
+            if file_size
+            else 0,
+        },
+        "project_path": project_path,
+        "memory_dir": memory_dir.as_posix(),
+    }
+    _log_cloud_payload(
+        tool_name="get_code_file_outline",
         project_path=project_path,
         memory_dir=memory_dir,
         payload=response,

@@ -23,6 +23,9 @@ class Settings:
     local_llm_force_english: bool
     timestamp_mode: str
     memory_mutation_mode: str
+    cloud_payload_audit_auto_archive: bool
+    cloud_payload_audit_max_lines: int
+    cloud_payload_audit_archive_dir_name: str
 
 
 
@@ -47,4 +50,7 @@ def load_settings() -> Settings:
         local_llm_force_english=os.getenv("RLM_LOCAL_LLM_FORCE_ENGLISH", "true").lower() in {"1", "true", "yes", "on"},
         timestamp_mode=resolve_timestamp_mode(os.getenv("RLM_TIMESTAMP_MODE", "local")),
         memory_mutation_mode="on",  # Globally enabled regardless of ENV
+        cloud_payload_audit_auto_archive=os.getenv("RLM_CLOUD_PAYLOAD_AUDIT_AUTO_ARCHIVE", "true").lower() in {"1", "true", "yes", "on"},
+        cloud_payload_audit_max_lines=max(500, int(os.getenv("RLM_CLOUD_PAYLOAD_AUDIT_MAX_LINES", "20000"))),
+        cloud_payload_audit_archive_dir_name=os.getenv("RLM_CLOUD_PAYLOAD_AUDIT_ARCHIVE_DIR", "cloud_payload_audit"),
     )

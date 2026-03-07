@@ -203,6 +203,7 @@ apply_memory_mutation(
 - Основные ответы MCP-инструментов дописываются в `memory/logs/cloud_payload_audit.md`.
 - Последний snapshot перезаписывается в `memory/logs/cloud_payload_current.md`.
 - Каждая запись содержит имя инструмента, размер payload, оценку токенов, top-level keys и превью.
+- `memory/logs/cloud_payload_audit.md` автоматически архивируется в `memory/_archive/logs/cloud_payload_audit/` при достижении лимита строк (по умолчанию `20000`, env: `RLM_CLOUD_PAYLOAD_AUDIT_MAX_LINES`).
 
 ## Быстрая диагностика
 

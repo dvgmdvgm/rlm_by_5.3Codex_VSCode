@@ -77,6 +77,18 @@ For every user task, automatically:
    - `memory/canonical/active_tasks.md`
 6. Use memory findings to shape implementation choices and avoid regressions.
 
+### A1) Code Index Integration (auto when available)
+
+When bootstrap response includes `code_index_summary`, use code index tools for efficient code context:
+
+1. **Prefer code index tools** over reading full source files:
+   - Understanding project structure → `get_code_file_outline(file_path, project_path)`
+   - Finding functions/classes/methods → `search_code_symbols(query, project_path=...)`
+   - Retrieving implementation of a known symbol → `get_code_symbol(symbol_id, project_path)`
+2. **Auto-index trigger**: If bootstrap does NOT include `code_index_summary` and the task requires code understanding, call `index_project_code(project_path=...)` once to build the index.
+3. **Token efficiency**: These tools return only needed code fragments via O(1) byte-offset seeking instead of reading entire files (70-98% token savings).
+4. **Stale index**: If indexed files were recently modified, re-run `index_project_code` to refresh.
+
 ### B) During implementation [DIRECT MODE ONLY]
 
 > ⚠️ **Suspended when orchestrator is active.** Worker agents handle implementation.

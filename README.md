@@ -15,6 +15,10 @@ MCP server on Python for a stateful REPL workflow with local LLM querying.
 - Canonical memory consolidation tool: `consolidate_memory(..., project_path: str | None = None)`
 - Mutation proposal tool: `propose_memory_mutation(query: str, action: str = "delete", ...)`
 - Mutation apply tool: `apply_memory_mutation(mutation_plan: dict, ...)`
+- Code index tool: `index_project_code(project_path: str | None = None, max_files: int = 500)`
+- Code symbol search tool: `search_code_symbols(query: str, kind: str | None = None, language: str | None = None, ...)`
+- Code symbol retrieval tool: `get_code_symbol(symbol_id: str, project_path: str | None = None)`
+- Code file outline tool: `get_code_file_outline(file_path: str, project_path: str | None = None)`
 
 ## Quick start
 
@@ -22,6 +26,12 @@ MCP server on Python for a stateful REPL workflow with local LLM querying.
 
 ```bash
 pip install -e .
+```
+
+For code index support (optional):
+
+```bash
+pip install -e ".[code-index]"
 ```
 
 2. Optional env vars:
@@ -226,6 +236,109 @@ Auto-summarization policy:
 - Archived files are excluded from active memory loading.
 - `memory/logs/*` is excluded from active memory loading to avoid retrieval noise.
 
+## Code index API (optional)
+
+Multi-language code indexer that extracts symbols (functions, classes, methods, types) from project source files using tree-sitter AST parsing. Provides O(1) byte-offset symbol retrieval, typically saving 70-98% of tokens vs reading full files.
+
+Supported languages: Python, JavaScript, TypeScript, TSX, CSS, Go, Rust, Java, C#, C, C++, Ruby.
+
+Install:
+
+```bash
+pip install -e ".[code-index]"
+```
+
+### Bootstrap auto-integration
+
+When an index exists, `local_memory_bootstrap` automatically includes `code_index_summary` in its response — a compact map of indexed files and symbol counts. Copilot uses this to prefer code index tools over full file reads.
+
+If `code_index_summary` is missing and the task requires code understanding, Copilot calls `index_project_code` once to build the index.
+
+### Tool: `index_project_code(...)`
+
+Signature:
+
+`index_project_code(`
+`project_path: str | None = None,`
+`max_files: int = 500`
+`) -> dict`
+
+Behavior:
+
+- Walks project tree, parses files with tree-sitter (falls back to Python `ast` for `.py`)
+- Extracts functions, classes, methods, types, arrow functions (JS/TS)
+- Stores index at `memory/code_index/index.json`
+- Skips `memory/`, `.git/`, `node_modules/`, `__pycache__/`, etc.
+
+Key outputs:
+
+- `total_files`, `total_symbols`, `total_source_tokens_est`
+- `languages_files`, `languages_symbols` (per-language breakdown)
+- `grammars_loaded`, `tree_sitter` (boolean)
+
+### Tool: `search_code_symbols(...)`
+
+Signature:
+
+`search_code_symbols(`
+`query: str,`
+`kind: str | None = None,`
+`language: str | None = None,`
+`project_path: str | None = None,`
+`max_results: int = 20`
+`) -> dict`
+
+Behavior:
+
+- Searches indexed symbols by name substring, qualified name, or signature
+- Filters by `kind` (function, class, method, type) and `language`
+- Returns compact metadata per match (no source bodies)
+- Includes `token_savings` estimate
+
+### Tool: `get_code_symbol(...)`
+
+Signature:
+
+`get_code_symbol(`
+`symbol_id: str,`
+`project_path: str | None = None`
+`) -> dict`
+
+Behavior:
+
+- Retrieves full source code of a symbol by stable ID (`file::qualified_name#kind`)
+- Uses O(1) byte-offset seeking (reads only the symbol range, not the entire file)
+- Includes `token_savings` with `full_file_tokens` vs `symbol_tokens`
+
+### Tool: `get_code_file_outline(...)`
+
+Signature:
+
+`get_code_file_outline(`
+`file_path: str,`
+`project_path: str | None = None`
+`) -> dict`
+
+Behavior:
+
+- Returns symbol hierarchy for a file without loading source bodies
+- Each symbol includes: `name`, `qualified_name`, `kind`, `signature`, `start_line`, `end_line`
+- Includes `token_savings` with `full_file_tokens` vs `outline_tokens`
+
+### Token savings benchmarks
+
+Tested on RLM project (16 Python files, 188 symbols, ~46K tokens):
+
+| Scenario | Without index | With index | Savings |
+|---|---|---|---|
+| Find function by name | 12,148 tokens | 172 tokens | 98.6% |
+| Get specific symbol source | 4,338 tokens | 236 tokens | 94.6% |
+| Get large class source | 4,338 tokens | 1,247 tokens | 71.3% |
+| File outline vs full read | 11,717 tokens | 3,564 tokens | 69.6% |
+| Broad symbol search | 56,176 tokens | 901 tokens | 98.4% |
+
+Average savings: **93.1%** across all scenarios.
+
 ## Compact metadata mode
 
 `get_memory_metadata` now defaults to compact output to reduce cloud token usage:
@@ -272,6 +385,7 @@ Cloud payload audit logging:
 - Every major MCP tool response also overwrites one current snapshot file: `memory/logs/cloud_payload_current.md`.
 - Each record includes: tool name, payload size in chars, estimated tokens, top-level keys, and compact preview of what was returned to cloud model.
 - Audit record generation is local Python logic inside MCP server tool handlers and does not invoke local or cloud LLM for log formatting.
+- `memory/logs/cloud_payload_audit.md` auto-archives into `memory/_archive/logs/cloud_payload_audit/` when it reaches the configured line limit (default: `20000`, env: `RLM_CLOUD_PAYLOAD_AUDIT_MAX_LINES`).
 
 Logs quick triage (what to check first):
 

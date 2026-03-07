@@ -24,6 +24,8 @@ Mandatory behavior:
 9. If 3rd review is REJECT, halt and return `HUMAN_INTERVENTION_REQUIRED`.
 10. If APPROVE, run synthesizer memory-distribution gate with operational-rules execution; continue only after `MEMORY_SYNC_OK` and strict `OP_RULES_OK` (matched rules must include command/exit-code/output evidence).
 11. After synthesizer gate: update `orchestrator_state.json` checkpoint.
-12. After all tasks, re-orient from checkpoint, then run archivist closure pass and cleanup.
+12. After all tasks, re-orient from checkpoint, then run archivist closure pass.
+13. After archivist, run `python scripts/rlm/validate_orchestrator_rules.py --project-root "<active_workspace_root>"` and check `.vscode/tasks/validation_report.json`. If missed rules found (`status == "fail"`), invoke `#agent:validator` to fix them.
+14. Only after validation, run cleanup (remove `.vscode/tasks/` on success).
 
 Return concise progress updates after each completed task.

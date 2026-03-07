@@ -26,18 +26,29 @@ Read `master_plan.md`. For EACH task sequentially, execute this sub-loop:
    e. **CHECKPOINT**: Update `orchestrator_state.json` — move task to completed, set next_action.
    f. **ADVANCE**: Mark task complete in `master_plan.md` and move to next task.
 
-**PHASE 3: CLOSURE & CLEANUP**
+**PHASE 3: CLOSURE**
 0. **RE-ORIENT**: Re-read `orchestrator_state.json` and `master_plan.md`. Confirm all tasks done.
 1. Invoke `#agent:archivist` for memory hygiene and closure verification.
-2. If and only if all tasks are complete, every approved task passed `MEMORY_SYNC_OK` and `OP_RULES_OK`, and archivist returns `ARCHIVE_OK`:
+2. Do NOT cleanup `.vscode/tasks/` yet — Phase 4 needs `orchestrator_state.json`.
+
+**PHASE 4: VALIDATION**
+1. Run `python scripts/rlm/validate_orchestrator_rules.py --project-root "<active_workspace_root>"`.
+2. Read `.vscode/tasks/validation_report.json`:
+   - `status == "pass"` → log VALIDATION_PASS, proceed to cleanup.
+   - `status == "fail"` → invoke `#agent:validator` to execute missed rules.
+   - `status == "error"` → log VALIDATION_ERROR, proceed (non-blocking).
+3. Record validator gate token.
+
+**FINAL CLEANUP**
+1. If all gates passed and archivist returns `ARCHIVE_OK`:
    - if `diagnostic:on` and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
    - run `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
-   - then remove `.vscode/tasks/` recursively (including `orchestrator_state.json`).
-3. If any gate fails or workflow halts, do not cleanup `.vscode/tasks/`.
+   - then remove `.vscode/tasks/` recursively (including `orchestrator_state.json` and `validation_report.json`).
+2. If any gate fails or workflow halts, do not cleanup `.vscode/tasks/`.
    - run `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "halted"`.
-   - `orchestrator_state.json` remains for post-mortem.
-4. Output final condensed summary: completed tasks, blockers, memory sync status, cleanup status.
-5. **MANDATORY**: Include Comprehensive Rules Audit Report in final response.
+   - `orchestrator_state.json` and `validation_report.json` remain for post-mortem.
+3. Output final condensed summary: completed tasks, blockers, memory sync status, validation result, cleanup status.
+4. **MANDATORY**: Include Comprehensive Rules Audit Report in final response.
 </workflow>
 
 <operational_rules>

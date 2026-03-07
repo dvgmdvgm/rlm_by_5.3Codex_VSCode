@@ -226,7 +226,7 @@ This is the baseline for seamless cross-window continuity.
 ## 8) Orchestration policy (when using orchestrator flow)
 
 State machine expectation:
-- Planner → Worker ↔ Reviewer (max 3 retries) → Synthesizer (memory + operational-rules gate) → Archivist (closure).
+- Planner → Worker ↔ Reviewer (max 3 retries) → Synthesizer (memory + operational-rules gate) → Archivist (closure) → Validator (post-run audit).
 
 Hard rule:
 - no advancement to next task before both gates succeed for approved work:
@@ -253,6 +253,11 @@ Strict `OP_RULES_OK` pass criteria:
 - `RULES_FAILED_BLOCKING=0`.
 
 If any criterion is missing/failed, gate result must be `OP_RULES_BLOCKED`.
+
+Post-orchestration validation (Phase 4):
+- Deterministic Python script (`scripts/rlm/validate_orchestrator_rules.py`) reads `orchestrator_state.json` + `coding_rules.md`, cross-references applied rules vs all active operational rules, outputs `.vscode/tasks/validation_report.json`.
+- If missed rules found (`status == "fail"`), lightweight `#agent:validator` (`.github/agents/validator.md`) executes only the missed actions with minimal context footprint.
+- Runs after archivist, before final `.vscode/tasks/` cleanup.
 
 Entrypoint behavior:
 - `/orchestrate` routes to orchestrator skill prompt policy.

@@ -3,7 +3,7 @@
 This file is overwritten on each payload transfer to cloud-facing response channel.
 It stores the full payload without compact preview truncation.
 ---
-ts: 2026-03-06T01:59:29.133100+01:00
+ts: 2026-03-07T02:03:44.441493+01:00
 tool: consolidate_memory
 project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
 memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
@@ -14,27 +14,27 @@ payload_full:
 ```json
 {
   "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
-  "total_log_records": 183,
-  "extracted_fact_records": 183,
-  "unique_facts": 181,
+  "total_log_records": 184,
+  "extracted_fact_records": 184,
+  "unique_facts": 182,
   "architecture_items": 6,
-  "coding_rules_items": 148,
+  "coding_rules_items": 149,
   "active_tasks_items": 27,
   "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
   "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
   "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
-  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260306_015929.md",
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260307_020337.md",
   "conflicts_resolved": 0,
   "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
   "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
   "summarization_enabled": true,
-  "changelog_files_before": 10,
-  "changelog_bytes_before": 6516,
+  "changelog_files_before": 11,
+  "changelog_bytes_before": 7168,
   "trigger_max_files": 40,
   "trigger_max_bytes": 25000,
-  "summaries_created": 0,
-  "raw_files_summarized": 0,
-  "raw_files_archived": 0,
-  "reloaded_files": 31
+  "summaries_created": 1,
+  "raw_files_summarized": 4,
+  "raw_files_archived": 4,
+  "reloaded_files": 28
 }
 ```

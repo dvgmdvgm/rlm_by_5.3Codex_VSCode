@@ -151,7 +151,7 @@ For each task from `master_plan.md` in order:
    - **Update `orchestrator_state.json`**: move completed task to `tasks_completed`, update `tasks_remaining`, record `last_gate_tokens`, set `next_action` to the next task or `"closure"` if this was the last task.
    - ⛔ **You MUST NOT start the next task until SYNTHESIZER_GATE_PASSED appears in your output.**
 
-### PHASE 3 — CLOSURE & CLEANUP
+### PHASE 3 — CLOSURE
 
 ⛔ **ARCHIVIST IS MANDATORY. Do NOT skip this phase. Do NOT go directly to final summary.**
 
@@ -162,17 +162,37 @@ For each task from `master_plan.md` in order:
    - Update `orchestrator_state.json` with `phase: "closure"`, `next_action: "archivist"`.
 
 1. Run `archivist` to perform memory hygiene pass (verify rules audit completeness, canonical consistency, closure gates).
-2. If and only if all tasks are `done`, all approved tasks passed `MEMORY_SYNC_OK` and `OP_RULES_OK`, and archivist returned `ARCHIVE_OK`, cleanup generated orchestration artifacts.
-3. Success cleanup policy:
+2. Proceed to Phase 4 (Validation). Do NOT cleanup `.vscode/tasks/` yet — the validator needs `orchestrator_state.json`.
+
+### PHASE 4 — VALIDATION
+
+⛔ **VALIDATOR IS MANDATORY. Runs after archivist, before final cleanup.**
+
+0. Update `orchestrator_state.json` with `phase: "validation"`, `next_action: "validator_script"`.
+1. Run the deterministic validator script:
+   ```
+   python scripts/rlm/validate_orchestrator_rules.py --project-root "<active_workspace_root>"
+   ```
+   This reads `orchestrator_state.json` + `memory/canonical/coding_rules.md` and outputs `.vscode/tasks/validation_report.json`.
+2. Read `.vscode/tasks/validation_report.json`.
+   - If `status == "pass"` → log `VALIDATION_PASS`, proceed to cleanup.
+   - If `status == "error"` → log `VALIDATION_ERROR`, proceed to cleanup (non-blocking).
+   - If `status == "fail"` → invoke `#agent:validator` to execute only the missed rules.
+3. If validator agent was invoked, record its gate token (`VALIDATION_PASS` / `VALIDATION_PARTIAL` / `VALIDATION_FAIL`).
+4. Update `orchestrator_state.json` with `validation_result` and `next_action: "cleanup"`.
+
+### FINAL CLEANUP & SUMMARY
+
+1. If all gates passed (including archivist `ARCHIVE_OK`) and no workflow halts:
    - if diagnostic mode is ON and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
    - run local deterministic checklist report writer (overwrite mode):
      - `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
-   - then remove `.vscode/tasks/` recursively (including generated `master_plan.md`, `task_*.md`, and `orchestrator_state.json`)
-4. If workflow halts, any gate fails, or archivist does not return `ARCHIVE_OK`, do not delete `.vscode/tasks/`.
+   - then remove `.vscode/tasks/` recursively (including generated `master_plan.md`, `task_*.md`, `orchestrator_state.json`, and `validation_report.json`)
+2. If workflow halted, any gate failed, or archivist did not return `ARCHIVE_OK`, do not delete `.vscode/tasks/`.
    - still run checklist writer with `--status "halted"` or `--status "failed"` to overwrite previous run report.
-   - `orchestrator_state.json` remains for post-mortem debugging.
-5. Return final condensed summary: completed tasks, halted tasks (if any), memory sync status, cleanup status.
-6. **MANDATORY: Comprehensive Rules Audit Report.**
+   - `orchestrator_state.json` and `validation_report.json` remain for post-mortem debugging.
+3. Return final condensed summary: completed tasks, halted tasks (if any), memory sync status, validation result, cleanup status.
+4. **MANDATORY: Comprehensive Rules Audit Report.**
    After all tasks are processed (or workflow halts), the orchestrator MUST include in the final user-facing response a **full rules audit report** compiled from accumulated per-task `TASK_RULES_AUDIT` data:
 
    ```
@@ -234,8 +254,9 @@ Workflow is complete only when:
 - synthesizer memory gate passed for every approved task — verified by presence of `SYNTHESIZER_GATE_PASSED: yes` per task
 - synthesizer operational-rules gate passed for every approved task
 - archivist closure pass completed — verified by `ARCHIVE_OK`
+- Phase 4 validation script executed — verified by presence of `validation_report.json` or `VALIDATION_PASS`/`VALIDATION_PARTIAL` token
 - Comprehensive Rules Audit Report is present in the final response
-- on successful completion, `.vscode/tasks/` generated artifacts are cleaned up
+- on successful completion, `.vscode/tasks/` generated artifacts are cleaned up (including `validation_report.json`)
 
 ⛔ **SELF-CHECK before producing final answer**: Count how many tasks exist. Count how many `SYNTHESIZER_GATE_PASSED` tokens you produced. If they don't match — you skipped a synthesizer gate. STOP and fix it before responding.
 

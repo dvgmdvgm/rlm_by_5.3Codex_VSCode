@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-06T01:59:29.116001+01:00
+- updated_at: 2026-03-07T02:03:37.557374+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 148
+- items: 149
 
 ### added_configurable_local_timestamp_mode
 - [change][active;p=8] Implemented configurable timestamp mode across MCP server, REPL logs, and consolidator with new RLM_TIMESTAMP_MODE (local|utc), defaulting to local time for user-friendly timestamps. (source: session:copilot)
@@ -160,6 +160,9 @@
 
 ### hybrid_changelog_trigger_and_logs_audit
 - [change][active;p=9] Implemented hybrid changelog autosummarization trigger in src/rlm_mcp/server.py using age OR volume thresholds (file count and bytes). Updated README Consolidation API and retention policy docs. Audited memory/logs outputs for both RLM_Realization and art_network_antigravity projects. (source: session:hybrid_changelog_policy_20260303)
+
+### hybrid_post_orchestration_validator
+- [feature][active;p=8] Implemented hybrid post-orchestration validator: deterministic Python script (scripts/rlm/validate_orchestrator_rules.py) cross-references orchestrator_state.json + coding_rules.md to find missed operational rules, outputs validation_report.json. Lightweight LLM agent (.github/agents/validator.md) executes only missed rules with minimal context. Phase 4 (Validation) added to skill.md between archivist closure and final cleanup. Updated orchestrator_skill.prompt.md, orchestrate.prompt.md, README.md, context-window-briefing.md. Synced to art_network_antigravity. (source: session:hybrid_validator_implementation)
 
 ### identified_neighbor_memory_scripts_and_recommended_fact_workflow
 - [analysis][active;p=7] Verified neighbor project has generate_rlm_memory_from_code.py, seed_canonical_from_rlm_memory.py, and write_orchestrator_memory_checklist.py. Recommended workflow: append/update extracted facts for incremental decisions, regenerate rlm_memory only after major codebase shifts, then consolidate canonical. (source: session:copilot)

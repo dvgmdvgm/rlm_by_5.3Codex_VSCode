@@ -285,6 +285,9 @@ Logs quick triage (what to check first):
 	- check `memory/logs/local_llm_iterations.log` (`request_start` / `iteration` / `response`).
 - Orchestration closure status:
 	- check `memory/logs/orchestrator_memory_checklist.md` (single latest overwrite snapshot).
+- Post-orchestration validation:
+	- check `.vscode/tasks/validation_report.json` (present only if run halted or cleanup was skipped).
+	- run manually: `python scripts/rlm/validate_orchestrator_rules.py --project-root .`
 - Rule execution diagnostics:
 	- check synthesizer output fields in payload logs: `RULES_CHECKED`, `RULES_MATCHED`, `RULES_EXECUTED`, `RULES_EVIDENCE_COMPLETE`, `RULES_FAILED_BLOCKING`.
 
@@ -363,6 +366,7 @@ This workspace includes `.github/copilot-instructions.md`.
 ## Strict orchestration gate requirements
 
 - Approved tasks may advance only after both `MEMORY_SYNC_OK` and strict `OP_RULES_OK`.
+- After archivist closure, a deterministic validator script cross-references applied rules vs all active operational rules and produces `.vscode/tasks/validation_report.json`. If missed rules are found, a lightweight `#agent:validator` executes only those specific actions.
 - Strict `OP_RULES_OK` requires complete diagnostics and matched-rule execution evidence:
 	- `RULES_CHECKED`, `RULES_MATCHED`, `RULES_EXECUTED`, `RULE_EXECUTION_SUMMARY`
 	- `RULES_FAILED_NONBLOCKING`, `RULES_FAILED_BLOCKING`, `RULES_EVIDENCE_COMPLETE`
@@ -404,6 +408,7 @@ Without `ps1`, use native git import flow from `docs/github-bootstrap-install.md
 - Generator script: `scripts/rlm/generate_rlm_memory_from_code.py`
 - Canonical seed script: `scripts/rlm/seed_canonical_from_rlm_memory.py`
 - Orchestrator checklist script: `scripts/rlm/write_orchestrator_memory_checklist.py`
+- Post-orchestration validator script: `scripts/rlm/validate_orchestrator_rules.py`
 - Cloud payload mode self-check script: `scripts/rlm/check_cloud_payload_mode.ps1`
 - One-command bootstrap installer for other projects: `scripts/rlm/install_rlm_bootstrap.ps1`
 - Legacy fact migration script: `scripts/rlm/migrate_legacy_facts.py`

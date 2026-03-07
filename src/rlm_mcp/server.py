@@ -35,6 +35,17 @@ CLOUD_PAYLOAD_PREVIEW_CHARS = 1200
 EXTRACTED_FACTS_LOG_REL_PATH = "logs/extracted_facts.jsonl"
 MUTATION_AUDIT_LOG_REL_PATH = "logs/memory_mutations.jsonl"
 MUTATION_ALLOWED_MODES = {"off", "dry-run", "on"}
+WORKSPACE_SOURCE_EXTENSIONS = {
+    ".py", ".js", ".jsx", ".ts", ".tsx", ".html", ".htm", ".css",
+    ".scss", ".sass", ".less", ".vue", ".svelte", ".json", ".md",
+}
+WORKSPACE_IGNORE_DIRS = {
+    ".git", ".idea", ".vscode", ".vs", "node_modules", "dist", "build",
+    "coverage", "out", "target", "bin", "obj", ".venv", "venv",
+    "__pycache__", ".pytest_cache", ".mypy_cache", ".next", ".nuxt",
+    ".turbo", ".cache", "DerivedData", "Pods", ".gradle", ".dart_tool",
+    "env", ".egg-info", "rlm_memory_mcp.egg-info", "memory",
+}
 
 
 def _resolve_memory_dir(project_path: str | None) -> Path:
@@ -78,6 +89,185 @@ def _compact_preview(value):
             preview[key] = _compact_preview(value[key])
         return preview
     return _truncate_text(str(value))
+
+
+def _read_text_with_fallback(file_path: Path) -> str | None:
+    encodings = ("utf-8", "utf-8-sig", "cp1251")
+    for enc in encodings:
+        try:
+            return file_path.read_text(encoding=enc)
+        except UnicodeDecodeError:
+            continue
+        except OSError:
+            return None
+    try:
+        return file_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+
+
+def _classify_task_type(question: str) -> str:
+    q = (question or "").lower()
+
+    ui_markers = (
+        "template", "layout", "design", "style", "css", "html", "page",
+        "screen", "component", "ui", "ux", "profile", "markup", "view",
+        "шаблон", "макет", "дизайн", "стил", "страниц", "экран", "верст",
+        "профил", "компонент", "интерфейс",
+    )
+    symbol_markers = (
+        "symbol", "function", "class", "method", "implementation",
+        "where is", "find symbol", "find function", "найди функцию",
+        "найди класс", "символ", "реализац", "метод",
+    )
+    bugfix_markers = (
+        "fix", "bug", "error", "broken", "issue", "crash", "not working",
+        "regression", "исправ", "баг", "ошиб", "не работает", "слом",
+    )
+    refactor_markers = (
+        "refactor", "cleanup", "simplify", "restructure", "optimize",
+        "рефактор", "упрост", "оптимиз", "перестро",
+    )
+
+    if any(marker in q for marker in ui_markers):
+        return "ui_template"
+    if any(marker in q for marker in symbol_markers):
+        return "symbol_lookup"
+    if any(marker in q for marker in bugfix_markers):
+        return "bugfix"
+    if any(marker in q for marker in refactor_markers):
+        return "refactor"
+    return "general_code"
+
+
+def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, Any]:
+    task_type = _classify_task_type(question)
+
+    if task_type == "ui_template":
+        return {
+            "task_type": task_type,
+            "prefer_code_index": False,
+            "prefer_local_workspace_brief": True,
+            "preferred_tools": ["local_workspace_brief", "read_file"],
+            "avoid": ["reading many large templates before narrowing targets"],
+            "reason": "UI/template tasks usually need local structural summarization of a few markup/style files rather than symbol lookup.",
+        }
+
+    if task_type == "symbol_lookup":
+        return {
+            "task_type": task_type,
+            "prefer_code_index": has_code_index,
+            "prefer_local_workspace_brief": False,
+            "preferred_tools": ["search_code_symbols", "get_code_symbol", "get_code_file_outline"] if has_code_index else ["read_file"],
+            "avoid": ["reading full files before symbol search"] if has_code_index else [],
+            "reason": "Symbol lookup tasks benefit most from index-based retrieval.",
+        }
+
+    if task_type in {"bugfix", "refactor", "general_code"}:
+        preferred_tools = []
+        if has_code_index:
+            preferred_tools.extend(["search_code_symbols", "get_code_symbol"])
+        preferred_tools.append("read_file")
+        return {
+            "task_type": task_type,
+            "prefer_code_index": has_code_index,
+            "prefer_local_workspace_brief": False,
+            "preferred_tools": preferred_tools,
+            "avoid": ["reading unrelated large files"] if has_code_index else [],
+            "reason": "General code tasks should narrow scope with index lookup when available, then read only the required files.",
+        }
+
+    return {
+        "task_type": task_type,
+        "prefer_code_index": has_code_index,
+        "prefer_local_workspace_brief": False,
+        "preferred_tools": ["read_file"],
+        "avoid": [],
+        "reason": "Fallback routing.",
+    }
+
+
+def _workspace_extension_score(suffix: str, task_type: str) -> int:
+    if task_type == "ui_template":
+        if suffix in {".html", ".htm", ".css", ".scss", ".sass", ".less", ".vue", ".svelte", ".jsx", ".tsx"}:
+            return 6
+        if suffix in {".js", ".ts", ".py"}:
+            return 3
+        return 1
+    if suffix in {".py", ".js", ".jsx", ".ts", ".tsx"}:
+        return 5
+    if suffix in {".html", ".css", ".scss", ".json"}:
+        return 2
+    return 1
+
+
+def _select_workspace_files(
+    project_root: Path,
+    question: str,
+    *,
+    task_type: str,
+    max_files: int,
+    max_chars_per_file: int,
+    max_file_bytes: int = 180_000,
+    max_scan_files: int = 400,
+) -> list[tuple[int, str, str]]:
+    terms = _tokenize_query(_normalize_local_question_to_english(question))
+    scored: list[tuple[int, str, str]] = []
+    scanned = 0
+
+    for root, dirs, files in os.walk(project_root):
+        dirs[:] = [
+            d for d in dirs
+            if d not in WORKSPACE_IGNORE_DIRS and not (d.startswith(".") and d != ".github")
+        ]
+
+        for fname in sorted(files):
+            if scanned >= max_scan_files:
+                break
+
+            file_path = Path(root) / fname
+            rel_path = file_path.relative_to(project_root).as_posix()
+            suffix = file_path.suffix.lower()
+            if suffix not in WORKSPACE_SOURCE_EXTENSIONS:
+                continue
+
+            try:
+                if file_path.stat().st_size > max_file_bytes:
+                    continue
+            except OSError:
+                continue
+
+            text = _read_text_with_fallback(file_path)
+            if not text:
+                continue
+
+            scanned += 1
+            lower_path = rel_path.lower()
+            lower_text = text.lower()
+            score = _workspace_extension_score(suffix, task_type)
+
+            if task_type == "ui_template" and any(token in lower_path for token in ("template", "templates/", "static/", "css", "component", "screen", "profile", "view")):
+                score += 4
+
+            if task_type != "ui_template" and any(token in lower_path for token in ("src/", "core/", "views", "models", "service", "component", "utils")):
+                score += 3
+
+            if terms:
+                path_hits = sum(1 for term in terms if term in lower_path)
+                text_hits = sum(1 for term in terms if term in lower_text[:12000])
+                score += path_hits * 4
+                score += min(6, text_hits)
+
+            if score <= 0:
+                continue
+
+            scored.append((score, rel_path, text[:max_chars_per_file]))
+
+        if scanned >= max_scan_files:
+            break
+
+    scored.sort(key=lambda row: (-row[0], row[1]))
+    return scored[: max(1, max_files)]
 
 
 def _count_lines(path: Path) -> int:
@@ -853,6 +1043,59 @@ def local_memory_brief(
 
 
 @mcp.tool()
+def local_workspace_brief(
+    question: str,
+    project_path: str | None = None,
+    max_files: int = 6,
+    max_chars_per_file: int = 3000,
+) -> dict:
+    """Build a compact local-only brief from relevant workspace source files. Best for UI/template/layout tasks where full-file cloud reads are expensive."""
+    project_root = Path(project_path) if project_path else Path.cwd()
+    memory_dir = _resolve_memory_dir(project_path)
+    task_type = _classify_task_type(question)
+    selected = _select_workspace_files(
+        project_root,
+        question,
+        task_type=task_type,
+        max_files=max_files,
+        max_chars_per_file=max_chars_per_file,
+    )
+
+    snippets = "\n\n".join(
+        f"### FILE: {path}\n{snippet}" for _, path, snippet in selected
+    )
+    prompt = (
+        "You are the project's local code retrieval model. Use only the workspace excerpts below. "
+        "Respond in English only. Return 4-8 factual bullet points. "
+        "Identify likely edit targets, the minimal file set to inspect next, and any obvious reference-vs-target relationship. "
+        "Do not invent files or APIs.\n\n"
+        f"TASK TYPE:\n{task_type}\n\n"
+        f"QUESTION:\n{_normalize_local_question_to_english(question)}\n\n"
+        f"WORKSPACE CONTEXT:\n{snippets}\n"
+    )
+    answer = llm_adapter.query(prompt)
+
+    response = {
+        "question": question,
+        "question_en": _normalize_local_question_to_english(question),
+        "question_translated": _normalize_local_question_to_english(question) != question,
+        "task_type": task_type,
+        "brief": answer,
+        "selected_files": [path for _, path, _ in selected],
+        "selected_count": len(selected),
+        "project_path": project_path,
+        "memory_dir": memory_dir.as_posix(),
+    }
+    _log_cloud_payload(
+        tool_name="local_workspace_brief",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
+
+
+@mcp.tool()
 def local_memory_bootstrap(
     question: str,
     project_path: str | None = None,
@@ -883,6 +1126,14 @@ def local_memory_bootstrap(
         max_chars_per_file=max_chars_per_file,
     )
 
+    code_summary = None
+    try:
+        code_idx = _get_code_index(project_path)
+        code_summary = code_idx.get_compact_summary()
+    except Exception:
+        code_summary = None
+
+    retrieval_strategy = _build_retrieval_strategy(question, bool(code_summary))
     response = {
         "question": question,
         "question_en": brief.get("question_en", question),
@@ -901,16 +1152,26 @@ def local_memory_bootstrap(
         },
         "project_path": project_path,
         "memory_dir": memory_dir.as_posix(),
+        "retrieval_strategy": retrieval_strategy,
     }
 
     # Auto-attach code index summary if index exists
-    try:
-        code_idx = _get_code_index(project_path)
-        code_summary = code_idx.get_compact_summary()
-        if code_summary:
-            response["code_index_summary"] = code_summary
-    except Exception:
-        pass  # code index not available — non-blocking
+    if code_summary:
+        response["code_index_summary"] = code_summary
+
+    if retrieval_strategy.get("prefer_local_workspace_brief"):
+        try:
+            workspace_brief = local_workspace_brief(
+                question=question,
+                project_path=project_path,
+                max_files=min(6, max_files),
+                max_chars_per_file=min(3000, max_chars_per_file),
+            )
+            response["workspace_brief"] = workspace_brief["brief"]
+            response["workspace_selected_files"] = workspace_brief["selected_files"]
+            response["workspace_selected_count"] = workspace_brief["selected_count"]
+        except Exception:
+            pass  # workspace local summarization is best-effort
 
     _log_cloud_payload(
         tool_name="local_memory_bootstrap",

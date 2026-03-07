@@ -89,6 +89,22 @@ When bootstrap response includes `code_index_summary`, use code index tools for 
 3. **Token efficiency**: These tools return only needed code fragments via O(1) byte-offset seeking instead of reading entire files (70-98% token savings).
 4. **Stale index**: If indexed files were recently modified, re-run `index_project_code` to refresh.
 
+### A2) Retrieval Strategy Hints (auto when available)
+
+When bootstrap response includes `retrieval_strategy`, follow it before reading many project files:
+
+1. If `task_type=symbol_lookup` and code index exists:
+   - prefer `search_code_symbols` → `get_code_symbol` / `get_code_file_outline`
+   - avoid reading whole files first
+2. If `task_type=ui_template` and bootstrap includes `workspace_brief`:
+   - use `workspace_brief` + `workspace_selected_files` as the primary narrowed context
+   - read only the specific reference/target files needed after that
+   - avoid broad full-template sweeps unless the narrowed files are insufficient
+3. If `task_type=bugfix|refactor|general_code`:
+   - use code index first when available to narrow scope
+   - then read only the minimal set of relevant files
+4. Treat `retrieval_strategy.preferred_tools` as the default route unless the task clearly requires a different path.
+
 ### B) During implementation [DIRECT MODE ONLY]
 
 > ⚠️ **Suspended when orchestrator is active.** Worker agents handle implementation.

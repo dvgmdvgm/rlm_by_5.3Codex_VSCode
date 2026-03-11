@@ -11,35 +11,39 @@ Run the codebase bootstrap generator script from this repository and create a fr
    - If user explicitly provided a path, use it.
    - Otherwise use current workspace root as target.
 
-2. Run script:
+2. Resolve the MCP server Python executable from `.vscode/mcp.json`:
+   - read `servers.rlm-memory.command`
+   - use that executable for all RLM utility commands so the tools are loaded from the MCP server directory, not from the active project.
+
+3. Run script:
 
 ```powershell
-python scripts/rlm/generate_rlm_memory_from_code.py --project-root "<target_project_path>" --emit-json-graph
+"<mcp_server_python>" -m rlm_mcp.cli.generate_memory --project-root "<target_project_path>" --emit-json-graph
 ```
 
-3. After memory generation, seed canonical memory and run consolidation:
+4. After memory generation, seed canonical memory and run consolidation:
 
 ```powershell
-python scripts/rlm/seed_canonical_from_rlm_memory.py --project-root "<target_project_path>"
+"<mcp_server_python>" -m rlm_mcp.cli.seed_canonical --project-root "<target_project_path>"
 ```
 
-4. If user requested custom output path, add:
+5. If user requested custom output path, add:
 
 ```powershell
 --output-dir "<custom_output_dir>"
 ```
 
-5. If user requested custom graph file, add:
+6. If user requested custom graph file, add:
 
 ```powershell
 --graph-file "<custom_graph_file>"
 ```
 
-6. After execution, report:
+7. After execution, report:
    - generated memory root path,
    - canonical memory files path and item counters,
    - whether `code_graph.json` exists,
    - scan summary (`Scanned files`, framework hints),
    - first-level generated categories.
 
-6. Do not read old memory as source of truth for this operation; this workflow is code-first bootstrap.
+8. Do not read old memory as source of truth for this operation; this workflow is code-first bootstrap.

@@ -6,6 +6,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
+def resolve_project_path(project_root: Path, raw_path: str) -> Path:
+    path = Path(raw_path)
+    if path.is_absolute():
+        return path.resolve()
+    return (project_root / path).resolve()
+
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -51,10 +58,11 @@ def build_report(
     *,
     project_root: Path,
     memory_dir: Path,
+    tasks_dir: Path,
     run_id: str,
     status: str,
 ) -> str:
-    master_plan_path = project_root / ".vscode" / "tasks" / "master_plan.md"
+    master_plan_path = tasks_dir / "master_plan.md"
     payload_log_path = memory_dir / "logs" / "cloud_payload_audit.md"
 
     done, in_progress, todo = parse_master_plan_statuses(master_plan_path)
@@ -71,6 +79,7 @@ def build_report(
         f"- status: {status}",
         f"- project_root: {project_root.as_posix()}",
         f"- memory_dir: {memory_dir.as_posix()}",
+        f"- tasks_dir: {tasks_dir.as_posix()}",
         "",
         "## Memory Call Checklist",
         f"- local_memory_bootstrap observed: {'yes' if 'local_memory_bootstrap' in recent_tools else 'no'}",
@@ -106,22 +115,34 @@ def build_report(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Write orchestrator memory-call checklist as single overwrite report."
+        description="Write orchestrator memory-call checklist for a specific orchestration run."
     )
     parser.add_argument("--project-root", required=True, help="Project root path")
     parser.add_argument("--memory-dir", default="memory", help="Memory dir relative to project root")
+    parser.add_argument(
+        "--tasks-dir",
+        default=".vscode/tasks",
+        help="Run-specific orchestration artifacts directory relative to project root",
+    )
     parser.add_argument("--run-id", default="orchestrator_run", help="Run identifier")
     parser.add_argument("--status", default="completed", help="Run status (completed/failed/halted)")
+    parser.add_argument(
+        "--output",
+        default="",
+        help="Optional explicit checklist output path; defaults to memory/logs/orchestrator_memory_checklist_<run_id>.md",
+    )
     args = parser.parse_args()
 
     project_root = Path(args.project_root).resolve()
-    memory_dir = (project_root / args.memory_dir).resolve()
-    out_path = memory_dir / "logs" / "orchestrator_memory_checklist.md"
+    memory_dir = resolve_project_path(project_root, args.memory_dir)
+    tasks_dir = resolve_project_path(project_root, args.tasks_dir)
+    out_path = resolve_project_path(project_root, args.output) if args.output else (memory_dir / "logs" / f"orchestrator_memory_checklist_{args.run_id}.md")
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     report = build_report(
         project_root=project_root,
         memory_dir=memory_dir,
+        tasks_dir=tasks_dir,
         run_id=args.run_id,
         status=args.status,
     )

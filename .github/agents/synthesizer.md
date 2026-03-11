@@ -36,7 +36,7 @@ You must evaluate ALL active operational rules in project memory for each approv
 
 ## Workflow
 
-1. Read the current task file from `.vscode/tasks/task_*.md` and gather the final Worker output.
+1. Read the current task file from the current run directory `<run_dir>/task_*.md` and gather the final Worker output.
 2. Extract concise task summary and code-level change highlights.
 3. Persist memory updates:
    - append structured session facts to `memory/logs/extracted_facts.jsonl`

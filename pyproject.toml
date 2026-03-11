@@ -31,6 +31,12 @@ code-index = [
 
 [project.scripts]
 rlm-memory-mcp = "rlm_mcp.server:run"
+rlm-generate-memory = "rlm_mcp.cli.generate_memory:main"
+rlm-seed-canonical = "rlm_mcp.cli.seed_canonical:main"
+rlm-validate-orchestrator = "rlm_mcp.cli.validate_orchestrator:main"
+rlm-write-checklist = "rlm_mcp.cli.write_checklist:main"
+rlm-migrate-legacy-facts = "rlm_mcp.cli.migrate_legacy_facts:main"
+rlm-generate-run-id = "rlm_mcp.cli.generate_run_id:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

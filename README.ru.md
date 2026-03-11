@@ -217,6 +217,9 @@ apply_memory_mutation(
 - Факт не попал в canonical: проверьте `memory/logs/extracted_facts.jsonl`, затем блок `consolidate_memory` в `memory/logs/cloud_payload_current.md`.
 - Несоответствие между инструментом и ответом в чате: проверьте `memory/logs/cloud_payload_current.md` и историю в `memory/logs/cloud_payload_audit.md`.
 - Локальные итерации модели: проверьте `memory/logs/local_llm_iterations.log`.
+- Для конкретного orchestration-run проверяйте отдельную директорию `.vscode/tasks/<run_id>/`.
+- Детерминированно создать новый `run_id` и `run_dir` можно так: `"<mcp_server_python>" -m rlm_mcp.cli.generate_run_id --project-root . --create-dir`.
+- Формат `run_id`: `orch_YYYYMMDD_HHMMSS[_NN]`.
 
 ## Модель «глобальный сервер + память на проект»
 
@@ -245,9 +248,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create
 По умолчанию импортируются:
 
 - `.github/`
-- `scripts/rlm/generate_rlm_memory_from_code.py`
-- `scripts/rlm/seed_canonical_from_rlm_memory.py`
-- `scripts/rlm/write_orchestrator_memory_checklist.py`
+- `.vscode/mcp.json`
+
+RLM-утилиты теперь запускаются из директории MCP-сервера через Python, указанный в `.vscode/mcp.json`; копировать сами скрипты в рабочий проект больше не требуется.
 
 ## Полезные документы и скрипты
 
@@ -262,10 +265,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create
 - `docs/codebase-to-rlm-memory-workflow.md`
 - `docs/github-bootstrap-install.md`
 - `docs/memory-mutation-maintenance-checklist.md`
-- `scripts/rlm/generate_rlm_memory_from_code.py`
-- `scripts/rlm/seed_canonical_from_rlm_memory.py`
+- `python -m rlm_mcp.cli.generate_memory` (запускать Python-ом из `.vscode/mcp.json`)
+- `python -m rlm_mcp.cli.seed_canonical` (запускать Python-ом из `.vscode/mcp.json`)
 - `scripts/rlm/check_cloud_payload_mode.ps1`
-- `scripts/rlm/migrate_legacy_facts.py`
+- `python -m rlm_mcp.cli.migrate_legacy_facts`
 - `scripts/rlm/install_rlm_bootstrap.ps1`
 - `backups/pre_local_first_20260302/restore.ps1`
 

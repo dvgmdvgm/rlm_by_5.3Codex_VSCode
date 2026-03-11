@@ -6,18 +6,16 @@ Install only the reusable RLM integration assets into a target project from GitH
 
 Included by installer:
 - `.github` (all Copilot workflows and instructions)
-- `scripts/rlm/generate_rlm_memory_from_code.py`
-- `scripts/rlm/seed_canonical_from_rlm_memory.py`
-- `scripts/rlm/write_orchestrator_memory_checklist.py`
+- `.vscode/mcp.json`
 
 Excluded by installer:
 - `src/` (MCP server source code)
+- `scripts/` (RLM utility scripts stay in the MCP server directory and are executed through the server Python interpreter)
 - `memory/`
 - `backups/`
 - `examples/`
 - `docs/`
 - `prompts/`
-- other `scripts/` files (except `rlm/generate_rlm_memory_from_code.py`, `rlm/seed_canonical_from_rlm_memory.py`, and `rlm/write_orchestrator_memory_checklist.py`)
 - `README.md`
 - `.venv/`
 
@@ -48,21 +46,21 @@ If your target project is already a git repository, run these commands inside th
 ```bash
 git remote add rlm-bootstrap https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git
 git fetch rlm-bootstrap main --depth=1
-git checkout rlm-bootstrap/main -- .github scripts/rlm/generate_rlm_memory_from_code.py scripts/rlm/seed_canonical_from_rlm_memory.py scripts/rlm/write_orchestrator_memory_checklist.py
+git checkout rlm-bootstrap/main -- .github .vscode/mcp.json
 git remote remove rlm-bootstrap
 ```
 
 This imports only:
 - `.github/`
-- `scripts/rlm/generate_rlm_memory_from_code.py`
-- `scripts/rlm/seed_canonical_from_rlm_memory.py`
-- `scripts/rlm/write_orchestrator_memory_checklist.py`
+- `.vscode/mcp.json`
 
 ## Notes
 
 - Installer uses `git clone --depth 1` and copies only the required paths into your target project.
 - This is the minimal recommended way to reuse the memory workflow while keeping MCP server global.
+- All bootstrap/validator/checklist utilities are run from the MCP server directory by using the Python executable configured in `.vscode/mcp.json`.
+- Recommended command pattern: `"<mcp_server_python>" -m rlm_mcp.cli.<tool> ...`
 - If your target project already has files in these paths, they will be overwritten.
 - If target project path does not exist, installer creates it automatically.
 - If any git step fails, installer now stops immediately with an explicit error.
-- Installer validates that `.github` and `scripts/rlm/generate_rlm_memory_from_code.py` exist in target after copy.
+- Installer validates that `.github` and `.vscode/mcp.json` exist in target after copy.

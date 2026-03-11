@@ -405,18 +405,19 @@ Logs quick triage (what to check first):
 - Local model iteration behavior:
 	- check `memory/logs/local_llm_iterations.log` (`request_start` / `iteration` / `response`).
 - Orchestration closure status:
-	- check `memory/logs/orchestrator_memory_checklist.md` (single latest overwrite snapshot).
+	- check `memory/logs/orchestrator_memory_checklist_<run_id>.md` for the specific run.
 - Post-orchestration validation:
-	- check `.vscode/tasks/validation_report.json` (present only if run halted or cleanup was skipped).
-	- run manually: `python scripts/rlm/validate_orchestrator_rules.py --project-root .`
+	- check `.vscode/tasks/<run_id>/validation_report.json` (present only if that run halted or cleanup was skipped).
+	- generate a run directory deterministically with `"<mcp_server_python>" -m rlm_mcp.cli.generate_run_id --project-root . --create-dir`
+	- run manually: `"<mcp_server_python>" -m rlm_mcp.cli.validate_orchestrator --project-root . --tasks-dir ".vscode/tasks/<run_id>"`
 - Rule execution diagnostics:
 	- check synthesizer output fields in payload logs: `RULES_CHECKED`, `RULES_MATCHED`, `RULES_EXECUTED`, `RULES_EVIDENCE_COMPLETE`, `RULES_FAILED_BLOCKING`.
 
 Orchestrator memory-call checklist:
 
-- At orchestrator closure, a deterministic local script writes/overwrites `memory/logs/orchestrator_memory_checklist.md`.
-- Only one checklist file is kept (last run snapshot), replacing previous run report.
-- Script: `scripts/rlm/write_orchestrator_memory_checklist.py`.
+- At orchestrator closure, a deterministic local script writes `memory/logs/orchestrator_memory_checklist_<run_id>.md`.
+- Each orchestration run keeps its own checklist snapshot, so concurrent runs do not overwrite each other.
+- Script/module: `python -m rlm_mcp.cli.write_checklist`.
 
 Preference lookup order for communication settings:
 
@@ -487,7 +488,10 @@ This workspace includes `.github/copilot-instructions.md`.
 ## Strict orchestration gate requirements
 
 - Approved tasks may advance only after both `MEMORY_SYNC_OK` and strict `OP_RULES_OK`.
-- After archivist closure, a deterministic validator script cross-references applied rules vs all active operational rules and produces `.vscode/tasks/validation_report.json`. If missed rules are found, a lightweight `#agent:validator` executes only those specific actions.
+- Every orchestration run must use its own artifact directory `.vscode/tasks/<run_id>/` to avoid cross-chat conflicts.
+- Recommended deterministic generator: `"<mcp_server_python>" -m rlm_mcp.cli.generate_run_id --project-root "<active_workspace_root>" --create-dir`
+- `run_id` format is `orch_YYYYMMDD_HHMMSS[_NN]`.
+- After archivist closure, a deterministic validator script cross-references applied rules vs all active operational rules and produces `.vscode/tasks/<run_id>/validation_report.json`. If missed rules are found, a lightweight `#agent:validator` executes only those specific actions.
 - Strict `OP_RULES_OK` requires complete diagnostics and matched-rule execution evidence:
 	- `RULES_CHECKED`, `RULES_MATCHED`, `RULES_EXECUTED`, `RULE_EXECUTION_SUMMARY`
 	- `RULES_FAILED_NONBLOCKING`, `RULES_FAILED_BLOCKING`, `RULES_EVIDENCE_COMPLETE`
@@ -505,8 +509,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([ScriptBlock]::Create
 Imported by default:
 
 - `.github/`
-- `scripts/rlm/generate_rlm_memory_from_code.py`
-- `scripts/rlm/seed_canonical_from_rlm_memory.py`
+- `.vscode/mcp.json`
+
+RLM utility scripts are executed from the MCP server directory via the Python executable configured in `.vscode/mcp.json`; they are no longer expected to be copied into each working project.
 
 If `TargetProjectPath` does not exist, installer creates it automatically.
 Optional: pass `-TargetProjectPath "D:/your/project"` to install into a different folder.
@@ -526,18 +531,18 @@ Without `ps1`, use native git import flow from `docs/github-bootstrap-install.md
 - Full single-file project briefing for new context windows: `docs/context-window-briefing.md`
 - Codebase bootstrap workflow (generate RLM memory from raw code): `docs/codebase-to-rlm-memory-workflow.md`
 - GitHub bootstrap install guide: `docs/github-bootstrap-install.md`
-- Generator script: `scripts/rlm/generate_rlm_memory_from_code.py`
-- Canonical seed script: `scripts/rlm/seed_canonical_from_rlm_memory.py`
-- Orchestrator checklist script: `scripts/rlm/write_orchestrator_memory_checklist.py`
-- Post-orchestration validator script: `scripts/rlm/validate_orchestrator_rules.py`
+- Generator module: `python -m rlm_mcp.cli.generate_memory` (run with the MCP server Python from `.vscode/mcp.json`)
+- Canonical seed module: `python -m rlm_mcp.cli.seed_canonical` (run with the MCP server Python from `.vscode/mcp.json`)
+- Orchestrator checklist module: `python -m rlm_mcp.cli.write_checklist` (run with the MCP server Python from `.vscode/mcp.json`)
+- Post-orchestration validator module: `python -m rlm_mcp.cli.validate_orchestrator` (run with the MCP server Python from `.vscode/mcp.json`)
 - Cloud payload mode self-check script: `scripts/rlm/check_cloud_payload_mode.ps1`
 - One-command bootstrap installer for other projects: `scripts/rlm/install_rlm_bootstrap.ps1`
-- Legacy fact migration script: `scripts/rlm/migrate_legacy_facts.py`
-- Minimal downstream import set: `.github/`, `scripts/rlm/generate_rlm_memory_from_code.py`, `scripts/rlm/seed_canonical_from_rlm_memory.py`, and `scripts/rlm/write_orchestrator_memory_checklist.py`
+- Legacy fact migration module: `python -m rlm_mcp.cli.migrate_legacy_facts`
+- Minimal downstream import set: `.github/` and `.vscode/mcp.json`
 - Optional graph export: run generator with `--emit-json-graph` to produce `code_graph.json`
 - Recommended bootstrap chain for new projects:
-	1) `python scripts/rlm/generate_rlm_memory_from_code.py --project-root "<target_project_path>" --emit-json-graph`
-	2) `python scripts/rlm/seed_canonical_from_rlm_memory.py --project-root "<target_project_path>"`
+	1) `"<mcp_server_python>" -m rlm_mcp.cli.generate_memory --project-root "<target_project_path>" --emit-json-graph`
+	2) `"<mcp_server_python>" -m rlm_mcp.cli.seed_canonical --project-root "<target_project_path>"`
 - Chat prompt workflow: `.github/prompts/bootstrap_memory_from_codebase.prompt.md`
 - Chat command workflow: `.github/commands/bootstrap-memory.md`
 - Backup snapshot (pre-local-first): `backups/pre_local_first_20260302/`

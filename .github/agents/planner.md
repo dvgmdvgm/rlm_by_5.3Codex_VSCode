@@ -30,9 +30,11 @@ Do not produce a final plan until memory lookup is done.
 
 ## Task file output format
 
-Create one file per task in `.vscode/tasks/` with naming:
-- `.vscode/tasks/001_<slug>.md`
-- `.vscode/tasks/002_<slug>.md`
+The orchestrator will provide a run-specific directory `run_dir = .vscode/tasks/<run_id>/`.
+
+Create one file per task inside that exact `run_dir` with naming:
+- `<run_dir>/001_<slug>.md`
+- `<run_dir>/002_<slug>.md`
 
 Each task file must include:
 - `# Task <ID>: <Title>`
@@ -47,7 +49,7 @@ Each task file must include:
 - `## Notes from RLM`
 
 Also create/update a master plan file:
-- `.vscode/tasks/master_plan.md`
+- `<run_dir>/master_plan.md`
 
 `master_plan.md` must contain:
 - Goal summary

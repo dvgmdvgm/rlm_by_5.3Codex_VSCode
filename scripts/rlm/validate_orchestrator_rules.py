@@ -8,7 +8,8 @@ Usage:
     python scripts/rlm/validate_orchestrator_rules.py \
         --project-root "<path>" \
         [--memory-dir memory] \
-        [--state-file .vscode/tasks/orchestrator_state.json]
+        [--tasks-dir .vscode/tasks/<run_id>] \
+        [--state-file orchestrator_state.json]
 
 Exit codes:
     0 — all operational rules were addressed (or no operational rules exist)
@@ -23,6 +24,22 @@ import json
 import re
 import sys
 from pathlib import Path
+
+
+def resolve_project_path(project_root: Path, raw_path: str) -> Path:
+    path = Path(raw_path)
+    if path.is_absolute():
+        return path.resolve()
+    return (project_root / path).resolve()
+
+
+def resolve_tasks_file_path(project_root: Path, tasks_dir: Path, raw_path: str) -> Path:
+    path = Path(raw_path)
+    if path.is_absolute():
+        return path.resolve()
+    if path.parent == Path("."):
+        return (tasks_dir / path.name).resolve()
+    return (project_root / path).resolve()
 
 
 def read_text(path: Path) -> str:
@@ -164,6 +181,7 @@ def build_validation_report(
     project_root: Path,
     memory_dir: Path,
     state_path: Path,
+    audit_log_path: Path,
 ) -> dict:
     """Build the validation report comparing operational rules vs executed rules."""
 
@@ -208,7 +226,6 @@ def build_validation_report(
     executed_ids |= extract_executed_rules_from_state(state)
 
     # Check audit log
-    audit_log_path = project_root / ".vscode" / "tasks" / "orchestration_audit.jsonl"
     executed_ids |= extract_executed_rules_from_audit_log(audit_log_path)
 
     # Check memory logs for audit backups
@@ -247,6 +264,8 @@ def build_validation_report(
         "orchestrator_phase": state.get("phase", "unknown"),
         "tasks_completed": state.get("tasks_completed", []),
         "tasks_remaining": state.get("tasks_remaining", []),
+        "run_id": state.get("run_id", "unknown"),
+        "tasks_dir": audit_log_path.parent.as_posix(),
     }
 
 
@@ -265,26 +284,34 @@ def main() -> int:
     parser.add_argument("--project-root", required=True, help="Project root path")
     parser.add_argument("--memory-dir", default="memory", help="Memory dir relative to project root")
     parser.add_argument(
+        "--tasks-dir",
+        default=".vscode/tasks",
+        help="Run-specific orchestration artifacts directory relative to project root",
+    )
+    parser.add_argument(
         "--state-file",
-        default=".vscode/tasks/orchestrator_state.json",
-        help="Orchestrator state file relative to project root",
+        default="orchestrator_state.json",
+        help="Orchestrator state file name (stored in --tasks-dir) or explicit path relative to project root",
     )
     parser.add_argument(
         "--output",
-        default=".vscode/tasks/validation_report.json",
-        help="Output report path relative to project root",
+        default="validation_report.json",
+        help="Output report file name (stored in --tasks-dir) or explicit path relative to project root",
     )
     args = parser.parse_args()
 
     project_root = Path(args.project_root).resolve()
-    memory_dir = (project_root / args.memory_dir).resolve()
-    state_path = (project_root / args.state_file).resolve()
-    output_path = (project_root / args.output).resolve()
+    memory_dir = resolve_project_path(project_root, args.memory_dir)
+    tasks_dir = resolve_project_path(project_root, args.tasks_dir)
+    state_path = resolve_tasks_file_path(project_root, tasks_dir, args.state_file)
+    output_path = resolve_tasks_file_path(project_root, tasks_dir, args.output)
+    audit_log_path = tasks_dir / "orchestration_audit.jsonl"
 
     report = build_validation_report(
         project_root=project_root,
         memory_dir=memory_dir,
         state_path=state_path,
+        audit_log_path=audit_log_path,
     )
 
     write_report(report, output_path)

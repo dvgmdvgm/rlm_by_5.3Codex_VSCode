@@ -2,15 +2,18 @@
 
 ## META
 - id: active_tasks
-- updated_at: 2026-03-07T23:14:37.172255+01:00
+- updated_at: 2026-03-11T04:01:29.654983+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 29
+- items: 33
 
 ### autopilot_bootstrap_hard_gate
 - [fix][active;p=10] Rewrote copilot-instructions.md to fix unreliable memory bootstrap execution: added HARD GATE section at top of file before Primary Goal, removed conditional first-message-only language (now unconditional on every message), added explicit STOP/block directives, converted step 0 to a gate-check reference, made get_memory_metadata optional instead of mandatory, reduced from 8 to 6 pre-implementation steps. (source: session:copilot)
 
 ### bootstrap_install
 - [task][active;p=6] Added scripts/install_rlm_bootstrap.ps1 to install only reusable integration assets via sparse checkout (excluding server source). (source: session:github_bootstrap_installer)
+
+### copilot_bridge_pending_e2e_test
+- [task][active;p=8] Pending: end-to-end test of Agent Mode. Need to verify: relay running, extension auto-connects, phone sends prompt, LLM triggers tool calls (e.g. file_tree), tool_call/tool_result render on phone, final answer displays correctly. (source: session:bridge_memory_save)
 
 ### copilot_instructions_code_index_rule
 - [change][active;p=7] Added section A1 Code Index Integration to copilot-instructions.md. Rules: prefer code index tools over full file reads when code_index_summary present in bootstrap; auto-trigger index_project_code if summary missing and task needs code; re-index if files modified. (source: session:copilot)
@@ -28,6 +31,9 @@
 - [task][active;p=7] Initialized git repo, created root commit, added origin https://github.com/dvgmdvgm/rlm_by_5.3Codex_VSCode.git, and pushed main successfully. (source: session:git_push_20260302)
 - [task][active;p=8] Pushed strict schema migration and memory artifacts to main branch with commit 8c0f667. (source: session:push_strict_migration_20260303)
 
+### mcp_server_side_rlm_cli
+- [change][active;p=8] Added MCP-server-side CLI modules under src/rlm_mcp/cli so bootstrap, validator, checklist, and migration utilities can be invoked from the MCP server directory via python -m rlm_mcp.cli.<tool> instead of loading project-local script copies. (source: session:mcp_server_script_loading_20260308)
+
 ### migrate_legacy_facts_script
 - [change][active;p=6] Created scripts/rlm/migrate_legacy_facts.py — one-time migration utility that converts non-canonical JSONL records to strict extracted_fact format. Supports --dry-run. Successfully migrated 21 facts in art_network_antigravity project. (source: session:refactor_scripts_rlm_20260302)
 
@@ -42,6 +48,12 @@
 
 ### orchestrator_comprehensive_rules_audit_report
 - [change][active;p=9] Added mandatory Comprehensive Rules Audit Report to orchestration final output: synthesizer now produces per-task TASK_RULES_AUDIT table covering ALL active rules (applied/skipped/failed with reasons); skill.md accumulates audits across tasks and requires full rules report in final user-facing response; archivist verifies rules audit completeness at closure. (source: session:copilot)
+
+### orchestrator_run_directory_isolation
+- [feature][active;p=9] Orchestration workflow now requires a unique run_id and per-run artifact directory .vscode/tasks/<run_id>/ so concurrent orchestrator runs in the same project do not overwrite each other's master_plan, task files, state, validation report, or audit log. (source: session:orchestrator_run_isolation_20260308)
+
+### orchestrator_run_id_generator
+- [feature][active;p=9] Added deterministic local helper scripts/rlm/generate_orchestrator_run_id.py and MCP CLI entrypoint python -m rlm_mcp.cli.generate_run_id. The helper returns JSON with run_id, run_dir, state/master-plan/validation/audit paths and can create the run directory immediately. (source: session:orchestrator_run_id_generator_20260308)
 
 ### unknown_session
 - [change][active;p=7] {"type": "task", "entity": "Baseline Tasks", "date": "", "value": "Keep memory project-specific and continue canonical consolidation after major sessions.", "source": "memory/changelog/memory_reset_20260302.md"} (source: session:unknown_session)

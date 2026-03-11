@@ -13138,3 +13138,1714 @@ payload_preview:
   "__truncated_keys__": "+11 keys"
 }
 ```
+---
+ts: 2026-03-08T15:22:02.617592+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189807,
+  "total_files": 29,
+  "total_lines": 3866,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-08T15:22:09.386956+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1792
+payload_est_tokens: 448
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Scripts loaded from MCP-server directory**: Scripts involved in RLM are loaded from the MCP-server directory rather than from the project directory where the user is working.\n  \n- **Paths taken from MCP-server directory**: Paths for scripts, configurations, and code should be taken from the MCP-server directory instead of the workspace/project root.\n\n- **Code/scripts/configs to review**: The following files need review:\n  - `canonical/coding_rules.md`\n  - `code_index/index.json`\n  - Scripts located in `scripts/rlm/`\n\n- **No conflicts noted**: There are no conflicting sources reported regarding the paths for scripts and configurations.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Проверить, чтобы все скрипты, задействованные в RLM, подгружались из директории MCP-сервера, а не из директории проекта, в котором пользователь работает. При необходимости найти и исправить код/скрипты/конфиг, где пути берутся от workspace/project root вместо директории MCP-сервера.",
+  "question_en": "Check that all scripts involved in RLM are loaded from the MCP-server directory rather than from the project directory where the user is working. If necessary, find and fix code/scripts/configs where paths are taken from the workspace/project root instead of the MCP-server directory.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "code_index/index.json",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "changelog/global_server_per_project_memory_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-08T15:22:09.389474+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3354
+payload_est_tokens: 838
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, retrieval_strategy, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Scripts loaded from MCP-server directory**: Scripts involved in RLM are loaded from the MCP-server directory rather than from the project directory where the user is working.\n  \n- **Paths taken from MCP-server directory**: Paths for scripts, configurations, and code should be taken from the MCP-server directory instead of the workspace/project root.\n\n- **Code/scripts/configs to review**: The following files need review:\n  - `canonical/coding_rules.md`\n  - `code_index/index.json`\n  - Scripts located in `scripts/rlm/`\n\n- **No conflicts noted**: There are no conflicting sources reported regarding the paths for scripts and configurations.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189807,
+    "total_files": 29,
+    "total_lines": 3866
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Проверить, чтобы все скрипты, задействованные в RLM, подгружались из директории MCP-сервера, а не из директории проекта, в котором пользователь работает. При необходимости найти и исправить код/скрипты/конфиг, где пути берутся от workspace/project root вместо директории MCP-сервера.",
+  "question_en": "Check that all scripts involved in RLM are loaded from the MCP-server directory rather than from the project directory where the user is working. If necessary, find and fix code/scripts/configs where paths are taken from the workspace/project root instead of the MCP-server directory.",
+  "question_translated": true,
+  "reloaded_files": 29,
+  "retrieval_strategy": {
+    "avoid": [
+      "reading unrelated large files"
+    ],
+    "prefer_code_index": true,
+    "prefer_local_workspace_brief": false,
+    "preferred_tools": [
+      "search_code_symbols",
+      "get_code_symbol",
+      "read_file"
+    ],
+    "reason": "General code tasks should narrow scope with index lookup when available, then read only the required files.",
+    "task_type": "bugfix"
+  },
+  "selected_count": 8,
+  "__truncated_keys__": "+3 keys"
+}
+```
+---
+ts: 2026-03-08T15:26:55.465215+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1094
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 30,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 7,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 5216,
+  "changelog_files_before": 8,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260308_152651.md",
+  "coding_rules_items": 157,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 196,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-08T17:44:23.829778+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189723,
+  "total_files": 28,
+  "total_lines": 3849,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-08T17:44:29.931304+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2190
+payload_est_tokens: 547
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "Based on the current implementation:\n\n- **Conflict Possibility**: The orchestrator uses a checkpoint file (`.vscode/tasks/orchestrator_state.json`) after every state transition, which ensures that each new task starts with a consistent and up-to-date context.\n  \n- **Shared State Files**: The orchestrator does not use shared state files across different chat sessions. Each session operates independently, reading the latest consolidated memory from the `memory/` directory at the start of the session.\n\n- **Context Resilience**: The context resilience mechanism (re-read checkpoint + master plan + protocol reminder) before every new task ensures that the orchestrator does not forget instructions or skip steps, mitigating potential conflicts related to lost context.\n\nTherefore, running the orchestrator in different chat sessions within the same project should not cause conflicts, as each session is independent and starts with a fresh read of the consolidated memory.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Ответить, будет ли конфликт, если в одном и том же проекте запустить оркестратор в одном чате, а потом открыть новый чат/контекстное окно для того же проекта и запустить другую задачу через оркестратор. Нужно определить по текущей реализации, используют ли оркестраторы общие файлы состояния и возможен ли конфликт.",
+  "question_en": "Will there be a conflict if the orchestrator is run in one chat within the same project and then a new chat/context window is opened for the same project to run another task through the orchestrator? Determine based on the current implementation whether the orchestrators use shared state files and if conflicts are possible.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-08T17:44:29.932309+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3734
+payload_est_tokens: 933
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, retrieval_strategy, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "Based on the current implementation:\n\n- **Conflict Possibility**: The orchestrator uses a checkpoint file (`.vscode/tasks/orchestrator_state.json`) after every state transition, which ensures that each new task starts with a consistent and up-to-date context.\n  \n- **Shared State Files**: The orchestrator does not use shared state files across different chat sessions. Each session operates independently, reading the latest consolidated memory from the `memory/` directory at the start of the session.\n\n- **Context Resilience**: The context resilience mechanism (re-read checkpoint + master plan + protocol reminder) before every new task ensures that the orchestrator does not forget instructions or skip steps, mitigating potential conflicts related to lost context.\n\nTherefore, running the orchestrator in different chat sessions within the same project should not cause conflicts, as each session is independent and starts with a fresh read of the consolidated memory.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189723,
+    "total_files": 28,
+    "total_lines": 3849
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Ответить, будет ли конфликт, если в одном и том же проекте запустить оркестратор в одном чате, а потом открыть новый чат/контекстное окно для того же проекта и запустить другую задачу через оркестратор. Нужно определить по текущей реализации, используют ли оркестраторы общие файлы состояния и возможен ли конфликт.",
+  "question_en": "Will there be a conflict if the orchestrator is run in one chat within the same project and then a new chat/context window is opened for the same project to run another task through the orchestrator? Determine based on the current implementation whether the orchestrators use shared state files and if conflicts are possible.",
+  "question_translated": true,
+  "reloaded_files": 28,
+  "retrieval_strategy": {
+    "avoid": [
+      "reading full files before symbol search"
+    ],
+    "prefer_code_index": true,
+    "prefer_local_workspace_brief": false,
+    "preferred_tools": [
+      "search_code_symbols",
+      "get_code_symbol",
+      "get_code_file_outline"
+    ],
+    "reason": "Symbol lookup tasks benefit most from index-based retrieval.",
+    "task_type": "symbol_lookup"
+  },
+  "selected_count": 8,
+  "__truncated_keys__": "+3 keys"
+}
+```
+---
+ts: 2026-03-08T19:20:59.048634+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189723,
+  "total_files": 28,
+  "total_lines": 3849,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-08T19:21:03.902494+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1402
+payload_est_tokens: 350
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- Implement a unique state file for each run using the `run_id` to ensure isolation between concurrent orchestrator runs.\n- Store state files in a designated directory, appending the `run_id` to the filename (e.g., `orchestrator_state_<run_id>.json`).\n- Update the consolidation script to read and write from the appropriate state file based on the current `run_id`.\n- Ensure that all orchestrator components reference the correct state file for their operations.\n- Document the process of generating and using unique state files in the project's communication and documentation.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Implement per-run_id isolation for orchestrator state files to allow safe concurrent orchestrator runs in the same project.",
+  "question_en": "Implement per-run_id isolation for orchestrator state files to allow safe concurrent orchestrator runs in the same project.",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "code_index/index.json",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-08T19:21:03.903498+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2970
+payload_est_tokens: 742
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, retrieval_strategy, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- Implement a unique state file for each run using the `run_id` to ensure isolation between concurrent orchestrator runs.\n- Store state files in a designated directory, appending the `run_id` to the filename (e.g., `orchestrator_state_<run_id>.json`).\n- Update the consolidation script to read and write from the appropriate state file based on the current `run_id`.\n- Ensure that all orchestrator components reference the correct state file for their operations.\n- Document the process of generating and using unique state files in the project's communication and documentation.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189723,
+    "total_files": 28,
+    "total_lines": 3849
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Implement per-run_id isolation for orchestrator state files to allow safe concurrent orchestrator runs in the same project.",
+  "question_en": "Implement per-run_id isolation for orchestrator state files to allow safe concurrent orchestrator runs in the same project.",
+  "question_translated": false,
+  "reloaded_files": 28,
+  "retrieval_strategy": {
+    "avoid": [
+      "reading unrelated large files"
+    ],
+    "prefer_code_index": true,
+    "prefer_local_workspace_brief": false,
+    "preferred_tools": [
+      "search_code_symbols",
+      "get_code_symbol",
+      "read_file"
+    ],
+    "reason": "General code tasks should narrow scope with index lookup when available, then read only the required files.",
+    "task_type": "general_code"
+  },
+  "selected_count": 8,
+  "__truncated_keys__": "+3 keys"
+}
+```
+---
+ts: 2026-03-08T19:21:05.220017+01:00
+tool: search_code_symbols
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 306
+payload_est_tokens: 76
+payload_keys: matches, memory_dir, ok, project_path, query, token_savings, total_matches
+payload_preview:
+```json
+{
+  "matches": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "query": "orchestrator_state",
+  "token_savings": {
+    "savings_pct": 0,
+    "tokens_with_index": 1,
+    "tokens_without_index": 0
+  },
+  "total_matches": 0
+}
+```
+---
+ts: 2026-03-08T19:21:06.857748+01:00
+tool: search_code_symbols
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1425
+payload_est_tokens: 356
+payload_keys: matches, memory_dir, ok, project_path, query, token_savings, total_matches
+payload_preview:
+```json
+{
+  "matches": [
+    {
+      "chars": 414,
+      "end_byte": 6159,
+      "end_line": 159,
+      "file_path": "scripts/rlm/validate_orchestrator_rules.py",
+      "kind": "function",
+      "language": "python",
+      "name": "extract_executed_rules_from_checklist",
+      "qualified_name": "extract_executed_rules_from_checklist",
+      "signature": "def extract_executed_rules_from_checklist(checklist_path: Path) -> set[str]:     \"\"\"Fallback: extract any rule references from orchestrator_memory_checklist.md.\"\"\"     executed: set[str] = set()",
+      "start_byte": 5745,
+      "start_line": 152,
+      "symbol_id": "scripts/rlm/validate_orchestrator_rules.py::extract_executed_rules_from_checklist#function"
+    },
+    {
+      "chars": 1205,
+      "end_byte": 4531,
+      "end_line": 134,
+      "file_path": "scripts/rlm/write_orchestrator_memory_checklist.py",
+      "kind": "function",
+      "language": "python",
+      "name": "main",
+      "qualified_name": "main",
+      "signature": "def main() -> int:     parser = argparse.ArgumentParser(         description=\"Write orchestrator memory-call checklist as single overwrite report.\"     )",
+      "start_byte": 3326,
+      "start_line": 107,
+      "symbol_id": "scripts/rlm/write_orchestrator_memory_checklist.py::main#function"
+    }
+  ],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "query": "orchestrator",
+  "token_savings": {
+    "savings_pct": 93.2,
+    "tokens_with_index": 278,
+    "tokens_without_index": 4082
+  },
+  "total_matches": 2
+}
+```
+---
+ts: 2026-03-08T19:21:08.744944+01:00
+tool: search_code_symbols
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 298
+payload_est_tokens: 74
+payload_keys: matches, memory_dir, ok, project_path, query, token_savings, total_matches
+payload_preview:
+```json
+{
+  "matches": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "query": "state.json",
+  "token_savings": {
+    "savings_pct": 0,
+    "tokens_with_index": 1,
+    "tokens_without_index": 0
+  },
+  "total_matches": 0
+}
+```
+---
+ts: 2026-03-08T19:21:10.893400+01:00
+tool: search_code_symbols
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 302
+payload_est_tokens: 75
+payload_keys: matches, memory_dir, ok, project_path, query, token_savings, total_matches
+payload_preview:
+```json
+{
+  "matches": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "query": "master_plan.md",
+  "token_savings": {
+    "savings_pct": 0,
+    "tokens_with_index": 1,
+    "tokens_without_index": 0
+  },
+  "total_matches": 0
+}
+```
+---
+ts: 2026-03-08T19:21:13.589992+01:00
+tool: search_code_symbols
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 300
+payload_est_tokens: 75
+payload_keys: matches, memory_dir, ok, project_path, query, token_savings, total_matches
+payload_preview:
+```json
+{
+  "matches": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "query": "orchestrator",
+  "token_savings": {
+    "savings_pct": 0,
+    "tokens_with_index": 1,
+    "tokens_without_index": 0
+  },
+  "total_matches": 0
+}
+```
+---
+ts: 2026-03-08T19:21:25.157200+01:00
+tool: get_code_file_outline
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 329
+payload_est_tokens: 82
+payload_keys: file_path, memory_dir, ok, project_path, symbols, token_savings, total_symbols
+payload_preview:
+```json
+{
+  "file_path": "src/rlm_mcp/cli/validate_orchestrator.py",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "symbols": [],
+  "token_savings": {
+    "full_file_tokens": 57,
+    "outline_tokens": 1,
+    "savings_pct": 98.2
+  },
+  "total_symbols": 0
+}
+```
+---
+ts: 2026-03-08T19:21:25.163719+01:00
+tool: get_code_file_outline
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3711
+payload_est_tokens: 927
+payload_keys: file_path, memory_dir, ok, project_path, symbols, token_savings, total_symbols
+payload_preview:
+```json
+{
+  "file_path": "scripts/rlm/validate_orchestrator_rules.py",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "symbols": [
+    {
+      "chars": 415,
+      "end_line": 41,
+      "kind": "function",
+      "language": "python",
+      "name": "read_text",
+      "qualified_name": "read_text",
+      "signature": "def read_text(path: Path) -> str:     if not path.exists():",
+      "start_line": 28,
+      "symbol_id": "scripts/rlm/validate_orchestrator_rules.py::read_text#function"
+    },
+    {
+      "chars": 2361,
+      "end_line": 95,
+      "kind": "function",
+      "language": "python",
+      "name": "extract_operational_rules",
+      "qualified_name": "extract_operational_rules",
+      "signature": "def extract_operational_rules(coding_rules_text: str) -> list[dict]:     \"\"\"Extract entities that look like operational rules from coding_rules.md.",
+      "start_line": 44,
+      "symbol_id": "scripts/rlm/validate_orchestrator_rules.py::extract_operational_rules#function"
+    },
+    {
+      "chars": 1194,
+      "end_line": 122,
+      "kind": "function",
+      "language": "python",
+      "name": "extract_executed_rules_from_state",
+      "qualified_name": "extract_executed_rules_from_state",
+      "signature": "def extract_executed_rules_from_state(state: dict) -> set[str]:     \"\"\"Extract rule IDs that appear in last_gate_tokens or rules_audit_accumulated.\"\"\"     executed: set[str] = set()",
+      "start_line": 98,
+      "symbol_id": "scripts/rlm/validate_orchestrator_rules.py::extract_executed_rules_from_state#function"
+    },
+    {
+      "chars": 954,
+      "end_line": 149,
+      "kind": "function",
+      "language": "python",
+      "name": "extract_executed_rules_from_audit_log",
+      "qualified_name": "extract_executed_rules_from_audit_log",
+      "signature": "def extract_executed_rules_from_audit_log(audit_path: Path) -> set[str]:     \"\"\"Extract executed rule IDs from orchestration_audit.jsonl if available.\"\"\"     executed: set[str] = set()",
+      "start_line": 125,
+      "symbol_id": "scripts/rlm/validate_orchestrator_rules.py::extract_executed_rules_from_audit_log#function"
+    },
+    {
+      "chars": 414,
+      "end_line": 159,
+      "kind": "function",
+      "language": "python",
+      "name": "extract_executed_rules_from_checklist",
+      "qualified_name": "extract_executed_rules_from_checklist",
+      "signature": "def extract_executed_rules_from_checklist(checklist_path: Path) -> set[str]:     \"\"\"Fallback: extract any rule references from orchestrator_memory_checklist.md.\"\"\"     executed: set[str] = set()",
+      "start_line": 152,
+      "symbol_id": "scripts/rlm/validate_orchestrator_rules.py::extract_executed_rules_from_checklist#function"
+    },
+    {
+      "chars": 3427,
+      "end_line": 250,
+      "kind": "function",
+      "language": "python",
+      "name": "build_validation_report",
+      "qualified_name": "build_validation_report",
+      "signature": "def build_validation_report(     *,     project_root: Path,     memory_dir: Path,",
+      "start_line": 162,
+      "symbol_id": "scripts/rlm/validate_orchestrator_rules.py::build_validation_report#function"
+    },
+    "... +2 more"
+  ],
+  "token_savings": {
+    "full_file_tokens": 2934,
+    "outline_tokens": 840,
+    "savings_pct": 71.4
+  },
+  "total_symbols": 8
+}
+```
+---
+ts: 2026-03-08T19:21:25.166229+01:00
+tool: get_code_file_outline
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2495
+payload_est_tokens: 623
+payload_keys: file_path, memory_dir, ok, project_path, symbols, token_savings, total_symbols
+payload_preview:
+```json
+{
+  "file_path": "scripts/rlm/write_orchestrator_memory_checklist.py",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "symbols": [
+    {
+      "chars": 72,
+      "end_line": 10,
+      "kind": "function",
+      "language": "python",
+      "name": "utc_now",
+      "qualified_name": "utc_now",
+      "signature": "def utc_now() -> str:     return datetime.now(timezone.utc).isoformat()",
+      "start_line": 9,
+      "symbol_id": "scripts/rlm/write_orchestrator_memory_checklist.py::utc_now#function"
+    },
+    {
+      "chars": 415,
+      "end_line": 26,
+      "kind": "function",
+      "language": "python",
+      "name": "read_text",
+      "qualified_name": "read_text",
+      "signature": "def read_text(path: Path) -> str:     if not path.exists():",
+      "start_line": 13,
+      "symbol_id": "scripts/rlm/write_orchestrator_memory_checklist.py::read_text#function"
+    },
+    {
+      "chars": 425,
+      "end_line": 37,
+      "kind": "function",
+      "language": "python",
+      "name": "parse_master_plan_statuses",
+      "qualified_name": "parse_master_plan_statuses",
+      "signature": "def parse_master_plan_statuses(master_plan_path: Path) -> tuple[int, int, int]:     text = read_text(master_plan_path)",
+      "start_line": 29,
+      "symbol_id": "scripts/rlm/write_orchestrator_memory_checklist.py::parse_master_plan_statuses#function"
+    },
+    {
+      "chars": 302,
+      "end_line": 47,
+      "kind": "function",
+      "language": "python",
+      "name": "extract_recent_tools",
+      "qualified_name": "extract_recent_tools",
+      "signature": "def extract_recent_tools(payload_log_path: Path, limit: int = 12) -> list[str]:     text = read_text(payload_log_path)",
+      "start_line": 40,
+      "symbol_id": "scripts/rlm/write_orchestrator_memory_checklist.py::extract_recent_tools#function"
+    },
+    {
+      "chars": 1945,
+      "end_line": 104,
+      "kind": "function",
+      "language": "python",
+      "name": "build_report",
+      "qualified_name": "build_report",
+      "signature": "def build_report(     *,     project_root: Path,     memory_dir: Path,",
+      "start_line": 50,
+      "symbol_id": "scripts/rlm/write_orchestrator_memory_checklist.py::build_report#function"
+    },
+    {
+      "chars": 1205,
+      "end_line": 134,
+      "kind": "function",
+      "language": "python",
+      "name": "main",
+      "qualified_name": "main",
+      "signature": "def main() -> int:     parser = argparse.ArgumentParser(         description=\"Write orchestrator memory-call checklist as single overwrite report.\"     )",
+      "start_line": 107,
+      "symbol_id": "scripts/rlm/write_orchestrator_memory_checklist.py::main#function"
+    }
+  ],
+  "token_savings": {
+    "full_file_tokens": 1148,
+    "outline_tokens": 535,
+    "savings_pct": 53.4
+  },
+  "total_symbols": 6
+}
+```
+---
+ts: 2026-03-08T19:21:25.170247+01:00
+tool: get_code_file_outline
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 4350
+payload_est_tokens: 1087
+payload_keys: file_path, memory_dir, ok, project_path, symbols, token_savings, total_symbols
+payload_preview:
+```json
+{
+  "file_path": "src/rlm_mcp/consolidator.py",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "symbols": [
+    {
+      "chars": 361,
+      "end_line": 26,
+      "kind": "class",
+      "language": "python",
+      "name": "ConsolidationResult",
+      "qualified_name": "ConsolidationResult",
+      "signature": "class ConsolidationResult:     log_path: str     total_log_records: int     extracted_fact_records: int",
+      "start_line": 14,
+      "symbol_id": "src/rlm_mcp/consolidator.py::ConsolidationResult#class"
+    },
+    {
+      "chars": 167,
+      "end_line": 39,
+      "kind": "class",
+      "language": "python",
+      "name": "FactItem",
+      "qualified_name": "FactItem",
+      "signature": "class FactItem:     type: str     entity: str     date: str",
+      "start_line": 30,
+      "symbol_id": "src/rlm_mcp/consolidator.py::FactItem#class"
+    },
+    {
+      "chars": 100,
+      "end_line": 43,
+      "kind": "function",
+      "language": "python",
+      "name": "_normalize_text",
+      "qualified_name": "_normalize_text",
+      "signature": "def _normalize_text(value: object) -> str:     return re.sub(r\"\\s+\", \" \", str(value or \"\")).strip()",
+      "start_line": 42,
+      "symbol_id": "src/rlm_mcp/consolidator.py::_normalize_text#function"
+    },
+    {
+      "chars": 200,
+      "end_line": 52,
+      "kind": "function",
+      "language": "python",
+      "name": "_to_epoch",
+      "qualified_name": "_to_epoch",
+      "signature": "def _to_epoch(ts: str) -> float:     if not ts:",
+      "start_line": 46,
+      "symbol_id": "src/rlm_mcp/consolidator.py::_to_epoch#function"
+    },
+    {
+      "chars": 247,
+      "end_line": 63,
+      "kind": "function",
+      "language": "python",
+      "name": "_source_rank",
+      "qualified_name": "_source_rank",
+      "signature": "def _source_rank(source: str) -> int:     src = source.lower()",
+      "start_line": 55,
+      "symbol_id": "src/rlm_mcp/consolidator.py::_source_rank#function"
+    },
+    {
+      "chars": 338,
+      "end_line": 74,
+      "kind": "function",
+      "language": "python",
+      "name": "_infer_conflict_key",
+      "qualified_name": "_infer_conflict_key",
+      "signature": "def _infer_conflict_key(entity: str, value: str, fact_type: str) -> str:     if fact_type.lower() != \"rule\":",
+      "start_line": 66,
+      "symbol_id": "src/rlm_mcp/consolidator.py::_infer_conflict_key#function"
+    },
+    "... +6 more"
+  ],
+  "token_savings": {
+    "full_file_tokens": 3323,
+    "outline_tokens": 1001,
+    "savings_pct": 69.9
+  },
+  "total_symbols": 12
+}
+```
+---
+ts: 2026-03-08T19:21:26.676851+01:00
+tool: get_code_file_outline
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 329
+payload_est_tokens: 82
+payload_keys: file_path, memory_dir, ok, project_path, symbols, token_savings, total_symbols
+payload_preview:
+```json
+{
+  "file_path": "src/rlm_mcp/cli/validate_orchestrator.py",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "ok": true,
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "symbols": [],
+  "token_savings": {
+    "full_file_tokens": 57,
+    "outline_tokens": 1,
+    "savings_pct": 98.2
+  },
+  "total_symbols": 0
+}
+```
+---
+ts: 2026-03-08T19:37:23.954678+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 189723,
+  "total_files": 28,
+  "total_lines": 3849,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-08T19:37:32.480343+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2345
+payload_est_tokens: 586
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "To implement isolation of parallel orchestration-runs in a single project through separate directories by `run_id` instead of using the common `.vscode/tasks`, follow these steps:\n\n1. **Modify Workflow Scripts**: Update all workflow scripts to use dynamic paths based on `run_id`. This ensures that each run operates in its own subdirectory.\n\n2. **Update Documentation**: Revise relevant documentation to reflect the new directory structure and instructions for users to utilize separate directories per run.\n\n3. **Refactor Task Configuration**: Remove hard-coded references to `.vscode/tasks/*` in configuration files and replace them with environment variables or parameters that dynamically resolve to the correct `run_id`-specific directory.\n\n4. **Ensure Isolation**: Implement checks in scripts to prevent data leakage between runs by ensuring each run operates exclusively within its designated directory.\n\n5. **Test Across Multiple Runs**: Conduct tests with multiple parallel orchestration-runs to verify that there is no conflict and that each run operates independently as expected.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Реализовать изоляцию параллельных orchestration-run в одном проекте через отдельные каталоги по run_id вместо общего .vscode/tasks. Нужно найти все места, где используются фиксированные пути .vscode/tasks/*, и изменить workflow/скрипты/документацию так, чтобы каждый запуск работал в своем подкаталоге и не конфликтовал с другим запуском.",
+  "question_en": "Implement isolation of parallel orchestration-runs in a single project through separate directories by run_id instead of the common .vscode/tasks. Find all places where fixed paths .vscode/tasks/* are used and modify the workflow/scripts/documentation so that each run operates in its own subdirectory and does not conflict with other runs.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "canonical/communication.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-08T19:37:32.482347+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3913
+payload_est_tokens: 978
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, retrieval_strategy, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "To implement isolation of parallel orchestration-runs in a single project through separate directories by `run_id` instead of using the common `.vscode/tasks`, follow these steps:\n\n1. **Modify Workflow Scripts**: Update all workflow scripts to use dynamic paths based on `run_id`. This ensures that each run operates in its own subdirectory.\n\n2. **Update Documentation**: Revise relevant documentation to reflect the new directory structure and instructions for users to utilize separate directories per run.\n\n3. **Refactor Task Configuration**: Remove hard-coded references to `.vscode/tasks/*` in configuration files and replace them with environment variables or parameters that dynamically resolve to the correct `run_id`-specific directory.\n\n4. **Ensure Isolation**: Implement checks in scripts to prevent data leakage between runs by ensuring each run operates exclusively within its designated directory.\n\n5. **Test Across Multiple Runs**: Conduct tests with multiple parallel orchestration-runs to verify that there is no conflict and that each run operates independently as expected.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 189723,
+    "total_files": 28,
+    "total_lines": 3849
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Реализовать изоляцию параллельных orchestration-run в одном проекте через отдельные каталоги по run_id вместо общего .vscode/tasks. Нужно найти все места, где используются фиксированные пути .vscode/tasks/*, и изменить workflow/скрипты/документацию так, чтобы каждый запуск работал в своем подкаталоге и не конфликтовал с другим запуском.",
+  "question_en": "Implement isolation of parallel orchestration-runs in a single project through separate directories by run_id instead of the common .vscode/tasks. Find all places where fixed paths .vscode/tasks/* are used and modify the workflow/scripts/documentation so that each run operates in its own subdirectory and does not conflict with other runs.",
+  "question_translated": true,
+  "reloaded_files": 28,
+  "retrieval_strategy": {
+    "avoid": [
+      "reading unrelated large files"
+    ],
+    "prefer_code_index": true,
+    "prefer_local_workspace_brief": false,
+    "preferred_tools": [
+      "search_code_symbols",
+      "get_code_symbol",
+      "read_file"
+    ],
+    "reason": "General code tasks should narrow scope with index lookup when available, then read only the required files.",
+    "task_type": "general_code"
+  },
+  "selected_count": 8,
+  "__truncated_keys__": "+3 keys"
+}
+```
+---
+ts: 2026-03-08T19:41:09.123743+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1094
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 31,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 7,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 4564,
+  "changelog_files_before": 7,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260308_194109.md",
+  "coding_rules_items": 158,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 198,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-08T19:42:29.451723+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 191110,
+  "total_files": 29,
+  "total_lines": 3877,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-08T19:42:37.291533+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2504
+payload_est_tokens: 626
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Explicit Format**: Define a standardized format for `run_id` and `run_dir`. This could include using timestamps, unique identifiers, or project-specific codes. For example, `YYYYMMDD-HHMMSS-UUID`.\n  \n- **Deterministic Generation Rule**: Implement a deterministic rule for generating `run_id` and `run_dir` to ensure consistency across executions. This might involve using environment variables, configuration files, or command-line arguments to specify the format and any required parameters.\n\n- **Helper Local Generator Script**: Create a local Python script, such as `generate_run_id.py`, that can be invoked during the orchestration process to generate unique identifiers. This script should follow the deterministic rule defined above and handle edge cases like identifier collisions.\n\n- **Workflow/Documentation/Scripts Updates**: Update the relevant workflow documentation and scripts to include instructions on how to use the new generator script. Ensure that all team members are aware of the changes and understand how to correctly generate `run_id` and `run_dir`.\n\n- **Consistency Checks**: Incorporate checks in the orchestration process to verify that each execution has a unique `run ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Добавить дополнительную защиту для orchestration run_id: явный формат, детерминированное правило генерации и, по возможности, вспомогательный локальный генератор, чтобы orchestrator стабильно создавал уникальный run_id и run_dir для каждого запуска. Обновить workflow/документацию/скрипты при необходимости.",
+  "question_en": "Add additional protection for orchestration run_id: explicit format, deterministic generation rule, and if possible, a helper local generator, so that the orchestrator consistently creates unique run_id and run_dir for each execution. Update workflow/documentation/scripts as necessary.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "code_index/index.json",
+    "canonical/architecture.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-08T19:42:37.293538+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 4072
+payload_est_tokens: 1018
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, retrieval_strategy, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Explicit Format**: Define a standardized format for `run_id` and `run_dir`. This could include using timestamps, unique identifiers, or project-specific codes. For example, `YYYYMMDD-HHMMSS-UUID`.\n  \n- **Deterministic Generation Rule**: Implement a deterministic rule for generating `run_id` and `run_dir` to ensure consistency across executions. This might involve using environment variables, configuration files, or command-line arguments to specify the format and any required parameters.\n\n- **Helper Local Generator Script**: Create a local Python script, such as `generate_run_id.py`, that can be invoked during the orchestration process to generate unique identifiers. This script should follow the deterministic rule defined above and handle edge cases like identifier collisions.\n\n- **Workflow/Documentation/Scripts Updates**: Update the relevant workflow documentation and scripts to include instructions on how to use the new generator script. Ensure that all team members are aware of the changes and understand how to correctly generate `run_id` and `run_dir`.\n\n- **Consistency Checks**: Incorporate checks in the orchestration process to verify that each execution has a unique `run ...<truncated>",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 191110,
+    "total_files": 29,
+    "total_lines": 3877
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Добавить дополнительную защиту для orchestration run_id: явный формат, детерминированное правило генерации и, по возможности, вспомогательный локальный генератор, чтобы orchestrator стабильно создавал уникальный run_id и run_dir для каждого запуска. Обновить workflow/документацию/скрипты при необходимости.",
+  "question_en": "Add additional protection for orchestration run_id: explicit format, deterministic generation rule, and if possible, a helper local generator, so that the orchestrator consistently creates unique run_id and run_dir for each execution. Update workflow/documentation/scripts as necessary.",
+  "question_translated": true,
+  "reloaded_files": 29,
+  "retrieval_strategy": {
+    "avoid": [
+      "reading unrelated large files"
+    ],
+    "prefer_code_index": true,
+    "prefer_local_workspace_brief": false,
+    "preferred_tools": [
+      "search_code_symbols",
+      "get_code_symbol",
+      "read_file"
+    ],
+    "reason": "General code tasks should narrow scope with index lookup when available, then read only the required files.",
+    "task_type": "general_code"
+  },
+  "selected_count": 8,
+  "__truncated_keys__": "+3 keys"
+}
+```
+---
+ts: 2026-03-08T19:44:48.979145+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1094
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 32,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 7,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 5216,
+  "changelog_files_before": 8,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260308_194448.md",
+  "coding_rules_items": 159,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 200,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-09T11:09:42.482053+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 192494,
+  "total_files": 30,
+  "total_lines": 3905,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-09T11:09:55.384154+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2558
+payload_est_tokens: 639
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Architecture Overview**: The remote control system for VS Code Copilot Chat from a smartphone is part of a broader project with multiple components interacting through defined interfaces. This includes an MCP (Memory Control Protocol) server, which serves as the central hub for managing memory and communications.\n  \n- **Communication Protocols**: Detailed communication rules specify how AI responses should be formatted, focusing on clarity, visual hierarchy, and actionability. These protocols ensure consistency across different response types and contexts.\n\n- **Memory Management**: The system employs a memory management strategy that involves regular consolidation of logs from `memory/logs/extracted_facts.jsonl`. This process updates canonical files such as `architecture.md`, `coding_rules.md`, and `active_tasks.md`.\n\n- **Task Automation**: There are scripts and tools to automate tasks, including installation via sparse checkout (`scripts/install_rlm_bootstrap.ps1`), migration of legacy facts (`scripts/rlm/migrate_legacy_facts.py`), and generation of canonical memory files from code (`scripts/rlm/generate_rlm_memory_from_code.py`).\n\n- **Error Handling and Resilience**: The syst ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Remote control system for VS Code Copilot Chat from smartphone - architecture discussion",
+  "question_en": "Remote control system for VS Code Copilot Chat from smartphone - architecture discussion",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/memory_reset_20260302.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-09T11:09:55.386157+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 4126
+payload_est_tokens: 1031
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, retrieval_strategy, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Architecture Overview**: The remote control system for VS Code Copilot Chat from a smartphone is part of a broader project with multiple components interacting through defined interfaces. This includes an MCP (Memory Control Protocol) server, which serves as the central hub for managing memory and communications.\n  \n- **Communication Protocols**: Detailed communication rules specify how AI responses should be formatted, focusing on clarity, visual hierarchy, and actionability. These protocols ensure consistency across different response types and contexts.\n\n- **Memory Management**: The system employs a memory management strategy that involves regular consolidation of logs from `memory/logs/extracted_facts.jsonl`. This process updates canonical files such as `architecture.md`, `coding_rules.md`, and `active_tasks.md`.\n\n- **Task Automation**: There are scripts and tools to automate tasks, including installation via sparse checkout (`scripts/install_rlm_bootstrap.ps1`), migration of legacy facts (`scripts/rlm/migrate_legacy_facts.py`), and generation of canonical memory files from code (`scripts/rlm/generate_rlm_memory_from_code.py`).\n\n- **Error Handling and Resilience**: The syst ...<truncated>",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 192494,
+    "total_files": 30,
+    "total_lines": 3905
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Remote control system for VS Code Copilot Chat from smartphone - architecture discussion",
+  "question_en": "Remote control system for VS Code Copilot Chat from smartphone - architecture discussion",
+  "question_translated": false,
+  "reloaded_files": 30,
+  "retrieval_strategy": {
+    "avoid": [
+      "reading unrelated large files"
+    ],
+    "prefer_code_index": true,
+    "prefer_local_workspace_brief": false,
+    "preferred_tools": [
+      "search_code_symbols",
+      "get_code_symbol",
+      "read_file"
+    ],
+    "reason": "General code tasks should narrow scope with index lookup when available, then read only the required files.",
+    "task_type": "general_code"
+  },
+  "selected_count": 8,
+  "__truncated_keys__": "+3 keys"
+}
+```
+---
+ts: 2026-03-11T04:00:07.910765+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 192494,
+  "total_files": 30,
+  "total_lines": 3905,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-11T04:00:16.086595+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2053
+payload_est_tokens: 513
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Architecture**: The RLM system has a modular architecture with clear separation between components, including the MCP server, CLI modules, and code index utilities. The system is designed to be extensible and supports optional dependencies for specific language parsing.\n\n- **Components**:\n  - **MCP Server**: Manages core operations and serves as the central hub for orchestration.\n  - **CLI Modules**: Added for bootstrap, validation, checklist, and migration tasks, accessible via python -m rlm_mcp.cli.<tool>.\n  - **Code Index Utilities**: Use tree-sitter with individual language packages to index code efficiently.\n\n- **Current Status**:\n  - The system is actively in development, with ongoing consolidation processes that generate monthly summaries.\n  - Conflicts are resolved during consolidation passes, and data integrity checks ensure consistency across passes.\n  - Canonical files like `architecture.md`, `coding_rules.md`, and `active_tasks.md` are updated regularly.\n\n- **Agent Mode Tools**:\n  - The system includes tools for code indexing, memory mutation auditing, and schema migration.\n  - An installer script (`scripts/install_rlm_bootstrap.ps1`) is available for setting up int ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Save all information about copilot-bridge functionality to memory - architecture, components, current status, agent mode tools",
+  "question_en": "Save all information about copilot-bridge functionality to memory - architecture, components, current status, agent mode tools",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/summaries/rlm_monthly_summary_202603_02.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-11T04:00:25.383027+01:00
+tool: local_workspace_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3180
+payload_est_tokens: 795
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files, task_type
+payload_preview:
+```json
+{
+  "brief": "- **Architecture**: Copilot Bridge consists of three main components: a Phone PWA, a Relay Server, and a VS Code Extension. The architecture allows remote interaction between a smartphone app and the VS Code extension via WebSocket connections.\n  \n- **Components**:\n  - **Phone App (PWA)**: Located in `web/`, it provides a user interface for chatting with Copilot. It connects to the relay server using WebSocket.\n  - **Relay Server**: Implemented with FastAPI and WebSocket, located in `relay/`. It acts as an intermediary between the phone app and the VS Code extension.\n  - **VS Code Extension**: Written in TypeScript, located in `extension/`. It runs within the VS Code environment and interacts with the LLM API.\n\n- **Current Status**:\n  - The Phone App is served via HTTP or deployed on a static hosting platform. Users can connect to the relay server using WebSocket.\n  - The Relay Server can be run locally, using Docker, or deployed in the cloud for remote access.\n  - The VS Code Extension needs to be installed and configured with appropriate settings to connect to the relay server.\n\n- **Agent Mode Tools**: \n  - In agent mode, the VS Code extension has capabilities like reading/writin ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Save all information about copilot-bridge functionality to memory - architecture, components, current status, agent mode tools",
+  "question_en": "Save all information about copilot-bridge functionality to memory - architecture, components, current status, agent mode tools",
+  "question_translated": false,
+  "selected_count": 6,
+  "selected_files": [
+    "copilot-bridge/web/style.css",
+    "copilot-bridge/web/index.html",
+    "copilot-bridge/extension/src/extension.ts",
+    "copilot-bridge/web/app.js",
+    "copilot-bridge/README.md",
+    "copilot-bridge/generate_token.py"
+  ],
+  "task_type": "ui_template"
+}
+```
+---
+ts: 2026-03-11T04:00:25.384032+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 6361
+payload_est_tokens: 1590
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, retrieval_strategy, selected_count, selected_files, user_response_language, user_response_style, workspace_brief, workspace_selected_count, workspace_selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Architecture**: The RLM system has a modular architecture with clear separation between components, including the MCP server, CLI modules, and code index utilities. The system is designed to be extensible and supports optional dependencies for specific language parsing.\n\n- **Components**:\n  - **MCP Server**: Manages core operations and serves as the central hub for orchestration.\n  - **CLI Modules**: Added for bootstrap, validation, checklist, and migration tasks, accessible via python -m rlm_mcp.cli.<tool>.\n  - **Code Index Utilities**: Use tree-sitter with individual language packages to index code efficiently.\n\n- **Current Status**:\n  - The system is actively in development, with ongoing consolidation processes that generate monthly summaries.\n  - Conflicts are resolved during consolidation passes, and data integrity checks ensure consistency across passes.\n  - Canonical files like `architecture.md`, `coding_rules.md`, and `active_tasks.md` are updated regularly.\n\n- **Agent Mode Tools**:\n  - The system includes tools for code indexing, memory mutation auditing, and schema migration.\n  - An installer script (`scripts/install_rlm_bootstrap.ps1`) is available for setting up int ...<truncated>",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 192494,
+    "total_files": 30,
+    "total_lines": 3905
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Save all information about copilot-bridge functionality to memory - architecture, components, current status, agent mode tools",
+  "question_en": "Save all information about copilot-bridge functionality to memory - architecture, components, current status, agent mode tools",
+  "question_translated": false,
+  "reloaded_files": 30,
+  "retrieval_strategy": {
+    "avoid": [
+      "reading many large templates before narrowing targets"
+    ],
+    "prefer_code_index": false,
+    "prefer_local_workspace_brief": true,
+    "preferred_tools": [
+      "local_workspace_brief",
+      "read_file"
+    ],
+    "reason": "UI/template tasks usually need local structural summarization of a few markup/style files rather than symbol lookup.",
+    "task_type": "ui_template"
+  },
+  "selected_count": 8,
+  "__truncated_keys__": "+6 keys"
+}
+```
+---
+ts: 2026-03-11T04:01:34.604246+01:00
+tool: consolidate_memory
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1095
+payload_est_tokens: 273
+payload_keys: active_tasks_items, active_tasks_path, architecture_items, architecture_path, changelog_bytes_before, changelog_files_before, changelog_path, coding_rules_items, coding_rules_path, conflicts_resolved, extracted_fact_records, log_path, memory_dir, project_path, raw_files_archived, raw_files_summarized, reloaded_files, summaries_created, summarization_enabled, total_log_records, trigger_max_bytes, trigger_max_files, unique_facts
+payload_preview:
+```json
+{
+  "active_tasks_items": 33,
+  "active_tasks_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/active_tasks.md",
+  "architecture_items": 15,
+  "architecture_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/architecture.md",
+  "changelog_bytes_before": 5869,
+  "changelog_files_before": 9,
+  "changelog_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/changelog/rlm_consolidation_20260311_040129.md",
+  "coding_rules_items": 162,
+  "coding_rules_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/canonical/coding_rules.md",
+  "conflicts_resolved": 0,
+  "extracted_fact_records": 212,
+  "log_path": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory/logs/extracted_facts.jsonl",
+  "__truncated_keys__": "+11 keys"
+}
+```
+---
+ts: 2026-03-12T00:19:35.417247+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 192788,
+  "total_files": 23,
+  "total_lines": 3792,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-12T00:19:44.789802+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2304
+payload_est_tokens: 576
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- **Implement Efficient Querying:** Use specific, targeted queries instead of broad requests to reduce token consumption. This can be achieved by breaking down complex tasks into smaller, more focused questions.\n  \n- **Leverage Summarization Tools:** Utilize summarization tools or techniques before feeding data to the LLM. This reduces the volume of input tokens while maintaining the essential information needed for accurate responses.\n\n- **Optimize Code Indexing and Extraction:** Implement a more efficient code indexing mechanism that focuses on key symbols and functions, minimizing irrelevant data sent to the LLM. This can be managed using tools like Tree-sitter grammars as detailed in `code_index/index.json`.\n\n- **Use Context Windows Wisely:** Limit the context window size when interacting with the LLM by only including relevant parts of the conversation or project documentation. This helps manage token usage without compromising output quality.\n\n- **Automate Redundant Data Filtering:** Develop scripts to automatically filter out redundant, duplicate, or less relevant data before sending it to the LLM. This can be particularly effective in maintaining high output quality while m ...<truncated>",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Анализ способов снижения потребления токенов при работе с LLM в стандартном coding workflow, сохраняя качество output",
+  "question_en": "Analyze methods to reduce token consumption when working with LLM in a standard coding workflow while maintaining output quality.",
+  "question_translated": true,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/architecture.md",
+    "canonical/active_tasks.md",
+    "canonical/communication.md",
+    "changelog/summaries/rlm_monthly_summary_202603_03.md",
+    "changelog/summaries/rlm_monthly_summary_202603_04.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-12T00:19:44.791806+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 3872
+payload_est_tokens: 968
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, retrieval_strategy, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- **Implement Efficient Querying:** Use specific, targeted queries instead of broad requests to reduce token consumption. This can be achieved by breaking down complex tasks into smaller, more focused questions.\n  \n- **Leverage Summarization Tools:** Utilize summarization tools or techniques before feeding data to the LLM. This reduces the volume of input tokens while maintaining the essential information needed for accurate responses.\n\n- **Optimize Code Indexing and Extraction:** Implement a more efficient code indexing mechanism that focuses on key symbols and functions, minimizing irrelevant data sent to the LLM. This can be managed using tools like Tree-sitter grammars as detailed in `code_index/index.json`.\n\n- **Use Context Windows Wisely:** Limit the context window size when interacting with the LLM by only including relevant parts of the conversation or project documentation. This helps manage token usage without compromising output quality.\n\n- **Automate Redundant Data Filtering:** Develop scripts to automatically filter out redundant, duplicate, or less relevant data before sending it to the LLM. This can be particularly effective in maintaining high output quality while m ...<truncated>",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 192788,
+    "total_files": 23,
+    "total_lines": 3792
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Анализ способов снижения потребления токенов при работе с LLM в стандартном coding workflow, сохраняя качество output",
+  "question_en": "Analyze methods to reduce token consumption when working with LLM in a standard coding workflow while maintaining output quality.",
+  "question_translated": true,
+  "reloaded_files": 23,
+  "retrieval_strategy": {
+    "avoid": [
+      "reading unrelated large files"
+    ],
+    "prefer_code_index": true,
+    "prefer_local_workspace_brief": false,
+    "preferred_tools": [
+      "search_code_symbols",
+      "get_code_symbol",
+      "read_file"
+    ],
+    "reason": "General code tasks should narrow scope with index lookup when available, then read only the required files.",
+    "task_type": "general_code"
+  },
+  "selected_count": 8,
+  "__truncated_keys__": "+3 keys"
+}
+```
+---
+ts: 2026-03-12T00:27:09.671259+01:00
+tool: get_memory_metadata
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 353
+payload_est_tokens: 88
+payload_keys: count, files, memory_dir, options, project_path, total_chars, total_files, total_lines, truncated
+payload_preview:
+```json
+{
+  "count": 0,
+  "files": [],
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "options": {
+    "include_files": false,
+    "include_headers": false,
+    "max_files": 20,
+    "sort_by": "chars_desc"
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "total_chars": 192788,
+  "total_files": 23,
+  "total_lines": 3792,
+  "truncated": false
+}
+```
+---
+ts: 2026-03-12T00:27:14.245771+01:00
+tool: local_memory_brief
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 1030
+payload_est_tokens: 257
+payload_keys: brief, memory_dir, project_path, question, question_en, question_translated, selected_count, selected_files
+payload_preview:
+```json
+{
+  "brief": "- Git status checked: No changes present.\n- No commit message generated as there are no recent changes.\n- Nothing staged, committed, or pushed.",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Follow push.prompt.md: check git status, generate a concise descriptive commit message from recent changes, then stage, commit, and push if there are changes.",
+  "question_en": "Follow push.prompt.md: check git status, generate a concise descriptive commit message from recent changes, then stage, commit, and push if there are changes.",
+  "question_translated": false,
+  "selected_count": 8,
+  "selected_files": [
+    "canonical/coding_rules.md",
+    "canonical/active_tasks.md",
+    "canonical/architecture.md",
+    "canonical/communication.md",
+    "code_index/index.json",
+    "changelog/summaries/rlm_monthly_summary_202603_01.md",
+    "... +2 more"
+  ]
+}
+```
+---
+ts: 2026-03-12T00:27:14.247778+01:00
+tool: local_memory_bootstrap
+project_path: d:\AI Projects\VSCode_Projects\RLM_Realization
+memory_dir: d:/AI Projects/VSCode_Projects/RLM_Realization/memory
+payload_chars: 2598
+payload_est_tokens: 649
+payload_keys: brief, code_index_summary, local_model_output_language, memory_dir, memory_stats, project_path, question, question_en, question_translated, reloaded_files, retrieval_strategy, selected_count, selected_files, user_response_language, user_response_style
+payload_preview:
+```json
+{
+  "brief": "- Git status checked: No changes present.\n- No commit message generated as there are no recent changes.\n- Nothing staged, committed, or pushed.",
+  "code_index_summary": {
+    "files": {
+      "scripts/rlm/generate_rlm_memory_from_code.py": 40,
+      "scripts/rlm/migrate_legacy_facts.py": 8,
+      "scripts/rlm/seed_canonical_from_rlm_memory.py": 14,
+      "scripts/rlm/validate_orchestrator_rules.py": 8,
+      "scripts/rlm/write_orchestrator_memory_checklist.py": 6,
+      "src/rlm_mcp/code_index.py": 20,
+      "src/rlm_mcp/config.py": 2,
+      "src/rlm_mcp/consolidator.py": 12,
+      "src/rlm_mcp/llm_adapter.py": 8,
+      "src/rlm_mcp/memory_store.py": 7,
+      "src/rlm_mcp/repl_runtime.py": 18,
+      "src/rlm_mcp/server.py": 42,
+      "__truncated_keys__": "+1 keys"
+    },
+    "hint": "Use search_code_symbols / get_code_symbol / get_code_file_outline for efficient code retrieval instead of reading full files.",
+    "indexed_at": "2026-03-07T11:04:45.416369+00:00",
+    "languages": {
+      "python": 14
+    },
+    "total_files": 14,
+    "total_source_tokens_est": 45088,
+    "total_symbols": 189
+  },
+  "local_model_output_language": "en",
+  "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory",
+  "memory_stats": {
+    "total_chars": 192788,
+    "total_files": 23,
+    "total_lines": 3792
+  },
+  "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization",
+  "question": "Follow push.prompt.md: check git status, generate a concise descriptive commit message from recent changes, then stage, commit, and push if there are changes.",
+  "question_en": "Follow push.prompt.md: check git status, generate a concise descriptive commit message from recent changes, then stage, commit, and push if there are changes.",
+  "question_translated": false,
+  "reloaded_files": 23,
+  "retrieval_strategy": {
+    "avoid": [
+      "reading unrelated large files"
+    ],
+    "prefer_code_index": true,
+    "prefer_local_workspace_brief": false,
+    "preferred_tools": [
+      "search_code_symbols",
+      "get_code_symbol",
+      "read_file"
+    ],
+    "reason": "General code tasks should narrow scope with index lookup when available, then read only the required files.",
+    "task_type": "general_code"
+  },
+  "selected_count": 8,
+  "__truncated_keys__": "+3 keys"
+}
+```

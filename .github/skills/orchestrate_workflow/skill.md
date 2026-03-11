@@ -19,7 +19,7 @@ Use this skill when the user asks for a large or multi-step task.
    - `diagnostic:on` enables audit logging
    - `diagnostic:off` disables audit logging
 - Default: `diagnostic:on` (temporary validation mode)
-- Audit file path: `.vscode/tasks/orchestration_audit.jsonl`
+- Audit file path: `<run_dir>/orchestration_audit.jsonl`
 - Diagnostic mode MUST NOT trigger extra LLM calls by itself; it only records orchestration events.
 
 When diagnostic mode is ON, append an audit JSON line for each stage transition with fields:
@@ -41,7 +41,33 @@ If you find yourself about to start the next task without having produced `SYNTH
 **Problem**: During long runs the conversation grows and early instructions fall out of LLM attention.
 **Solution**: Externalize state to files and re-read critical instructions before every transition.
 
-### Checkpoint file: `.vscode/tasks/orchestrator_state.json`
+### Run directory: `.vscode/tasks/<run_id>/`
+
+At the start of every orchestration run, generate a unique `run_id` and create a dedicated run directory by running the deterministic helper command:
+
+```text
+"<mcp_server_python>" -m rlm_mcp.cli.generate_run_id --project-root "<active_workspace_root>" --create-dir
+```
+
+Use the returned JSON values as the source of truth. Required `run_id` format:
+
+```text
+orch_YYYYMMDD_HHMMSS[_NN]
+```
+
+- `orch` — stable prefix for orchestration runs
+- `YYYYMMDD_HHMMSS` — UTC timestamp to the second
+- `_NN` — collision suffix added only if that timestamp directory already exists
+
+The resulting run directory will be:
+
+```text
+.vscode/tasks/<run_id>/
+```
+
+All generated orchestration artifacts for that run MUST remain inside this directory only. Never reuse another run's directory.
+
+### Checkpoint file: `<run_dir>/orchestrator_state.json`
 
 After EVERY state transition (planning done, task started, task reviewed, synthesizer passed, closure started), **overwrite** this file with current state:
 
@@ -67,8 +93,8 @@ After EVERY state transition (planning done, task started, task reviewed, synthe
 
 Before starting each new task or entering Phase 3, you MUST:
 
-1. **Re-read** `.vscode/tasks/orchestrator_state.json` to recall where you are.
-2. **Re-read** `.vscode/tasks/master_plan.md` to recall the full plan and task statuses.
+1. **Re-read** `<run_dir>/orchestrator_state.json` to recall where you are.
+2. **Re-read** `<run_dir>/master_plan.md` to recall the full plan and task statuses.
 3. **Re-read** the PROTOCOL REMINDER below to refresh critical rules.
 4. Only then proceed with the next action indicated by `next_action` in the checkpoint.
 
@@ -82,8 +108,8 @@ CRITICAL RULES — ORCHESTRATOR PROTOCOL REMINDER
 2. After APPROVE: run synthesizer gate. Produce SYNTHESIZER_GATE_PASSED.
 3. Do NOT start next task until SYNTHESIZER_GATE_PASSED appears.
 4. After ALL tasks: run archivist. Wait for ARCHIVE_OK.
-5. On success: run checklist writer, then delete .vscode/tasks/.
-6. On failure: do NOT delete .vscode/tasks/.
+5. On success: run checklist writer, then delete `<run_dir>/` only.
+6. On failure: do NOT delete `<run_dir>/`.
 7. Final response MUST contain Rules Audit Report table.
 8. Update orchestrator_state.json after every transition.
 ```
@@ -94,8 +120,8 @@ CRITICAL RULES — ORCHESTRATOR PROTOCOL REMINDER
 
 1. Run `planner` with full user objective.
 2. Planner must read memory first and create:
-   - `.vscode/tasks/master_plan.md`
-   - `.vscode/tasks/task_XX_*.md` files
+   - `<run_dir>/master_plan.md`
+   - `<run_dir>/task_XX_*.md` files
 3. If diagnostic mode is ON, write `planner_started` and `planner_finished` audit events.
 
 ### PHASE 2 — TASK EXECUTION LOOP
@@ -105,8 +131,8 @@ CRITICAL RULES — ORCHESTRATOR PROTOCOL REMINDER
 For each task from `master_plan.md` in order:
 
 0. **RE-ORIENT** (mandatory before every task):
-   - Re-read `.vscode/tasks/orchestrator_state.json`
-   - Re-read `.vscode/tasks/master_plan.md`
+   - Re-read `<run_dir>/orchestrator_state.json`
+   - Re-read `<run_dir>/master_plan.md`
    - Re-read the PROTOCOL REMINDER section above
    - Confirm: which task am I about to start? What is `next_action`?
 
@@ -156,13 +182,13 @@ For each task from `master_plan.md` in order:
 ⛔ **ARCHIVIST IS MANDATORY. Do NOT skip this phase. Do NOT go directly to final summary.**
 
 0. **RE-ORIENT before closure** (mandatory):
-   - Re-read `.vscode/tasks/orchestrator_state.json` — confirm all tasks are in `tasks_completed`.
-   - Re-read `.vscode/tasks/master_plan.md` — confirm all tasks are `done`.
+   - Re-read `<run_dir>/orchestrator_state.json` — confirm all tasks are in `tasks_completed`.
+   - Re-read `<run_dir>/master_plan.md` — confirm all tasks are `done`.
    - Re-read the PROTOCOL REMINDER section — refresh closure rules.
    - Update `orchestrator_state.json` with `phase: "closure"`, `next_action: "archivist"`.
 
 1. Run `archivist` to perform memory hygiene pass (verify rules audit completeness, canonical consistency, closure gates).
-2. Proceed to Phase 4 (Validation). Do NOT cleanup `.vscode/tasks/` yet — the validator needs `orchestrator_state.json`.
+2. Proceed to Phase 4 (Validation). Do NOT cleanup `<run_dir>/` yet — the validator needs `orchestrator_state.json`.
 
 ### PHASE 4 — VALIDATION
 
@@ -171,10 +197,10 @@ For each task from `master_plan.md` in order:
 0. Update `orchestrator_state.json` with `phase: "validation"`, `next_action: "validator_script"`.
 1. Run the deterministic validator script:
    ```
-   python scripts/rlm/validate_orchestrator_rules.py --project-root "<active_workspace_root>"
+   read `.vscode/mcp.json` -> resolve `servers.rlm-memory.command` -> run `"<mcp_server_python>" -m rlm_mcp.cli.validate_orchestrator --project-root "<active_workspace_root>" --tasks-dir "<run_dir>"`
    ```
-   This reads `orchestrator_state.json` + `memory/canonical/coding_rules.md` and outputs `.vscode/tasks/validation_report.json`.
-2. Read `.vscode/tasks/validation_report.json`.
+   This reads `orchestrator_state.json` + `memory/canonical/coding_rules.md` and outputs `<run_dir>/validation_report.json`.
+2. Read `<run_dir>/validation_report.json`.
    - If `status == "pass"` → log `VALIDATION_PASS`, proceed to cleanup.
    - If `status == "error"` → log `VALIDATION_ERROR`, proceed to cleanup (non-blocking).
    - If `status == "fail"` → invoke `#agent:validator` to execute only the missed rules.
@@ -184,13 +210,13 @@ For each task from `master_plan.md` in order:
 ### FINAL CLEANUP & SUMMARY
 
 1. If all gates passed (including archivist `ARCHIVE_OK`) and no workflow halts:
-   - if diagnostic mode is ON and `.vscode/tasks/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
+   - if diagnostic mode is ON and `<run_dir>/orchestration_audit.jsonl` exists, copy it to `memory/logs/orchestration_audit_<run_id>.jsonl`
    - run local deterministic checklist report writer (overwrite mode):
-     - `python scripts/rlm/write_orchestrator_memory_checklist.py --project-root "<active_workspace_root>" --run-id "<run_id>" --status "completed"`
-   - then remove `.vscode/tasks/` recursively (including generated `master_plan.md`, `task_*.md`, `orchestrator_state.json`, and `validation_report.json`)
-2. If workflow halted, any gate failed, or archivist did not return `ARCHIVE_OK`, do not delete `.vscode/tasks/`.
+     - `"<mcp_server_python>" -m rlm_mcp.cli.write_checklist --project-root "<active_workspace_root>" --tasks-dir "<run_dir>" --run-id "<run_id>" --status "completed"`
+   - then remove `<run_dir>/` recursively (including generated `master_plan.md`, `task_*.md`, `orchestrator_state.json`, and `validation_report.json`)
+2. If workflow halted, any gate failed, or archivist did not return `ARCHIVE_OK`, do not delete `<run_dir>/`.
    - still run checklist writer with `--status "halted"` or `--status "failed"` to overwrite previous run report.
-   - `orchestrator_state.json` and `validation_report.json` remain for post-mortem debugging.
+   - `orchestrator_state.json` and `validation_report.json` remain in `<run_dir>/` for post-mortem debugging.
 3. Return final condensed summary: completed tasks, halted tasks (if any), memory sync status, validation result, cleanup status.
 4. **MANDATORY: Comprehensive Rules Audit Report.**
    After all tasks are processed (or workflow halts), the orchestrator MUST include in the final user-facing response a **full rules audit report** compiled from accumulated per-task `TASK_RULES_AUDIT` data:
@@ -226,7 +252,7 @@ For each task from `master_plan.md` in order:
 - `synthesizer` must check all active operational rules from project memory for each approved task and execute only matched rules.
 - `synthesizer` must re-check all active operational rules independently for each approved task (no carry-over skip/match state).
 - `OP_RULES_OK` is valid only when matched rules include execution evidence (`command`, `exit_code`, `output_summary`) and no blocking-rule failures.
-- Keep only one current orchestrator checklist file: `memory/logs/orchestrator_memory_checklist.md` (overwrite each run).
+- Keep a per-run checklist snapshot: `memory/logs/orchestrator_memory_checklist_<run_id>.md`.
 - Maintain a run-level **rules audit registry** that accumulates `TASK_RULES_AUDIT` from each synthesizer invocation. This registry is the source for the final Comprehensive Rules Audit Report.
 
 ## RLM memory policy
@@ -256,7 +282,7 @@ Workflow is complete only when:
 - archivist closure pass completed — verified by `ARCHIVE_OK`
 - Phase 4 validation script executed — verified by presence of `validation_report.json` or `VALIDATION_PASS`/`VALIDATION_PARTIAL` token
 - Comprehensive Rules Audit Report is present in the final response
-- on successful completion, `.vscode/tasks/` generated artifacts are cleaned up (including `validation_report.json`)
+- on successful completion, only the current run directory under `.vscode/tasks/<run_id>/` is cleaned up (including `validation_report.json`)
 
 ⛔ **SELF-CHECK before producing final answer**: Count how many tasks exist. Count how many `SYNTHESIZER_GATE_PASSED` tokens you produced. If they don't match — you skipped a synthesizer gate. STOP and fix it before responding.
 

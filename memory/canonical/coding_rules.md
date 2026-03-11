@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-07T23:14:37.172255+01:00
+- updated_at: 2026-03-11T04:01:29.653979+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 156
+- items: 162
 
 ### added_configurable_local_timestamp_mode
 - [change][active;p=8] Implemented configurable timestamp mode across MCP server, REPL logs, and consolidator with new RLM_TIMESTAMP_MODE (local|utc), defaulting to local time for user-friendly timestamps. (source: session:copilot)
@@ -17,6 +17,9 @@
 
 ### audited_external_memory_capacity_and_scaling_risk
 - [analysis][active;p=8] Audited D:\art_network_antigravity memory footprint and scaling behavior: current effective memory context is small and fast, logs are largest on disk but excluded from load, changelog auto-summarization thresholds are present, and long-term risk is growth of non-ignored rlm_memory/changelog files. (source: session:copilot)
+
+### bootstrap_assets_scope
+- [decision][active;p=8] Bootstrap assets now target only .github and .vscode/mcp.json; prompts/docs/install flow resolve the MCP server Python from .vscode/mcp.json and execute RLM utilities from the server environment rather than from the active project directory. (source: session:mcp_server_script_loading_20260308)
 
 ### bootstrap_command_in_readme
 - [decision][active;p=7] README now contains explicit one-liner minimal bootstrap import command from GitHub raw installer. (source: session:readme_minimal_import_command_20260302)
@@ -109,6 +112,15 @@
 
 ### context_and_memory_readiness_check
 - [analysis][active;p=7] Loaded context-window briefing and project memory via local_memory_bootstrap; memory metadata diagnostics confirm accessible project-scoped memory and readiness to continue. (source: session:copilot)
+
+### copilot_bridge_architecture
+- [feature][active;p=9] Copilot Bridge is a 3-component system for remote VS Code development from smartphone: Phone PWA (web/), FastAPI Relay Server (relay/), VS Code Extension (extension/). Communication via WebSocket with shared-token auth. (source: session:bridge_memory_save)
+
+### copilot_bridge_deployment
+- [change][active;p=7] Extension packaged as .vsix and installed in Portable VS Code (D:\PORTABLE\Portable VSCode). Relay server runs locally on port 8765. Phone connects via local network http://192.168.18.142:8765. Auth token: stored in relay/.env and VS Code settings. (source: session:bridge_memory_save)
+
+### copilot_bridge_no_ms_account
+- [decision][active;p=7] Design decision: bridge works WITHOUT Microsoft account. Rejected VS Code Tunnel approach. Uses custom relay + LM API instead. No cloud dependency except optional relay hosting. (source: session:bridge_memory_save)
 
 ### current_project_legacy_facts_migrated_to_strict
 - [change][active;p=9] Migrated current project memory/logs/extracted_facts.jsonl from mixed legacy/canonical layout to fully strict extracted_fact schema (outer_bad=0, inner_bad=0). (source: session:legacy_migration_current_and_neighbor_20260303)
@@ -255,6 +267,12 @@
 
 ### orchestrator_routing_bypass_despite_slash_command
 - [analysis][active;p=8] Refined diagnosis: user may have invoked /orchestrate, but session evidence shows direct-agent execution path (no planner-worker-reviewer-synthesizer stage artifacts in chat trace), indicating orchestration routing/delegation did not engage in that run rather than user trigger error. (source: session:copilot)
+
+### orchestrator_run_id_format
+- [rule][active;p=8] Orchestrator run IDs must be created via the helper command and follow format orch_YYYYMMDD_HHMMSS[_NN], where _NN is only added on timestamp collision. Prompts and workflow docs now treat helper JSON output as the source of truth for run_id and run_dir. (source: session:orchestrator_run_id_generator_20260308)
+
+### orchestrator_tasks_dir_cli_support
+- [change][active;p=8] validate_orchestrator_rules.py and write_orchestrator_memory_checklist.py now accept --tasks-dir for run-specific orchestration artifacts; checklist output defaults to memory/logs/orchestrator_memory_checklist_<run_id>.md instead of a single shared overwrite file. (source: session:orchestrator_run_isolation_20260308)
 
 ### planner_applied_rules_section
 - [feature][active;p=9] Added mandatory Applied Rules section to planner task file template in .github/agents/planner.md. Each task file must now list every canonical memory rule that influenced the plan, with entity name, source file, and one-line summary. Quality bar updated to enforce explicit rule citation. (source: session:copilot)

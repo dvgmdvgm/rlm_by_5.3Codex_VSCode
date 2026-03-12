@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-12T01:00:16.936905+01:00
+- updated_at: 2026-03-12T09:26:14.182416+01:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 20
+- items: 24
 
 ### bootstrap_assets_scope
 - [decision][active;p=8] Bootstrap assets now target only .github and .vscode/mcp.json; prompts/docs/install flow resolve the MCP server Python from .vscode/mcp.json and execute RLM utilities from the server environment rather than from the active project directory. (source: session:mcp_server_script_loading_20260308)
@@ -26,6 +26,9 @@
 
 ### code_graph_handling
 - [rule][active;p=9] Large code_graph.json should stay in local memory pipeline; cloud model should consume only filtered/chunked summaries unless explicitly requested. (source: session:external_memory_translation_20260302)
+
+### code_index_over_grep_for_discovery
+- [rule][active;p=9] Prefer search_code_symbols (1 call) over sequential grep_search chains (3-5 calls) for class/function discovery. Saves ~2000 tokens and 4 tool round-trips per discovery chain. (source: session:token_optimization_20260312)
 
 ### copilot_bridge_no_ms_account
 - [decision][active;p=7] Design decision: bridge works WITHOUT Microsoft account. Rejected VS Code Tunnel approach. Uses custom relay + LM API instead. No cloud dependency except optional relay hosting. (source: session:bridge_memory_save)
@@ -63,3 +66,12 @@
 
 ### Save Memory Rule Workflow
 - [rule][active;p=9] Strengthened save-memory-rule workflow to require immediate consolidate_memory and mandatory canonical verification of RULE_ID/fingerprint; workflow must return RULE_SAVED=no with BLOCKED: CANONICAL_PROMOTION_FAILED when promotion is missing. (source: session:save_memory_rule_workflow_hardening_20260302)
+
+### single_read_per_file
+- [rule][active;p=9] Always read entire file or 500+ line chunks in a single read_file call. Never split into sequential 100-200 line reads. For files >1500 lines use code_index instead. Splitting reads wastes 1 tool round-trip per chunk (~500 tokens each). (source: session:token_optimization_20260312)
+
+### terminal_path_escaping
+- [rule][active;p=8] When calling python or any executable through PowerShell with paths containing spaces, always wrap both the interpreter path and file arguments in double quotes. Never use bare paths with spaces. This prevents terminal retry loops that waste tokens on path-escaping failures. (source: session:token_optimization_20260312)
+
+### worker_trust_skip_reread
+- [rule][active;p=9] In orchestration, reviewer trust level depends on change scope: (1) small changes (<50 lines) or new files — trust worker diff-summary, verify via get_errors/py_compile only; (2) large changes (>100 lines) — re-read only the modified sections, not the entire file; (3) security-critical code (auth, payments, crypto) — full re-read mandatory; (4) 3rd retry on same task — full re-read mandatory. Default: trust + get_errors for most tasks, saving ~3000 tokens per task without sacrificing semantic review for risky changes. (source: session:mutation_20260312_092606)

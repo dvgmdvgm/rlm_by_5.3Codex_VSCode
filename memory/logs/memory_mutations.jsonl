@@ -1,0 +1,1 @@
+{"ts": "2026-03-12T09:26:14.193933+01:00", "type": "memory_mutation_apply", "mode": "on", "plan_id": "mutation_20260312_092606", "action": "update", "query": "worker_trust_skip_reread", "records_appended": 2, "project_path": "d:\\AI Projects\\VSCode_Projects\\RLM_Realization", "memory_dir": "d:/AI Projects/VSCode_Projects/RLM_Realization/memory"}

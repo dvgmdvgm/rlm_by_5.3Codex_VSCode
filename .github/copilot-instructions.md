@@ -32,7 +32,12 @@ Before ANY response: call `local_memory_bootstrap(question=<user_task>, project_
 - **Never re-read** a file already in context. If summarization compresses history, use subagents instead.
 - **Backup before create** — `Move-Item .bak` THEN `create_file`. Never reverse.
 - **Targeted search** — use 2-3 specific globs, not 10 exploratory patterns.
+- **Prefer code_index over grep chains** — `search_code_symbols` (1 call) replaces 3-5 sequential `grep_search` calls for class/function discovery.
 - **Rewrite tasks** → decompose into subagents (1 per file type: CSS, templates, JS). Each gets a clean context window, reads + writes without context competition.
+- **If `workflow_hints.file_sizes` present** → use the `recommendation` field per file: `"read_full_once"` = read in 1 call, `"use_code_index"` = use `get_code_file_outline` + `get_code_symbol`.
+- **Terminal paths** — always wrap paths with spaces in double quotes: `& "path\to\python.exe" -m py_compile "path\to\file.py"`.
+- **Orchestration finalization** — use single CLI command instead of 4-5 separate calls: `python -m rlm_mcp.cli.finalize_orchestration --project-root "<path>" --run-id "<run_id>"`.
+- **Worker trust** — reviewer verifies via `get_errors`/`py_compile` for small changes (<50 lines). For large changes (>100 lines) re-read only modified sections. For security-critical code or 3rd retry — full re-read mandatory.
 
 ### B) During implementation [DIRECT MODE ONLY]
 

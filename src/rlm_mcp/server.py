@@ -157,8 +157,11 @@ def _classify_task_type(question: str) -> str:
     return "general_code"
 
 
-def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, Any]:
+def _build_retrieval_strategy(question: str, has_code_index: bool, project_path: str | None = None) -> dict[str, Any]:
     task_type = _classify_task_type(question)
+
+    # Build file-size hints once (cheap: reads from cached code_index)
+    file_size_hints = _build_file_size_hints(project_path) if has_code_index else {}
 
     if task_type == "informational":
         return {
@@ -171,7 +174,7 @@ def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, 
         }
 
     if task_type == "ui_template":
-        return {
+        result: dict[str, Any] = {
             "task_type": task_type,
             "prefer_code_index": False,
             "prefer_local_workspace_brief": True,
@@ -179,9 +182,12 @@ def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, 
             "avoid": ["reading many large templates before narrowing targets"],
             "reason": "UI/template tasks usually need local structural summarization of a few markup/style files rather than symbol lookup.",
         }
+        if file_size_hints:
+            result["workflow_hints"] = {"file_sizes": file_size_hints}
+        return result
 
     if task_type == "symbol_lookup":
-        return {
+        result = {
             "task_type": task_type,
             "prefer_code_index": has_code_index,
             "prefer_local_workspace_brief": False,
@@ -189,6 +195,9 @@ def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, 
             "avoid": ["reading full files before symbol search"] if has_code_index else [],
             "reason": "Symbol lookup tasks benefit most from index-based retrieval.",
         }
+        if file_size_hints:
+            result["workflow_hints"] = {"file_sizes": file_size_hints}
+        return result
 
     if task_type == "rewrite":
         return {
@@ -211,6 +220,7 @@ def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, 
                 "write_strategy": "Backup original (Move-Item .bak) BEFORE creating new file. Never create then backup.",
                 "search_strategy": "Use 2-3 targeted globs (e.g. **/jobs/dashboard*.html) instead of 10+ exploratory searches.",
                 "canonical": "Read ONLY coding_rules.md for project-specific rules. Skip architecture.md and active_tasks.md.",
+                **({"file_sizes": file_size_hints} if file_size_hints else {}),
             },
         }
 
@@ -219,7 +229,7 @@ def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, 
         if has_code_index:
             preferred_tools.extend(["search_code_symbols", "get_code_symbol"])
         preferred_tools.append("read_file")
-        return {
+        result = {
             "task_type": task_type,
             "prefer_code_index": has_code_index,
             "prefer_local_workspace_brief": False,
@@ -227,14 +237,70 @@ def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, 
             "avoid": ["reading unrelated large files"] if has_code_index else [],
             "reason": "General code tasks should narrow scope with index lookup when available, then read only the required files.",
         }
+        if file_size_hints:
+            result["workflow_hints"] = {
+                "file_sizes": file_size_hints,
+                "read_strategy": "Read each file once in 1 large chunk. For files >1500 lines use code_index symbols.",
+                "discovery": "Use search_code_symbols for class/function discovery instead of sequential grep_search chains.",
+            }
+        return result
 
-    return {
+    result = {
         "task_type": task_type,
         "prefer_code_index": has_code_index,
         "prefer_local_workspace_brief": False,
         "preferred_tools": ["read_file"],
         "avoid": [],
         "reason": "Fallback routing.",
+    }
+    if file_size_hints:
+        result["workflow_hints"] = {"file_sizes": file_size_hints}
+    return result
+
+
+def _build_file_size_hints(project_path: str | None) -> dict[str, Any]:
+    """Build compact file-size hints from code index for token-efficient read planning.
+
+    Returns dict with:
+      - large_files: files >500 lines with read recommendation
+      - total_indexed: number of indexed files
+    """
+    try:
+        code_idx = _get_code_index(project_path)
+        index_data = code_idx._load_index()
+        if not index_data or "symbols" not in index_data:
+            return {}
+    except Exception:
+        return {}
+
+    # Group symbols by file to find max end_line per file
+    file_max_line: dict[str, int] = {}
+    file_symbol_count: dict[str, int] = {}
+    for sym in index_data.get("symbols", []):
+        fp = sym.get("file_path", "")
+        end_line = sym.get("end_line", 0)
+        if fp:
+            file_max_line[fp] = max(file_max_line.get(fp, 0), end_line)
+            file_symbol_count[fp] = file_symbol_count.get(fp, 0) + 1
+
+    large_files: dict[str, dict[str, Any]] = {}
+    for fp, max_line in file_max_line.items():
+        if max_line > 500:
+            recommendation = "use_code_index" if max_line > 1500 else "read_full_once"
+            large_files[fp] = {
+                "est_lines": max_line,
+                "symbols": file_symbol_count.get(fp, 0),
+                "recommendation": recommendation,
+            }
+
+    if not large_files:
+        return {}
+
+    return {
+        "large_files": large_files,
+        "total_indexed": index_data.get("stats", {}).get("total_files", len(file_max_line)),
+        "hint": "Files >1500 lines: use get_code_file_outline + get_code_symbol. "
+                "Files 500-1500 lines: read_file in 1 call. Never split reads.",
     }
 
 
@@ -1184,7 +1250,7 @@ def local_memory_bootstrap(
     except Exception:
         code_summary = None
 
-    retrieval_strategy = _build_retrieval_strategy(question, bool(code_summary))
+    retrieval_strategy = _build_retrieval_strategy(question, bool(code_summary), project_path=project_path)
     task_type = retrieval_strategy.get("task_type", "general_code")
 
     # Informational questions don't need canonical at all.

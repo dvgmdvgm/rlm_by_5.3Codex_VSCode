@@ -261,6 +261,9 @@ Post-orchestration validation (Phase 4):
 - Deterministic Python script (`scripts/rlm/validate_orchestrator_rules.py`) reads `<run_dir>/orchestrator_state.json` + `coding_rules.md`, cross-references applied rules vs all active operational rules, outputs `<run_dir>/validation_report.json`.
 - If missed rules found (`status == "fail"`), lightweight `#agent:validator` (`.github/agents/validator.md`) executes only the missed actions with minimal context footprint.
 - Runs after archivist, before final cleanup of the current run directory.
+- **Compact finalization**: use single CLI command instead of 4-5 separate calls:
+  `"<mcp_server_python>" -m rlm_mcp.cli.finalize_orchestration --project-root "<path>" --run-id "<run_id>"`
+  This combines: validate → checklist → archive audit log → cleanup run dir.
 
 Entrypoint behavior:
 - `/orchestrate` routes to orchestrator skill prompt policy.

@@ -109,6 +109,13 @@ def _read_text_with_fallback(file_path: Path) -> str | None:
 def _classify_task_type(question: str) -> str:
     q = (question or "").lower()
 
+    # Informational / chat questions that don't need code or canonical context
+    info_markers = (
+        "what is", "about", "describe", "explain", "overview", "summary",
+        "tell me", "how does", "how do", "purpose", "что это", "о чём",
+        "о чем", "расскажи", "опиши", "объясни", "зачем", "для чего",
+        "как работает", "what does", "what are",
+    )
     ui_markers = (
         "template", "layout", "design", "style", "css", "html", "page",
         "screen", "component", "ui", "ux", "profile", "markup", "view",
@@ -137,11 +144,23 @@ def _classify_task_type(question: str) -> str:
         return "bugfix"
     if any(marker in q for marker in refactor_markers):
         return "refactor"
+    if any(marker in q for marker in info_markers):
+        return "informational"
     return "general_code"
 
 
 def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, Any]:
     task_type = _classify_task_type(question)
+
+    if task_type == "informational":
+        return {
+            "task_type": task_type,
+            "prefer_code_index": False,
+            "prefer_local_workspace_brief": False,
+            "preferred_tools": [],
+            "avoid": ["reading canonical files", "reading source files"],
+            "reason": "Informational questions are answered from bootstrap brief alone.",
+        }
 
     if task_type == "ui_template":
         return {
@@ -1134,6 +1153,11 @@ def local_memory_bootstrap(
         code_summary = None
 
     retrieval_strategy = _build_retrieval_strategy(question, bool(code_summary))
+    task_type = retrieval_strategy.get("task_type", "general_code")
+
+    # Informational questions don't need canonical file reads
+    canonical_read_needed = task_type not in ("informational",)
+
     response = {
         "question": question,
         "question_en": brief.get("question_en", question),
@@ -1145,6 +1169,7 @@ def local_memory_bootstrap(
         "local_model_output_language": "en",
         "user_response_language": user_response_language,
         "user_response_style": user_response_style,
+        "canonical_read_needed": canonical_read_needed,
         "memory_stats": {
             "total_files": metadata["total_files"],
             "total_chars": metadata["total_chars"],
@@ -1152,12 +1177,26 @@ def local_memory_bootstrap(
         },
         "project_path": project_path,
         "memory_dir": memory_dir.as_posix(),
-        "retrieval_strategy": retrieval_strategy,
     }
 
-    # Auto-attach code index summary if index exists
-    if code_summary:
-        response["code_index_summary"] = code_summary
+    # Only attach retrieval details for coding tasks
+    if canonical_read_needed:
+        response["retrieval_strategy"] = {
+            "task_type": task_type,
+            "preferred_tools": retrieval_strategy.get("preferred_tools", []),
+        }
+    else:
+        response["retrieval_strategy"] = {"task_type": task_type}
+
+    # Auto-attach compact code index summary for coding tasks only
+    if code_summary and canonical_read_needed:
+        # Trim per-file counts to save ~150 tokens
+        response["code_index_summary"] = {
+            "total_files": code_summary.get("total_files", 0),
+            "total_symbols": code_summary.get("total_symbols", 0),
+            "languages": code_summary.get("languages", {}),
+            "hint": code_summary.get("hint", ""),
+        }
 
     if retrieval_strategy.get("prefer_local_workspace_brief"):
         try:

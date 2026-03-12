@@ -107,6 +107,7 @@ def _classify_fact(fact: FactItem) -> str:
         "convention": "coding_rules",
         "style": "coding_rules",
         "lint": "coding_rules",
+        "decision": "coding_rules",
         "architecture": "architecture",
         "section": "architecture",
         "api": "architecture",
@@ -116,7 +117,17 @@ def _classify_fact(fact: FactItem) -> str:
     if fact_type in _type_to_bucket:
         return _type_to_bucket[fact_type]
 
-    # --- Level 2: keyword scan on entity + value only (no fact_type) ---
+    # --- Level 1.5: transient types → skip canonical entirely ---
+    # These record *what happened*, not persistent rules/architecture.
+    # They stay in extracted_facts.jsonl and changelogs for audit.
+    _transient_types = {
+        "change", "fix", "feature", "analysis",
+        "documentation", "review",
+    }
+    if fact_type in _transient_types:
+        return "_skip"
+
+    # --- Level 2: keyword scan on entity + value only (NOT type) ---
     source = fact.source.lower()
     entity = fact.entity.lower()
     value = fact.value.lower()
@@ -153,8 +164,10 @@ def _classify_fact(fact: FactItem) -> str:
     if _wb_match(arch_markers, blob):
         return "architecture"
 
-    # Fallback: coding_rules is the safest default for unclassified facts.
-    return "coding_rules"
+    # Fallback: unclassified facts (change, fix, analysis, feature,
+    # documentation, review, etc.) are ephemeral and should NOT bloat
+    # canonical files.  They stay in extracted_facts.jsonl / changelogs.
+    return "_skip"
 
 
 def _render_markdown(title: str, doc_id: str, source_log: str, items: list[FactItem]) -> str:
@@ -307,7 +320,9 @@ def consolidate_memory(
             continue
         seen_active.add(active_key)
         bucket = _classify_fact(fact)
-        buckets[bucket].append(fact)
+        if bucket in buckets:
+            buckets[bucket].append(fact)
+        # _skip and unknown buckets are intentionally omitted from canonical
 
     architecture_path = canonical_dir / "architecture.md"
     coding_rules_path = canonical_dir / "coding_rules.md"

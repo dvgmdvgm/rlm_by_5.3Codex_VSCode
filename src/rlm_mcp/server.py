@@ -135,7 +135,15 @@ def _classify_task_type(question: str) -> str:
         "refactor", "cleanup", "simplify", "restructure", "optimize",
         "рефактор", "упрост", "оптимиз", "перестро",
     )
+    rewrite_markers = (
+        "rewrite", "from scratch", "ground-up", "ground up", "rework",
+        "full rewrite", "start over", "rebuild", "new implementation",
+        "с нуля", "переписать", "переписыва", "переделать", "переделыва",
+        "заново", "полная переделка", "полный рерайт",
+    )
 
+    if any(marker in q for marker in rewrite_markers):
+        return "rewrite"
     if any(marker in q for marker in ui_markers):
         return "ui_template"
     if any(marker in q for marker in symbol_markers):
@@ -180,6 +188,30 @@ def _build_retrieval_strategy(question: str, has_code_index: bool) -> dict[str, 
             "preferred_tools": ["search_code_symbols", "get_code_symbol", "get_code_file_outline"] if has_code_index else ["read_file"],
             "avoid": ["reading full files before symbol search"] if has_code_index else [],
             "reason": "Symbol lookup tasks benefit most from index-based retrieval.",
+        }
+
+    if task_type == "rewrite":
+        return {
+            "task_type": task_type,
+            "prefer_code_index": False,
+            "prefer_local_workspace_brief": True,
+            "preferred_tools": ["local_workspace_brief", "read_file", "runSubagent"],
+            "avoid": [
+                "reading architecture.md or active_tasks.md (not needed for rewrite)",
+                "reading same file multiple times",
+                "shotgun file_search (use 2-3 targeted glob patterns)",
+                "small read chunks (read entire file in 1 call)",
+            ],
+            "reason": "Rewrite tasks replace existing code entirely. Read coding_rules.md for project standards, "
+                       "skip architecture/active_tasks. Decompose into subagents to avoid context overflow.",
+            "workflow_hints": {
+                "decompose": "Split into independent subagents: one per file type (CSS, templates, JS). "
+                              "Each subagent gets a clean 128K window and reads+writes its files without competing for context.",
+                "read_strategy": "Read each file once in a single large chunk. Never split reads into 200-line increments.",
+                "write_strategy": "Backup original (Move-Item .bak) BEFORE creating new file. Never create then backup.",
+                "search_strategy": "Use 2-3 targeted globs (e.g. **/jobs/dashboard*.html) instead of 10+ exploratory searches.",
+                "canonical": "Read ONLY coding_rules.md for project-specific rules. Skip architecture.md and active_tasks.md.",
+            },
         }
 
     if task_type in {"bugfix", "refactor", "general_code"}:
@@ -1155,8 +1187,14 @@ def local_memory_bootstrap(
     retrieval_strategy = _build_retrieval_strategy(question, bool(code_summary))
     task_type = retrieval_strategy.get("task_type", "general_code")
 
-    # Informational questions don't need canonical file reads
-    canonical_read_needed = task_type not in ("informational",)
+    # Informational questions don't need canonical at all.
+    # Rewrite tasks need only coding_rules.md (not architecture/active_tasks).
+    if task_type == "informational":
+        canonical_read_needed = False
+    elif task_type == "rewrite":
+        canonical_read_needed = "rules_only"
+    else:
+        canonical_read_needed = True
 
     response = {
         "question": question,
@@ -1179,8 +1217,15 @@ def local_memory_bootstrap(
         "memory_dir": memory_dir.as_posix(),
     }
 
-    # Only attach retrieval details for coding tasks
-    if canonical_read_needed:
+    # Attach retrieval details — compact for informational, full for rewrite, standard for rest
+    if task_type == "rewrite":
+        response["retrieval_strategy"] = {
+            "task_type": task_type,
+            "preferred_tools": retrieval_strategy.get("preferred_tools", []),
+            "avoid": retrieval_strategy.get("avoid", []),
+            "workflow_hints": retrieval_strategy.get("workflow_hints", {}),
+        }
+    elif canonical_read_needed:
         response["retrieval_strategy"] = {
             "task_type": task_type,
             "preferred_tools": retrieval_strategy.get("preferred_tools", []),
@@ -1189,7 +1234,7 @@ def local_memory_bootstrap(
         response["retrieval_strategy"] = {"task_type": task_type}
 
     # Auto-attach compact code index summary for coding tasks only
-    if code_summary and canonical_read_needed:
+    if code_summary and canonical_read_needed is True:
         # Trim per-file counts to save ~150 tokens
         response["code_index_summary"] = {
             "total_files": code_summary.get("total_files", 0),

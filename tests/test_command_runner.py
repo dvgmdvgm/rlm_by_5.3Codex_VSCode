@@ -22,6 +22,12 @@ def main() -> int:
 
     tests = [
         {
+            "name": "quick silent exit",
+            "command": f'"{PYTHON_EXE}" -c "pass"',
+            "kwargs": {"timeout_seconds": 10, "startup_timeout_seconds": 3, "idle_timeout_seconds": 3},
+            "expect_timeout": False,
+        },
+        {
             "name": "quick output",
             "command": f'"{PYTHON_EXE}" -c "print(123)"',
             "kwargs": {"timeout_seconds": 10, "startup_timeout_seconds": 3, "idle_timeout_seconds": 3},
@@ -58,6 +64,8 @@ def main() -> int:
         ok = result.timed_out == test["expect_timeout"]
         if test.get("expect_type"):
             ok = ok and result.timeout_type == test["expect_type"]
+        if test["name"] == "quick silent exit":
+            ok = ok and result.stdout == "" and result.stderr == "" and result.exit_code == 0
         if test["name"] == "quick output":
             ok = ok and result.stdout.strip() == "123"
         if test["name"] == "idle timeout after first output":

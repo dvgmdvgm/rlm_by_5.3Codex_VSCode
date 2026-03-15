@@ -114,6 +114,8 @@ def run_command_incremental(
     t_out.start()
     t_err.start()
 
+    process_finished_at: float | None = None
+
     while True:
         now = time.monotonic()
 
@@ -151,8 +153,13 @@ def run_command_incremental(
             _terminate_process(proc)
             break
 
-        if proc.poll() is not None and done_markers >= 2:
-            break
+        if proc.poll() is not None:
+            if process_finished_at is None:
+                process_finished_at = time.monotonic()
+            # Do not wait indefinitely for reader threads on silent commands.
+            # Give a short grace period to flush queue, then exit.
+            if done_markers >= 2 or (time.monotonic() - process_finished_at) >= 0.25:
+                break
 
     # Drain any remaining queued output briefly after process end/termination.
     drain_deadline = time.monotonic() + 0.5

@@ -15,8 +15,12 @@ from .config import load_settings
 from .consolidator import consolidate_memory as consolidate_memory_impl
 from .llm_adapter import OllamaAdapter
 from .memory_store import MemoryStore
+from .output_compressor import compress_output, detect_command_type, CompressionResult
+from .powershell_fixer import fix_powershell_command
 from .repl_runtime import ReplRuntime
 from .time_policy import current_timezone, now_dt, now_iso
+from .token_tracker import TokenTracker, CompressionEvent
+from .venv_resolver import resolve_python_command
 
 settings = load_settings()
 llm_adapter = OllamaAdapter(
@@ -27,6 +31,7 @@ llm_adapter = OllamaAdapter(
 )
 runtimes: dict[str, ReplRuntime] = {}
 stores: dict[str, MemoryStore] = {}
+token_trackers: dict[str, TokenTracker] = {}
 
 mcp = FastMCP("hybrid-rlm-memory")
 CLOUD_PAYLOAD_LOG_REL_PATH = "logs/cloud_payload_audit.md"
@@ -1898,6 +1903,179 @@ def get_code_file_outline(
         payload=response,
     )
     return response
+
+
+# ---------------------------------------------------------------------------
+# Token-compression helpers
+# ---------------------------------------------------------------------------
+
+def _get_tracker(memory_dir: Path) -> TokenTracker:
+    cache_key = _key(memory_dir)
+    if cache_key not in token_trackers:
+        token_trackers[cache_key] = TokenTracker(memory_dir)
+    return token_trackers[cache_key]
+
+
+# ---------------------------------------------------------------------------
+# MCP Tools — Token Compression (RTK-like)
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+def run_compressed_command(
+    command: str,
+    command_type: str | None = None,
+    max_lines: int = 80,
+    project_path: str | None = None,
+) -> dict:
+    """Execute a shell command and return compressed output with token savings.
+
+    Auto-detects command type or use explicit command_type:
+    git_status, git_log, git_diff, git_push, ls, tree, grep, pytest, cargo_test, npm_test, generic
+
+    Also auto-fixes common Bash→PowerShell syntax errors (17 patterns) before execution.
+    Also auto-resolves Python commands through project venv (eliminates retry loops).
+    """
+    import subprocess
+    import platform
+
+    memory_dir = _resolve_memory_dir(project_path)
+    ctype = command_type or detect_command_type(command)
+    effective_cwd = project_path or str(Path.cwd())
+
+    # Step 1: Auto-resolve Python commands through venv
+    actual_command = command
+    venv_info: dict | None = None
+    venv_result = resolve_python_command(command, effective_cwd)
+    if venv_result.was_modified:
+        actual_command = venv_result.resolved
+        venv_info = venv_result.to_dict()
+
+    # Step 2: Auto-fix PowerShell syntax on Windows
+    ps_fixes: dict | None = None
+    if platform.system() == "Windows":
+        fix_result = fix_powershell_command(actual_command)
+        if fix_result.was_modified:
+            actual_command = fix_result.fixed
+            ps_fixes = fix_result.to_dict()
+
+    # Execute the command
+    try:
+        proc = subprocess.run(
+            actual_command,
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=60,
+            cwd=effective_cwd,
+            encoding="utf-8",
+            errors="replace",
+        )
+        raw_output = proc.stdout
+        if proc.stderr:
+            raw_output += "\n" + proc.stderr
+    except subprocess.TimeoutExpired:
+        return {"error": "Command timed out (60s)", "command": command}
+    except Exception as e:
+        return {"error": str(e), "command": command}
+
+    # Compress
+    result = compress_output(raw_output, command_type=ctype, max_lines=max_lines)
+
+    # Track savings
+    tracker = _get_tracker(memory_dir)
+    tracker.record(CompressionEvent(
+        ts=_now_iso(),
+        command=command,
+        command_type=ctype,
+        original_tokens=result.original_tokens,
+        compressed_tokens=result.compressed_tokens,
+        savings_pct=result.savings_pct,
+        strategies=result.strategy_applied,
+    ))
+
+    response = result.to_dict()
+    response["command"] = command
+    response["detected_type"] = ctype
+    if venv_info and venv_info.get("was_modified"):
+        response["venv_resolved"] = venv_info
+    if ps_fixes and ps_fixes.get("was_modified"):
+        response["ps_auto_fixed"] = ps_fixes
+    if proc.returncode != 0:
+        response["exit_code"] = proc.returncode
+
+    _log_cloud_payload(
+        tool_name="run_compressed_command",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+    return response
+
+
+@mcp.tool()
+def compress_text(
+    text: str,
+    command_type: str = "generic",
+    max_lines: int = 80,
+    project_path: str | None = None,
+) -> dict:
+    """Compress arbitrary text using token-reduction strategies.
+
+    Useful when you already have command output and want to compress it
+    before sending to the LLM context.
+    """
+    memory_dir = _resolve_memory_dir(project_path)
+    result = compress_output(text, command_type=command_type, max_lines=max_lines)
+
+    tracker = _get_tracker(memory_dir)
+    tracker.record(CompressionEvent(
+        ts=_now_iso(),
+        command=f"(compress_text:{command_type})",
+        command_type=command_type,
+        original_tokens=result.original_tokens,
+        compressed_tokens=result.compressed_tokens,
+        savings_pct=result.savings_pct,
+        strategies=result.strategy_applied,
+    ))
+
+    return result.to_dict()
+
+
+@mcp.tool()
+def token_gain(
+    project_path: str | None = None,
+) -> dict:
+    """Show cumulative token savings analytics — how much tokens were saved across all compressed commands."""
+    memory_dir = _resolve_memory_dir(project_path)
+    tracker = _get_tracker(memory_dir)
+    return tracker.gain_summary()
+
+
+@mcp.tool()
+def token_gain_history(
+    limit: int = 20,
+    project_path: str | None = None,
+) -> dict:
+    """Show recent token compression events with per-command savings."""
+    memory_dir = _resolve_memory_dir(project_path)
+    tracker = _get_tracker(memory_dir)
+    return {"recent": tracker.recent_history(limit=limit)}
+
+
+@mcp.tool()
+def fix_command(
+    command: str,
+) -> dict:
+    """Check a shell command for common Bash→PowerShell syntax errors and return fixes/warnings.
+
+    Covers 17 patterns (PS-01..PS-17):
+    - 12 auto-fixable: &&→;, export→$env:, grep→Select-String, rm -rf, ls -la, touch, which, head/tail, etc.
+    - 5 detect-only: heredoc, $() in quotes, '$var', 2>&1 order, powershell -c subshell.
+
+    Does NOT execute the command — only analyzes and fixes the syntax.
+    """
+    result = fix_powershell_command(command)
+    return result.to_dict()
 
 
 def run() -> None:

@@ -10,6 +10,7 @@ from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
+from .command_runner import run_command_incremental
 from .code_index import CodeIndex
 from .config import load_settings
 from .consolidator import consolidate_memory as consolidate_memory_impl
@@ -1925,6 +1926,9 @@ def run_compressed_command(
     command: str,
     command_type: str | None = None,
     max_lines: int = 80,
+    timeout_seconds: int = 60,
+    startup_timeout_seconds: int = 15,
+    idle_timeout_seconds: int = 20,
     project_path: str | None = None,
 ) -> dict:
     """Execute a shell command and return compressed output with token savings.
@@ -1934,8 +1938,8 @@ def run_compressed_command(
 
     Also auto-fixes common Bash→PowerShell syntax errors (17 patterns) before execution.
     Also auto-resolves Python commands through project venv (eliminates retry loops).
+    Returns partial output on startup/idle/overall timeout instead of hanging until the hard shell timeout.
     """
-    import subprocess
     import platform
 
     memory_dir = _resolve_memory_dir(project_path)
@@ -1958,23 +1962,16 @@ def run_compressed_command(
             actual_command = fix_result.fixed
             ps_fixes = fix_result.to_dict()
 
-    # Execute the command
+    # Execute the command with incremental capture and timeout guards.
     try:
-        proc = subprocess.run(
+        run_result = run_command_incremental(
             actual_command,
-            shell=True,
-            capture_output=True,
-            text=True,
-            timeout=60,
             cwd=effective_cwd,
-            encoding="utf-8",
-            errors="replace",
+            timeout_seconds=timeout_seconds,
+            startup_timeout_seconds=startup_timeout_seconds,
+            idle_timeout_seconds=idle_timeout_seconds,
         )
-        raw_output = proc.stdout
-        if proc.stderr:
-            raw_output += "\n" + proc.stderr
-    except subprocess.TimeoutExpired:
-        return {"error": "Command timed out (60s)", "command": command}
+        raw_output = run_result.combined_output()
     except Exception as e:
         return {"error": str(e), "command": command}
 
@@ -1995,13 +1992,23 @@ def run_compressed_command(
 
     response = result.to_dict()
     response["command"] = command
+    response["effective_command"] = actual_command
     response["detected_type"] = ctype
+    response["execution"] = {
+        "duration_sec": run_result.duration_sec,
+        "timed_out": run_result.timed_out,
+        "timeout_type": run_result.timeout_type,
+        "terminated": run_result.terminated,
+        "had_output": run_result.had_output,
+        "stdout_lines": run_result.stdout_lines,
+        "stderr_lines": run_result.stderr_lines,
+    }
     if venv_info and venv_info.get("was_modified"):
         response["venv_resolved"] = venv_info
     if ps_fixes and ps_fixes.get("was_modified"):
         response["ps_auto_fixed"] = ps_fixes
-    if proc.returncode != 0:
-        response["exit_code"] = proc.returncode
+    if run_result.exit_code is not None and run_result.exit_code != 0:
+        response["exit_code"] = run_result.exit_code
 
     _log_cloud_payload(
         tool_name="run_compressed_command",

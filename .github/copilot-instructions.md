@@ -44,8 +44,9 @@ Before ANY response: call `local_memory_bootstrap(question=<user_task>, project_
 **MANDATORY**: When you need to execute a shell command and read its output, use `run_compressed_command` MCP tool INSTEAD of `run_in_terminal`. This provides:
 1. **Auto-fix of 17 PowerShell syntax errors** — Bash→PS fixes (&&→;, grep→Select-String, rm -rf, export, etc.) applied BEFORE execution. Prevents retry loops.
 2. **Auto-resolve Python through venv** — `python`, `pip`, `pytest`, etc. are automatically routed through the project's `.venv` without needing to activate it first. Eliminates 2-3 retry calls.
-3. **Output compression (60-97% token savings)** — git, grep, test, ls outputs are compressed automatically.
-4. **Token savings tracking** — every call is logged for analytics (`token_gain` tool).
+3. **Incremental timeout guards** — silent commands fail fast with startup/idle/overall timeout metadata instead of hanging the UI for ~60s with no visible output.
+4. **Output compression (60-97% token savings)** — git, grep, test, ls outputs are compressed automatically.
+5. **Token savings tracking** — every call is logged for analytics (`token_gain` tool).
 
 **When to use which tool:**
 | Scenario | Tool |

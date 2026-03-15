@@ -36,7 +36,8 @@ EXTRACTED_FACTS_LOG_REL_PATH = "logs/extracted_facts.jsonl"
 MUTATION_AUDIT_LOG_REL_PATH = "logs/memory_mutations.jsonl"
 MUTATION_ALLOWED_MODES = {"off", "dry-run", "on"}
 WORKSPACE_SOURCE_EXTENSIONS = {
-    ".py", ".js", ".jsx", ".ts", ".tsx", ".html", ".htm", ".css",
+    ".py", ".js", ".jsx", ".ts", ".tsx", ".html", ".htm", ".djhtml",
+    ".jinja", ".jinja2", ".j2", ".css",
     ".scss", ".sass", ".less", ".vue", ".svelte", ".json", ".md",
 }
 WORKSPACE_IGNORE_DIRS = {
@@ -1859,8 +1860,9 @@ def get_code_file_outline(
     code_idx = _get_code_index(project_path)
     outline = code_idx.get_file_outline(file_path)
     memory_dir = _resolve_memory_dir(project_path)
+    resolved_file_path = code_idx.normalize_file_path(file_path)
 
-    abs_file_path = code_idx.project_root / file_path
+    abs_file_path = code_idx.resolve_file_path(file_path)
     file_size = 0
     try:
         file_size = abs_file_path.stat().st_size
@@ -1874,6 +1876,7 @@ def get_code_file_outline(
     response = {
         "ok": True,
         "file_path": file_path,
+        "resolved_file_path": resolved_file_path,
         "symbols": outline,
         "total_symbols": len(outline),
         "token_savings": {

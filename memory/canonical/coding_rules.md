@@ -2,7 +2,7 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-12T09:26:14.182416+01:00
+- updated_at: 2026-03-14T22:46:16.501227+01:00
 - source: memory/logs/extracted_facts.jsonl
 - items: 24
 

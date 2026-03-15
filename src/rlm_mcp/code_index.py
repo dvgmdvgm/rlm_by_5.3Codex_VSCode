@@ -9,6 +9,7 @@ is unavailable.
 from __future__ import annotations
 
 import ast as python_ast
+from bisect import bisect_right
 import json
 import os
 import re
@@ -210,6 +211,11 @@ LANG_CONFIG: dict[str, dict[str, Any]] = {
             "method_signature": "method",
         },
     },
+    "html": {
+        "extensions": {".html", ".htm", ".djhtml", ".jinja", ".jinja2", ".j2"},
+        "grammar": "html",
+        "symbol_nodes": {},
+    },
 }
 
 # Extension → language key lookup
@@ -217,6 +223,49 @@ _EXT_TO_LANG: dict[str, str] = {}
 for _lang_name, _cfg in LANG_CONFIG.items():
     for _ext in _cfg["extensions"]:
         _EXT_TO_LANG[_ext] = _lang_name
+
+
+TEMPLATE_TOKEN_RE = re.compile(r"({{.*?}}|{#.*?#}|{%.*?%})", re.DOTALL)
+HTML_TAG_RE = re.compile(
+    r"<(?P<closing>/)?(?P<tag>[A-Za-z][A-Za-z0-9:_-]*)(?P<attrs>[^<>]*?)(?P<selfclosing>/?)>",
+    re.DOTALL,
+)
+HTML_ATTR_RE = re.compile(
+    r"([:@A-Za-z_][\w:.-]*)(?:\s*=\s*(\"[^\"]*\"|'[^']*'|[^\s\"'>/=`]+))?",
+)
+QUOTED_LITERAL_RE = re.compile(r"['\"]([^'\"]+)['\"]")
+VOID_HTML_TAGS = {
+    "area", "base", "br", "col", "embed", "hr", "img", "input",
+    "link", "meta", "param", "source", "track", "wbr",
+}
+HTML_SYMBOL_KINDS = {
+    "form": "form",
+    "section": "section",
+    "main": "section",
+    "nav": "section",
+    "article": "section",
+    "aside": "section",
+    "header": "section",
+    "footer": "section",
+    "table": "table",
+    "dialog": "section",
+    "template": "template",
+    "ul": "list",
+    "ol": "list",
+}
+TEMPLATE_BLOCK_TAGS = {
+    "block": ("endblock", "block"),
+    "if": ("endif", "condition"),
+    "for": ("endfor", "loop"),
+    "with": ("endwith", "scope"),
+    "filter": ("endfilter", "filter"),
+    "comment": ("endcomment", "comment"),
+    "autoescape": ("endautoescape", "directive"),
+    "blocktranslate": ("endblocktranslate", "translation"),
+    "spaceless": ("endspaceless", "directive"),
+    "verbatim": ("endverbatim", "directive"),
+}
+TEMPLATE_NON_STRUCTURAL_TAGS = {"else", "elif", "empty", "endifequal", "endifchanged"}
 
 
 # ================================================================
@@ -230,6 +279,403 @@ def _read_bytes_safe(path: Path) -> bytes:
         return b""
 
 
+def _decode_source_bytes(source_bytes: bytes) -> str:
+    for encoding in ("utf-8", "utf-8-sig", "cp1251"):
+        try:
+            return source_bytes.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return source_bytes.decode("utf-8", errors="replace")
+
+
+def _compact_text(value: str, limit: int = 120) -> str:
+    compact = " ".join(value.split())
+    if len(compact) <= limit:
+        return compact
+    return compact[: limit - 1] + "…"
+
+
+def _build_char_to_byte_map(source_text: str) -> list[int]:
+    offsets = [0]
+    byte_pos = 0
+    for ch in source_text:
+        byte_pos += len(ch.encode("utf-8"))
+        offsets.append(byte_pos)
+    return offsets
+
+
+def _line_start_chars(source_text: str) -> list[int]:
+    starts = [0]
+    for idx, ch in enumerate(source_text):
+        if ch == "\n":
+            starts.append(idx + 1)
+    return starts
+
+
+def _char_to_line(line_starts: list[int], char_offset: int) -> int:
+    return max(1, bisect_right(line_starts, char_offset))
+
+
+def _make_symbol_from_chars(
+    *,
+    file_rel_path: str,
+    language: str,
+    kind: str,
+    name: str,
+    qualified_name: str,
+    start_char: int,
+    end_char: int,
+    source_text: str,
+    char_to_byte: list[int],
+    line_starts: list[int],
+    signature: str | None = None,
+) -> dict[str, Any]:
+    start_byte = char_to_byte[max(0, start_char)]
+    end_byte = char_to_byte[max(start_char, end_char)]
+    start_line = _char_to_line(line_starts, start_char)
+    end_line = _char_to_line(line_starts, max(start_char, end_char - 1))
+    symbol_signature = signature or _compact_text(source_text[start_char:end_char], limit=200)
+    symbol_id = f"{file_rel_path}::{qualified_name}#{kind}"
+    return {
+        "symbol_id": symbol_id,
+        "name": name,
+        "qualified_name": qualified_name,
+        "kind": kind,
+        "file_path": file_rel_path,
+        "language": language,
+        "signature": symbol_signature[:200],
+        "start_byte": start_byte,
+        "end_byte": end_byte,
+        "start_line": start_line,
+        "end_line": end_line,
+        "chars": max(0, end_byte - start_byte),
+    }
+
+
+def _dedupe_symbol_ids(symbols: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen: dict[str, int] = {}
+    for sym in symbols:
+        symbol_id = sym["symbol_id"]
+        count = seen.get(symbol_id, 0)
+        if count:
+            sym["symbol_id"] = f"{symbol_id}@L{sym['start_line']}"
+        seen[symbol_id] = count + 1
+    return symbols
+
+
+def _template_tag_parts(inner: str) -> tuple[str, str]:
+    compact = inner.strip()
+    if not compact:
+        return "", ""
+    parts = compact.split(None, 1)
+    return parts[0], parts[1] if len(parts) > 1 else ""
+
+
+def _extract_quoted_literal(text: str) -> str | None:
+    match = QUOTED_LITERAL_RE.search(text)
+    if not match:
+        return None
+    return match.group(1).strip() or None
+
+
+def _template_variable_parts(expression: str) -> tuple[str, str]:
+    qualified = _compact_text(expression, limit=120)
+    base = expression.split("|", 1)[0].split(":", 1)[0].strip()
+    root = re.split(r"[.\[(\s]", base, maxsplit=1)[0].strip()
+    return (root or qualified or "variable"), qualified or root or "variable"
+
+
+def _paired_template_symbol(tag_name: str, body: str) -> tuple[str, str, str, str] | None:
+    entry = TEMPLATE_BLOCK_TAGS.get(tag_name)
+    if entry is None:
+        return None
+
+    end_tag, kind = entry
+    body_compact = _compact_text(body)
+
+    if tag_name == "block":
+        name = body.split()[0] if body.split() else "block"
+        qualified_name = f"block.{name}"
+    elif tag_name == "for":
+        name = body.split(" in ", 1)[0].replace("for ", "").strip() or "for"
+        qualified_name = body_compact or name
+    elif tag_name == "if":
+        name = body_compact.split()[0] if body_compact else "if"
+        qualified_name = body_compact or name
+    else:
+        name = body_compact or tag_name
+        qualified_name = f"{tag_name}.{name}" if name != tag_name else tag_name
+
+    return kind, name, qualified_name, end_tag
+
+
+def _single_template_symbol(tag_name: str, body: str) -> tuple[str, str, str] | None:
+    if tag_name in TEMPLATE_NON_STRUCTURAL_TAGS or tag_name.startswith("end"):
+        return None
+
+    quoted = _extract_quoted_literal(body)
+    body_compact = _compact_text(body)
+
+    if tag_name == "extends":
+        name = quoted or body_compact or "extends"
+        return "extends", name, name
+    if tag_name == "include":
+        name = quoted or body_compact or "include"
+        return "include", name, name
+    if tag_name == "load":
+        name = body_compact or "load"
+        return "load", name, name
+    if tag_name == "url":
+        name = quoted or body_compact or "url"
+        return "url", name, name
+    if tag_name == "csrf_token":
+        return "tag", "csrf_token", "csrf_token"
+
+    name = body_compact or tag_name
+    qualified_name = f"{tag_name}.{name}" if name != tag_name else tag_name
+    return "tag", name, qualified_name
+
+
+def _parse_html_attrs(attrs_text: str) -> dict[str, str]:
+    attrs: dict[str, str] = {}
+    for match in HTML_ATTR_RE.finditer(attrs_text):
+        key = match.group(1).lower()
+        raw_value = (match.group(2) or "").strip()
+        if raw_value[:1] in {'"', "'"} and raw_value[-1:] == raw_value[:1]:
+            raw_value = raw_value[1:-1]
+        attrs[key] = raw_value
+    return attrs
+
+
+def _html_symbol_identity(tag: str, attrs: dict[str, str]) -> tuple[str, str, str] | None:
+    kind = HTML_SYMBOL_KINDS.get(tag)
+    if kind is None and tag in {"div", "span"} and not any(
+        key in attrs for key in ("id", "data-component", "data-testid", "role")
+    ):
+        return None
+    if kind is None and "id" not in attrs:
+        return None
+
+    name = (
+        attrs.get("id")
+        or attrs.get("name")
+        or attrs.get("data-component")
+        or attrs.get("data-testid")
+        or attrs.get("aria-label")
+        or attrs.get("role")
+    )
+    if not name and attrs.get("class"):
+        name = attrs["class"].split()[0]
+    if not name:
+        name = tag
+
+    effective_kind = kind or "element"
+    qualified_name = f"{tag}.{name}" if name != tag else tag
+    return effective_kind, name, qualified_name
+
+
+def _html_template_extract(source_bytes: bytes, file_rel_path: str) -> list[dict[str, Any]]:
+    source_text = _decode_source_bytes(source_bytes)
+    char_to_byte = _build_char_to_byte_map(source_text)
+    line_starts = _line_start_chars(source_text)
+    symbols: list[dict[str, Any]] = []
+
+    template_stack: list[dict[str, Any]] = []
+    for match in TEMPLATE_TOKEN_RE.finditer(source_text):
+        token = match.group(0)
+        start_char, end_char = match.span()
+
+        if token.startswith("{#"):
+            continue
+
+        if token.startswith("{{"):
+            name, qualified_name = _template_variable_parts(token[2:-2].strip())
+            symbols.append(
+                _make_symbol_from_chars(
+                    file_rel_path=file_rel_path,
+                    language="html",
+                    kind="variable",
+                    name=name,
+                    qualified_name=qualified_name,
+                    start_char=start_char,
+                    end_char=end_char,
+                    source_text=source_text,
+                    char_to_byte=char_to_byte,
+                    line_starts=line_starts,
+                    signature=_compact_text(token, limit=200),
+                )
+            )
+            continue
+
+        inner = token[2:-2].strip()
+        tag_name, body = _template_tag_parts(inner)
+        if not tag_name:
+            continue
+
+        if tag_name.startswith("end"):
+            for idx in range(len(template_stack) - 1, -1, -1):
+                open_item = template_stack[idx]
+                if open_item["end_tag"] == tag_name:
+                    template_stack.pop(idx)
+                    symbols.append(
+                        _make_symbol_from_chars(
+                            file_rel_path=file_rel_path,
+                            language="html",
+                            kind=open_item["kind"],
+                            name=open_item["name"],
+                            qualified_name=open_item["qualified_name"],
+                            start_char=open_item["start_char"],
+                            end_char=end_char,
+                            source_text=source_text,
+                            char_to_byte=char_to_byte,
+                            line_starts=line_starts,
+                            signature=open_item["signature"],
+                        )
+                    )
+                    break
+            continue
+
+        paired = _paired_template_symbol(tag_name, body)
+        if paired is not None:
+            kind, name, qualified_name, end_tag = paired
+            template_stack.append(
+                {
+                    "kind": kind,
+                    "name": name,
+                    "qualified_name": qualified_name,
+                    "end_tag": end_tag,
+                    "start_char": start_char,
+                    "fallback_end_char": end_char,
+                    "signature": _compact_text(token, limit=200),
+                }
+            )
+            continue
+
+        single = _single_template_symbol(tag_name, body)
+        if single is None:
+            continue
+        kind, name, qualified_name = single
+        symbols.append(
+            _make_symbol_from_chars(
+                file_rel_path=file_rel_path,
+                language="html",
+                kind=kind,
+                name=name,
+                qualified_name=qualified_name,
+                start_char=start_char,
+                end_char=end_char,
+                source_text=source_text,
+                char_to_byte=char_to_byte,
+                line_starts=line_starts,
+                signature=_compact_text(token, limit=200),
+            )
+        )
+
+    for open_item in template_stack:
+        symbols.append(
+            _make_symbol_from_chars(
+                file_rel_path=file_rel_path,
+                language="html",
+                kind=open_item["kind"],
+                name=open_item["name"],
+                qualified_name=open_item["qualified_name"],
+                start_char=open_item["start_char"],
+                end_char=open_item["fallback_end_char"],
+                source_text=source_text,
+                char_to_byte=char_to_byte,
+                line_starts=line_starts,
+                signature=open_item["signature"],
+            )
+        )
+
+    html_stack: list[dict[str, Any]] = []
+    for match in HTML_TAG_RE.finditer(source_text):
+        tag = match.group("tag").lower()
+        start_char, end_char = match.span()
+        is_closing = bool(match.group("closing"))
+        is_self_closing = bool(match.group("selfclosing")) or tag in VOID_HTML_TAGS
+
+        if is_closing:
+            for idx in range(len(html_stack) - 1, -1, -1):
+                open_item = html_stack[idx]
+                if open_item["tag"] == tag:
+                    html_stack.pop(idx)
+                    symbols.append(
+                        _make_symbol_from_chars(
+                            file_rel_path=file_rel_path,
+                            language="html",
+                            kind=open_item["kind"],
+                            name=open_item["name"],
+                            qualified_name=open_item["qualified_name"],
+                            start_char=open_item["start_char"],
+                            end_char=end_char,
+                            source_text=source_text,
+                            char_to_byte=char_to_byte,
+                            line_starts=line_starts,
+                            signature=open_item["signature"],
+                        )
+                    )
+                    break
+            continue
+
+        attrs = _parse_html_attrs(match.group("attrs") or "")
+        identity = _html_symbol_identity(tag, attrs)
+        if identity is None:
+            continue
+
+        kind, name, qualified_name = identity
+        signature = _compact_text(match.group(0), limit=200)
+        if is_self_closing:
+            symbols.append(
+                _make_symbol_from_chars(
+                    file_rel_path=file_rel_path,
+                    language="html",
+                    kind=kind,
+                    name=name,
+                    qualified_name=qualified_name,
+                    start_char=start_char,
+                    end_char=end_char,
+                    source_text=source_text,
+                    char_to_byte=char_to_byte,
+                    line_starts=line_starts,
+                    signature=signature,
+                )
+            )
+            continue
+
+        html_stack.append(
+            {
+                "tag": tag,
+                "kind": kind,
+                "name": name,
+                "qualified_name": qualified_name,
+                "start_char": start_char,
+                "fallback_end_char": end_char,
+                "signature": signature,
+            }
+        )
+
+    for open_item in html_stack:
+        symbols.append(
+            _make_symbol_from_chars(
+                file_rel_path=file_rel_path,
+                language="html",
+                kind=open_item["kind"],
+                name=open_item["name"],
+                qualified_name=open_item["qualified_name"],
+                start_char=open_item["start_char"],
+                end_char=open_item["fallback_end_char"],
+                source_text=source_text,
+                char_to_byte=char_to_byte,
+                line_starts=line_starts,
+                signature=open_item["signature"],
+            )
+        )
+
+    symbols.sort(key=lambda item: (item["start_byte"], item["end_byte"], item["name"]))
+    return _dedupe_symbol_ids(symbols)
+
+
 def _extract_name(node: Any, source_bytes: bytes, language: str) -> str:
     """Extract symbol name from a tree-sitter AST node."""
     # CSS: selector text or at-rule preamble
@@ -237,13 +683,13 @@ def _extract_name(node: Any, source_bytes: bytes, language: str) -> str:
         if node.type == "rule_set":
             for child in node.children:
                 if "selector" in child.type.lower():
-                    txt = source_bytes[child.start_byte:child.end_byte].decode(
-                        "utf-8", errors="replace"
+                    txt = _decode_source_bytes(
+                        source_bytes[child.start_byte:child.end_byte]
                     )
                     return txt.strip()[:80]
-        txt = source_bytes[
-            node.start_byte : min(node.start_byte + 80, node.end_byte)
-        ].decode("utf-8", errors="replace")
+        txt = _decode_source_bytes(
+            source_bytes[node.start_byte : min(node.start_byte + 80, node.end_byte)]
+        )
         return txt.split("{")[0].strip()[:80]
 
     # Generic: find child nodes that carry the symbol name
@@ -255,22 +701,22 @@ def _extract_name(node: Any, source_bytes: bytes, language: str) -> str:
             "type_identifier",
             "field_identifier",
         ):
-            return source_bytes[child.start_byte : child.end_byte].decode(
-                "utf-8", errors="replace"
+            return _decode_source_bytes(
+                source_bytes[child.start_byte : child.end_byte]
             )
 
     # Fallback: first line text
-    txt = source_bytes[
-        node.start_byte : min(node.start_byte + 80, node.end_byte)
-    ].decode("utf-8", errors="replace")
+    txt = _decode_source_bytes(
+        source_bytes[node.start_byte : min(node.start_byte + 80, node.end_byte)]
+    )
     first_line = txt.split("\n")[0].strip()
     return first_line[:60] or f"<{node.type}>"
 
 
 def _extract_signature(source_bytes: bytes, start_byte: int, end_byte: int) -> str:
     """Extract compact human-readable signature from byte range."""
-    chunk = source_bytes[start_byte : min(start_byte + 500, end_byte)].decode(
-        "utf-8", errors="replace"
+    chunk = _decode_source_bytes(
+        source_bytes[start_byte : min(start_byte + 500, end_byte)]
     )
     lines = chunk.split("\n")
     sig_parts = [lines[0].rstrip()]
@@ -631,6 +1077,12 @@ class CodeIndex:
         cfg = LANG_CONFIG.get(language, {})
         symbol_nodes: dict[str, str] = cfg.get("symbol_nodes", {})
 
+        if language == "html":
+            try:
+                return _html_template_extract(source_bytes, file_rel_path)
+            except Exception:
+                return []
+
         # tree-sitter path
         if language in self._parsers:
             parser = self._parsers[language]
@@ -647,19 +1099,96 @@ class CodeIndex:
                         tree.root_node, source_bytes, language,
                         symbols, file_rel_path,
                     )
-                return symbols
+                return _dedupe_symbol_ids(symbols)
             except Exception:
                 pass  # fall through
 
         # Python fallback via built-in ast
         if language == "python":
             try:
-                source_text = source_bytes.decode("utf-8", errors="replace")
-                return _python_ast_extract(source_text, file_rel_path)
+                source_text = _decode_source_bytes(source_bytes)
+                return _dedupe_symbol_ids(_python_ast_extract(source_text, file_rel_path))
             except Exception:
                 return []
 
         return []
+
+    def _extract_symbols_for_path(self, file_path: str) -> list[dict[str, Any]]:
+        abs_path = self.resolve_file_path(file_path)
+        try:
+            rel_path = abs_path.relative_to(self.project_root).as_posix()
+        except ValueError:
+            return []
+
+        language = _EXT_TO_LANG.get(abs_path.suffix.lower())
+        if language is None:
+            return []
+
+        source_bytes = _read_bytes_safe(abs_path)
+        if not source_bytes:
+            return []
+
+        return self._extract_symbols(source_bytes, rel_path, language)
+
+    def _score_symbol_match(
+        self,
+        sym: dict[str, Any],
+        query_lower: str,
+        *,
+        kind: str | None = None,
+        language: str | None = None,
+    ) -> int:
+        if kind and sym["kind"] != kind:
+            return 0
+        if language and sym["language"] != language:
+            return 0
+
+        name_lower = sym["name"].lower()
+        qn_lower = sym["qualified_name"].lower()
+        signature_lower = sym.get("signature", "").lower()
+        file_path_lower = sym.get("file_path", "").lower()
+
+        if name_lower == query_lower:
+            return 100
+        if qn_lower == query_lower:
+            return 95
+        if query_lower in name_lower:
+            return 80
+        if query_lower in qn_lower:
+            return 70
+        if query_lower in signature_lower:
+            return 50
+        if query_lower in file_path_lower:
+            return 40
+        return 0
+
+    def _iter_project_file_paths(
+        self,
+        *,
+        language: str | None = None,
+        exclude_paths: set[str] | None = None,
+    ) -> Iterable[str]:
+        excluded = exclude_paths or set()
+        for root, dirs, files in os.walk(self.project_root):
+            root_path = Path(root)
+            dirs[:] = [
+                d for d in dirs
+                if d not in IGNORE_DIRS and not (d.startswith(".") and d != ".github")
+            ]
+
+            for fname in sorted(files):
+                file_path = root_path / fname
+                suffix = file_path.suffix.lower()
+                file_language = _EXT_TO_LANG.get(suffix)
+                if file_language is None:
+                    continue
+                if language and file_language != language:
+                    continue
+
+                rel_path = file_path.relative_to(self.project_root).as_posix()
+                if rel_path in excluded or rel_path.startswith(("memory/", ".git/")):
+                    continue
+                yield rel_path
 
     # ---------- search ----------
 
@@ -672,40 +1201,54 @@ class CodeIndex:
     ) -> list[dict[str, Any]]:
         """Search indexed symbols by name, kind, or language."""
         index = self._load_index()
-        if not index:
-            return []
-
         query_lower = query.lower()
         results: list[dict[str, Any]] = []
 
-        for sym in index["symbols"]:
-            if kind and sym["kind"] != kind:
-                continue
-            if language and sym["language"] != language:
-                continue
+        def _collect(symbols: Iterable[dict[str, Any]]) -> None:
+            for sym in symbols:
+                score = self._score_symbol_match(
+                    sym,
+                    query_lower,
+                    kind=kind,
+                    language=language,
+                )
+                if score > 0:
+                    results.append({**sym, "_score": score})
 
-            name_lower = sym["name"].lower()
-            qn_lower = sym["qualified_name"].lower()
+        indexed_symbols = index.get("symbols", []) if index else []
+        _collect(indexed_symbols)
 
-            score = 0
-            if name_lower == query_lower:
-                score = 100
-            elif qn_lower == query_lower:
-                score = 95
-            elif query_lower in name_lower:
-                score = 80
-            elif query_lower in qn_lower:
-                score = 70
-            elif query_lower in sym.get("signature", "").lower():
-                score = 50
+        should_scan_template_fallback = language in (None, "html") and len(results) < max_results
+        if should_scan_template_fallback:
+            indexed_paths = {
+                sym["file_path"]
+                for sym in indexed_symbols
+                if sym.get("language") == "html"
+            }
+            scanned_files = 0
+            for rel_path in self._iter_project_file_paths(
+                language="html",
+                exclude_paths=indexed_paths,
+            ):
+                _collect(self._extract_symbols_for_path(rel_path))
+                scanned_files += 1
+                if scanned_files >= 300 and len(results) >= max_results:
+                    break
 
-            if score > 0:
-                results.append({**sym, "_score": score})
+        deduped: dict[str, dict[str, Any]] = {}
+        for item in results:
+            symbol_id = item["symbol_id"]
+            existing = deduped.get(symbol_id)
+            if existing is None or item["_score"] > existing["_score"]:
+                deduped[symbol_id] = item
 
-        results.sort(key=lambda x: (-x["_score"], x["name"]))
-        for r in results[:max_results]:
+        ordered = sorted(
+            deduped.values(),
+            key=lambda x: (-x["_score"], x["name"], x.get("file_path", "")),
+        )
+        for r in ordered[:max_results]:
             r.pop("_score", None)
-        return results[:max_results]
+        return ordered[:max_results]
 
     # ---------- retrieval ----------
 
@@ -722,8 +1265,8 @@ class CodeIndex:
                 if not source_bytes:
                     return {**sym, "source": "<file not found>", "error": "file_not_found"}
 
-                source = source_bytes[sym["start_byte"] : sym["end_byte"]].decode(
-                    "utf-8", errors="replace",
+                source = _decode_source_bytes(
+                    source_bytes[sym["start_byte"] : sym["end_byte"]]
                 )
                 return {
                     **sym,
@@ -733,22 +1276,44 @@ class CodeIndex:
                 }
         return None
 
+    def normalize_file_path(self, file_path: str) -> str:
+        path = Path(file_path)
+        if path.is_absolute():
+            try:
+                return path.resolve().relative_to(self.project_root).as_posix()
+            except ValueError:
+                return path.resolve().as_posix()
+        return path.as_posix()
+
+    def resolve_file_path(self, file_path: str) -> Path:
+        path = Path(file_path)
+        if path.is_absolute():
+            return path.resolve()
+        return (self.project_root / path).resolve()
+
     # ---------- file outline ----------
 
     def get_file_outline(self, file_path: str) -> list[dict[str, Any]]:
         """Return symbol outline for a specific file (no source bodies)."""
         index = self._load_index()
-        if not index:
-            return []
+        normalized_path = self.normalize_file_path(file_path)
 
         compact_keys = (
             "symbol_id", "name", "qualified_name", "kind", "language",
             "signature", "start_line", "end_line", "chars",
         )
+        if index:
+            outline = [
+                {k: sym[k] for k in compact_keys if k in sym}
+                for sym in index["symbols"]
+                if sym["file_path"] == normalized_path
+            ]
+            if outline:
+                return outline
+
         return [
             {k: sym[k] for k in compact_keys if k in sym}
-            for sym in index["symbols"]
-            if sym["file_path"] == file_path
+            for sym in self._extract_symbols_for_path(normalized_path)
         ]
 
     # ---------- persistence ----------

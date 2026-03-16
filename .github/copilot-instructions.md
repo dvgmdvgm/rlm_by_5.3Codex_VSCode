@@ -41,24 +41,17 @@ Before ANY response: call `local_memory_bootstrap(question=<user_task>, project_
 
 ### A.2) Terminal command execution (always, Windows/PowerShell)
 
-**MANDATORY**: When you need to execute a shell command and read its output, use `run_compressed_command` MCP tool INSTEAD of `run_in_terminal`. This provides:
-1. **Auto-fix of 17 PowerShell syntax errors** — Bash→PS fixes (&&→;, grep→Select-String, rm -rf, export, etc.) applied BEFORE execution. Prevents retry loops.
-2. **Auto-resolve Python through venv** — `python`, `pip`, `pytest`, etc. are automatically routed through the project's `.venv` without needing to activate it first. Eliminates 2-3 retry calls.
-3. **Incremental timeout guards** — silent commands fail fast with startup/idle/overall timeout metadata instead of hanging the UI for ~60s with no visible output.
-4. **Output compression (60-97% token savings)** — git, grep, test, ls outputs are compressed automatically.
-5. **Token savings tracking** — every call is logged for analytics (`token_gain` tool).
+**MANDATORY**: Compression tools were removed from the system. Use `fix_command` to normalize Bash-like commands for PowerShell before execution when needed, and use `run_in_terminal` for command execution/output.
 
 **When to use which tool:**
 | Scenario | Tool |
 |---|---|
-| Run command + read output | `run_compressed_command` ✅ |
+| Run command + read output | `run_in_terminal` |
 | Long-running/background process (server, watch) | `run_in_terminal` (isBackground=true) |
 | Interactive terminal (user types) | `run_in_terminal` |
 | Check command syntax without executing | `fix_command` |
-| Compress text already in context | `compress_text` |
-| View token savings stats | `token_gain` / `token_gain_history` |
 
-**Never** use `run_in_terminal` for read-output commands like `git status`, `git log`, `grep`, `pytest`, `ls`, `dir` when `run_compressed_command` is available.
+**If a command may contain Bash syntax on Windows**, run `fix_command` first, then execute the corrected command with `run_in_terminal`.
 
 ### B) During implementation [DIRECT MODE ONLY]
 

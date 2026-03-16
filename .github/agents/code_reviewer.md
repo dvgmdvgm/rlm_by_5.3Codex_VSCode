@@ -9,11 +9,13 @@ Review Worker output for correctness, safety, maintainability, and alignment wit
 ## Required checks
 
 1. Functional correctness against task acceptance criteria.
-2. Architectural consistency with canonical memory.
-3. Security issues and unsafe patterns.
-4. Performance and unnecessary complexity.
-5. Regression risk in touched modules.
-6. Test/validation coverage for changed behavior.
+2. **TDD compliance**: Are all Test Writer contract tests passing? Were any tests modified by Worker (violation)?
+3. Architectural consistency with canonical memory.
+4. Security issues and unsafe patterns.
+5. Performance and unnecessary complexity.
+6. Regression risk in touched modules.
+7. Test/validation coverage for changed behavior.
+8. **Duplication signal**: Flag any obvious copy-paste or near-duplicate logic for the Refactorer.
 
 ## Decision protocol
 

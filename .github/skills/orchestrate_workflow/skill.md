@@ -1,13 +1,19 @@
+````skill
 # Skill: orchestrate_workflow
 
 ## Purpose
 
-Run autonomous multi-step delivery using strict staged orchestration with five subagents:
-- `planner`
-- `worker`
-- `code_reviewer`
-- `synthesizer`
-- `archivist`
+Run autonomous multi-step delivery using strict staged orchestration with eight subagents:
+- `disambiguator` (Phase 0 — Reverse Questioning)
+- `planner` (Phase 1 — Planning)
+- `test_writer` (Phase 2 — TDD Contract)
+- `worker` (Phase 2 — Implementation)
+- `code_reviewer` (Phase 2 — Review)
+- `reflector` (Phase 2 — Critical Self-Review)
+- `refactorer` (Phase 2 — Immediate Refactoring)
+- `synthesizer` (Phase 2 — Memory Gate)
+- `archivist` (Phase 3 — Closure)
+- `validator` (Phase 4 — Validation)
 
 ## Trigger
 
@@ -32,7 +38,10 @@ The following violations are FORBIDDEN and invalidate the entire run:
 - **NO batch review**: Do NOT review multiple tasks in a single review pass.
 - **NO skipping synthesizer**: After EVERY individual task APPROVE, you MUST run the synthesizer gate BEFORE starting the next task.
 - **NO skipping archivist**: You MUST invoke archivist at closure.
-- **Strict sequence per task**: Worker → Code Reviewer → Synthesizer → (next task). Breaking this order is a protocol violation.
+- **NO skipping TDD**: Tests MUST be written BEFORE implementation for every task.
+- **NO skipping reflector**: Critical self-review is MANDATORY after every code review approval.
+- **NO skipping refactorer**: Refactoring pass is MANDATORY after every reflector pass.
+- **Strict sequence per task**: Test Writer → Worker (TDD loop) → Code Reviewer → Reflector → Refactorer → Synthesizer → (next task). Breaking this order is a protocol violation.
 
 If you find yourself about to start the next task without having produced `SYNTHESIZER_GATE_PASSED` for the previous task — **STOP. Go back and run the synthesizer.**
 
@@ -69,16 +78,31 @@ All generated orchestration artifacts for that run MUST remain inside this direc
 
 ### Checkpoint file: `<run_dir>/orchestrator_state.json`
 
-After EVERY state transition (planning done, task started, task reviewed, synthesizer passed, closure started), **overwrite** this file with current state:
+After EVERY state transition (disambiguation done, planning done, tests written, task started, task reviewed, reflector done, refactorer done, synthesizer passed, closure started), **overwrite** this file with current state:
 
 ```json
 {
   "run_id": "<run_id>",
-  "phase": "planning|execution|closure",
+  "phase": "disambiguation|planning|execution|closure|validation",
   "current_task_index": 1,
   "total_tasks": 4,
   "tasks_completed": ["task_01"],
   "tasks_remaining": ["task_02", "task_03", "task_04"],
+  "current_subphase": "test_writing|implementation|tdd_loop|review|reflection|refactoring|synthesizer",
+  "disambiguation_result": "DISAMBIGUATOR_PASS|DISAMBIGUATOR_BLOCKED",
+  "test_contracts": {
+    "task_01": "TEST_CONTRACT_READY",
+    "task_02": "pending"
+  },
+  "tdd_loop_attempts": {
+    "task_01": 2
+  },
+  "reflector_results": {
+    "task_01": "REFLECTOR_PASS|REFLECTOR_FLAG_REFACTORING"
+  },
+  "refactorer_results": {
+    "task_01": "REFACTORER_DONE|REFACTORER_SKIPPED"
+  },
   "last_gate_tokens": {
     "task_01": "SYNTHESIZER_GATE_PASSED: yes"
   },
@@ -103,53 +127,127 @@ If you skip re-orientation and proceed from conversation memory alone — you WI
 ### ⛔ PROTOCOL REMINDER (re-read this before every task transition)
 
 ```
-CRITICAL RULES — ORCHESTRATOR PROTOCOL REMINDER
-1. ONE task at a time: Worker → Reviewer → Synthesizer → next task.
-2. After APPROVE: run synthesizer gate. Produce SYNTHESIZER_GATE_PASSED.
-3. Do NOT start next task until SYNTHESIZER_GATE_PASSED appears.
-4. After ALL tasks: run archivist. Wait for ARCHIVE_OK.
-5. On success: run checklist writer, then delete `<run_dir>/` only.
-6. On failure: do NOT delete `<run_dir>/`.
-7. Final response MUST contain Rules Audit Report table.
-8. Update orchestrator_state.json after every transition.
+CRITICAL RULES — ORCHESTRATOR PROTOCOL REMINDER (v2 — Agentic Engineering)
+1. ONE task at a time: Test Writer → Worker (TDD loop) → Reviewer → Reflector → Refactorer → Synthesizer → next task.
+2. Test Writer must produce TEST_CONTRACT_READY before Worker starts.
+3. Worker runs in TDD loop: implement → run tests → if fail → fix → run tests. Max 5 iterations.
+4. After APPROVE from reviewer: run Reflector. Produce REFLECTOR_PASS or REFLECTOR_FLAG_REFACTORING.
+5. After Reflector: run Refactorer. Produce REFACTORER_DONE or REFACTORER_SKIPPED.
+6. After Refactorer: run Synthesizer gate. Produce SYNTHESIZER_GATE_PASSED.
+7. Do NOT start next task until SYNTHESIZER_GATE_PASSED appears.
+8. After ALL tasks: run Archivist. Wait for ARCHIVE_OK.
+9. After Archivist: run Validator. Wait for VALIDATION_PASS.
+10. On success: run checklist writer, then delete `<run_dir>/` only.
+11. On failure: do NOT delete `<run_dir>/`.
+12. Final response MUST contain Rules Audit Report table.
+13. Update orchestrator_state.json after every transition.
 ```
 
 ## Workflow (strict state machine)
 
+### PHASE 0 — DISAMBIGUATION (Reverse Questioning)
+
+⛔ **This phase is MANDATORY. Do NOT jump straight to planning.**
+
+1. Run `disambiguator` with the full user request and project context.
+2. Disambiguator performs RLM memory lookup and analyzes the request for blind spots.
+3. If disambiguator returns `DISAMBIGUATOR_PASS`:
+   - Record any default assumptions in `<run_dir>/disambiguation_report.md`.
+   - Proceed to Phase 1 with the refined understanding.
+4. If disambiguator returns `DISAMBIGUATOR_BLOCKED`:
+   - Present the disambiguator's questions to the user.
+   - Wait for user answers.
+   - Re-run disambiguator with answers incorporated.
+   - Only proceed when `DISAMBIGUATOR_PASS` is achieved.
+5. Update `orchestrator_state.json` with `phase: "disambiguation"` and result.
+6. If diagnostic mode is ON, write `disambiguator_started` and `disambiguator_finished` audit events.
+
 ### PHASE 1 — PLANNING
 
-1. Run `planner` with full user objective.
+1. Run `planner` with full user objective AND the disambiguation report.
 2. Planner must read memory first and create:
-   - `<run_dir>/master_plan.md`
-   - `<run_dir>/task_XX_*.md` files
+   - `<run_dir>/master_plan.md` — now must include a `## Test Strategy` section per task.
+   - `<run_dir>/task_XX_*.md` files — each must include `## Test Contract` section with testable criteria.
 3. If diagnostic mode is ON, write `planner_started` and `planner_finished` audit events.
 
 ### PHASE 2 — TASK EXECUTION LOOP
 
-⛔ **ONE TASK AT A TIME. COMPLETE THE FULL CYCLE (worker → reviewer → synthesizer) FOR EACH TASK BEFORE STARTING THE NEXT.**
+⛔ **ONE TASK AT A TIME. COMPLETE THE FULL CYCLE (test_writer → worker TDD loop → reviewer → reflector → refactorer → synthesizer) FOR EACH TASK BEFORE STARTING THE NEXT.**
 
 For each task from `master_plan.md` in order:
 
-0. **RE-ORIENT** (mandatory before every task):
+#### Step 0: RE-ORIENT (mandatory before every task)
    - Re-read `<run_dir>/orchestrator_state.json`
    - Re-read `<run_dir>/master_plan.md`
    - Re-read the PROTOCOL REMINDER section above
    - Confirm: which task am I about to start? What is `next_action`?
 
-1. Set task status to `in_progress`. Update `orchestrator_state.json` with `current_task_index` and `next_action: "worker_executing"`.
-2. Run `worker` on that task.
-3. Run `code_reviewer`.
-   - If diagnostic mode is ON, write worker/reviewer invocation events with unique `agent_invocation_id`.
-4. If reviewer returns `REJECT`:
-   - send reject list back to `worker`
-   - retry review cycle
-   - hard limit: 3 total attempts per task
-5. If 3rd review is still `REJECT`:
-   - HALT orchestration
-   - Update `orchestrator_state.json` with `next_action: "HALTED"`
-   - return `HUMAN_INTERVENTION_REQUIRED` with blocker details
-6. If reviewer returns `APPROVE`:
-   - Update `orchestrator_state.json` with `next_action: "synthesizer_gate"`
+#### Step 1: TEST WRITER (TDD Contract)
+   - Set `current_subphase: "test_writing"` in checkpoint.
+   - Run `test_writer` on the current task.
+   - Test Writer reads the task's acceptance criteria and writes failing tests.
+   - Test Writer runs tests to confirm red phase (all new tests fail).
+   - If `TEST_CONTRACT_READY`: record test file paths, proceed to Step 2.
+   - If `TEST_CONTRACT_BLOCKED`: escalate to user with details. Do not proceed.
+   - If diagnostic mode is ON, write `test_writer_started` and `test_writer_finished` events.
+
+#### Step 2: WORKER + TDD LOOP (Implementation)
+   - Set `current_subphase: "implementation"` in checkpoint.
+   - Run `worker` on the task WITH the test contract (test file paths and expected behaviors).
+   - Worker implements the feature.
+   - **TDD feedback loop**:
+     a. Run the Test Writer's test suite.
+     b. If ALL contract tests pass → Worker is done. Set `current_subphase: "review"`. Proceed to Step 3.
+     c. If ANY contract test fails → feed failure output back to Worker. Worker fixes. Repeat from (a).
+     d. **Hard limit**: 5 TDD loop iterations. If tests still fail after 5 attempts:
+        - HALT orchestration
+        - Update checkpoint with `next_action: "HALTED_TDD_FAIL"`
+        - Return `HUMAN_INTERVENTION_REQUIRED` with test failure details
+   - Record `tdd_loop_attempts` count in checkpoint.
+   - If diagnostic mode is ON, write `worker_started`, `tdd_loop_iteration_N`, `worker_finished` events.
+
+#### Step 3: CODE REVIEWER (Review)
+   - Run `code_reviewer` on the implemented code.
+   - If diagnostic mode is ON, write reviewer invocation events with unique `agent_invocation_id`.
+   - If reviewer returns `REJECT`:
+     - Send reject list back to `worker`
+     - Worker fixes, runs tests again (TDD loop continues)
+     - Retry review cycle
+     - Hard limit: 3 total review attempts per task
+   - If 3rd review is still `REJECT`:
+     - HALT orchestration
+     - Update checkpoint with `next_action: "HALTED"`
+     - Return `HUMAN_INTERVENTION_REQUIRED` with blocker details
+   - If reviewer returns `APPROVE`:
+     - Proceed to Step 4 (Reflector)
+
+#### Step 4: REFLECTOR (Critical Self-Review)
+   ⛔ **MANDATORY after every APPROVE. Cannot be skipped.**
+   - Set `current_subphase: "reflection"` in checkpoint.
+   - Run `reflector` on the approved implementation.
+   - Reflector answers the Three Questions (Meaning, Simplicity, User Impact).
+   - If `REFLECTOR_PASS`: proceed to Step 5 with no special flags.
+   - If `REFLECTOR_FLAG_REFACTORING`: proceed to Step 5 — refactorer MUST address flagged items.
+   - If `REFLECTOR_BLOCKED`: return to Worker (Step 2) for rework. This counts as a review rejection.
+   - Record `reflector_results` in checkpoint.
+   - If diagnostic mode is ON, write `reflector_started` and `reflector_finished` events.
+
+#### Step 5: REFACTORER (Immediate Refactoring)
+   ⛔ **MANDATORY after every Reflector pass. Cannot be skipped.**
+   - Set `current_subphase: "refactoring"` in checkpoint.
+   - Run `refactorer` on the task's changed files.
+   - If Reflector returned `REFLECTOR_FLAG_REFACTORING`, pass the flagged items to refactorer.
+   - If Reflector returned `REFLECTOR_PASS` AND task is small (<30 lines):
+     - Refactorer runs in lightweight mode (duplication scan + dead code only).
+   - Refactorer runs full test suite after changes to verify no regressions.
+   - If `REFACTORER_DONE`: proceed to Step 6.
+   - If `REFACTORER_SKIPPED`: proceed to Step 6 (no refactoring needed).
+   - If `REFACTORER_BLOCKED`: proceed to Step 6 with pre-refactoring code (report issue).
+   - Record `refactorer_results` in checkpoint.
+   - If diagnostic mode is ON, write `refactorer_started` and `refactorer_finished` events.
+
+#### Step 6: SYNTHESIZER GATE (Memory + Rules)
+   - Set `current_subphase: "synthesizer"` in checkpoint.
    - ⛔ **HARD STOP — SYNTHESIZER GATE (mandatory, cannot be skipped)**
    - Before doing ANYTHING else, you MUST execute the full synthesizer workflow:
      a. Read `memory/canonical/coding_rules.md` and `memory/canonical/active_tasks.md` to load ALL active rules.
@@ -245,9 +343,9 @@ For each task from `master_plan.md` in order:
 
 ## State management
 
-- Keep statuses in `master_plan.md`: `todo | in_progress | review | done`.
+- Keep statuses in `master_plan.md`: `todo | in_progress | test_writing | tdd_loop | review | reflection | refactoring | done`.
 - Ensure only one task is `in_progress` at a time.
-- Record per-task attempt counters for reviewer loops.
+- Record per-task attempt counters for TDD loops and reviewer loops.
 - Persist critical outcomes to memory logs after each approved task via `synthesizer`.
 - `synthesizer` must check all active operational rules from project memory for each approved task and execute only matched rules.
 - `synthesizer` must re-check all active operational rules independently for each approved task (no carry-over skip/match state).
@@ -257,8 +355,10 @@ For each task from `master_plan.md` in order:
 
 ## RLM memory policy
 
-- Planner and Worker must perform RLM retrieval before planning/coding.
+- Disambiguator, Planner and Worker must perform RLM retrieval before their work.
 - Reviewer must validate alignment with canonical memory.
+- Reflector must use memory to assess if simpler solutions exist in the codebase.
+- Refactorer must use memory to find existing utilities before creating new ones.
 - For large memory processing, use Sub-LM (`llm_query`/`llm_query_many`) first and pass compact results to cloud reasoning.
 - Avoid cloud-side direct summarization of long memory files when Sub-LM extraction is available.
 - After each approved task, memory update is mandatory through `synthesizer`.
@@ -267,16 +367,24 @@ For each task from `master_plan.md` in order:
 ## Failure handling
 
 - If required context is missing, issue targeted RLM query and retry once.
+- If `test_writer` cannot produce tests, return `TEST_CONTRACT_BLOCKED` for human guidance.
+- If Worker fails TDD loop after 5 iterations, stop and return `HUMAN_INTERVENTION_REQUIRED`.
 - If `code_reviewer` rejects the same task 3 times, stop and return a blocker report for human intervention.
+- If `reflector` returns `REFLECTOR_BLOCKED`, treat as a review rejection (return to Worker).
 - If `synthesizer` fails memory sync, stop and return `MEMORY_SYNC_BLOCKED`.
 - If `synthesizer` fails operational-rules gate, stop and return `OP_RULES_BLOCKED`.
-- If diagnostic mode is ON and a task halts at 3rd reject, append `HUMAN_INTERVENTION_REQUIRED` event to audit log.
+- If diagnostic mode is ON and a task halts at 3rd reject or 5th TDD failure, append `HUMAN_INTERVENTION_REQUIRED` event to audit log.
 
 ## Completion criteria
 
 Workflow is complete only when:
+- Phase 0 disambiguation passed (`DISAMBIGUATOR_PASS`)
+- all tasks have test contracts (`TEST_CONTRACT_READY`)
+- all task TDD loops succeeded (all contract tests pass)
 - all tasks are `done`
 - reviewer has approved each task
+- reflector has analyzed each task (`REFLECTOR_PASS` or `REFLECTOR_FLAG_REFACTORING`)
+- refactorer has processed each task (`REFACTORER_DONE` or `REFACTORER_SKIPPED`)
 - synthesizer memory gate passed for every approved task — verified by presence of `SYNTHESIZER_GATE_PASSED: yes` per task
 - synthesizer operational-rules gate passed for every approved task
 - archivist closure pass completed — verified by `ARCHIVE_OK`
@@ -287,3 +395,5 @@ Workflow is complete only when:
 ⛔ **SELF-CHECK before producing final answer**: Count how many tasks exist. Count how many `SYNTHESIZER_GATE_PASSED` tokens you produced. If they don't match — you skipped a synthesizer gate. STOP and fix it before responding.
 
 ⛔ **If your final response does not contain the Rules Audit Report table — the run is INVALID. Add it.**
+
+````

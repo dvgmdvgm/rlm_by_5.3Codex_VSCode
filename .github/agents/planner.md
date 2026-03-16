@@ -42,7 +42,12 @@ Each task file must include:
 - `## Inputs`
 - `## Files to Modify`
 - `## Steps`
-- `## Acceptance Criteria`
+- `## Acceptance Criteria` — each criterion must be TESTABLE (can be verified by an automated test).
+- `## Test Contract` — describe what tests should be written BEFORE implementation:
+  - List expected test cases (name + what behavior they verify).
+  - Identify existing test files/patterns to match.
+  - Note any test fixtures or mocks needed.
+  - Specify the test command to run (e.g., `pytest tests/test_<module>.py -v`).
 - `## Applied Rules` — list every rule from canonical memory that influenced this task's plan. Format each entry as:
   - `- **<entity_name>** (from canonical/<file>.md): <one-line rule summary>`
   - If no rules applied, write: `- None identified`
@@ -53,8 +58,9 @@ Also create/update a master plan file:
 
 `master_plan.md` must contain:
 - Goal summary
-- Ordered task list with statuses: `todo | in_progress | review | done`
+- Ordered task list with statuses: `todo | in_progress | test_writing | tdd_loop | review | reflection | refactoring | done`
 - Dependency map
+- Per-task test strategy: framework, test file paths, assertion approach
 - Risks and mitigations
 
 ## Quality bar

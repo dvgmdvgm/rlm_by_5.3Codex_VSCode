@@ -55,12 +55,41 @@ Before ANY response: call `local_memory_bootstrap(question=<user_task>, project_
 
 ### B) During implementation [DIRECT MODE ONLY]
 
-- Follow canonical memory decisions unless user explicitly overrides.
+Follow canonical memory decisions unless user explicitly overrides.
+
+#### B.0) Disambiguation (lightweight)
+Before coding, assess task clarity. If scope, behavior, or impact is ambiguous:
+- Ask 2-3 targeted questions with suggested defaults so the user can confirm quickly.
+- Skip if task is trivial, self-explanatory, or user gave explicit instructions.
+- Do NOT block — if confidence is high, state your assumptions and proceed.
+
+#### B.1) Test awareness (before writing code)
+- If modifying existing code → find and run existing tests for touched files BEFORE making changes. Run them again AFTER.
+- If creating new logic (function, class, module) → write at least 1-2 contract tests covering the core behavior. Tests come BEFORE or ALONGSIDE the implementation, not after.
+- If task is docs/config/memory-only → skip testing.
+- Never delete or weaken existing passing tests to make new code work.
+
+#### B.2) Implement
+- Write code following canonical rules from memory.
 - Memory-heavy ops (extraction, summarization, synthesis) → ALWAYS use local Sub-LM via `llm_query` / `llm_query_many` first. Cloud consumes compact Sub-LM outputs only.
 - Memory routing (strict):
   - edit/delete → `propose_memory_mutation(...)` then `apply_memory_mutation(mutation_plan=...operations...)`
   - create/save → append strict `extracted_fact` + `consolidate_memory(...)`
   - Mismatch → block with `OP_RULES_BLOCKED`, never silently fallback.
+
+#### B.3) Self-review (before responding to user)
+Before presenting your solution, internally answer these three questions:
+1. **Meaning**: Does this change solve the user's ACTUAL problem? Can I explain it in 2 sentences without referencing implementation details?
+2. **Simplicity**: Is there a simpler way using existing project code/utils? Did I introduce unnecessary abstractions?
+3. **User impact**: Does this break anything for the end user? Are there silent behavior changes not covered by tests?
+
+If any answer is concerning → fix the issue before responding. Do not present flawed code and hope the user catches it.
+
+#### B.4) Dedup check (after implementation)
+- Scan new code for duplicated logic against existing project utilities (`search_code_symbols`).
+- If near-duplicate found (>5 lines similar) → refactor to reuse existing code.
+- Remove dead code, unused imports, and debug artifacts introduced during this session.
+- Skip if change is <10 lines or config/docs only.
 
 ### C) After implementation [DIRECT MODE ONLY]
 

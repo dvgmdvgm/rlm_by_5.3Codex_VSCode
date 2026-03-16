@@ -50,6 +50,20 @@ WORKSPACE_IGNORE_DIRS = {
 }
 
 
+def _coalesce_project_path(
+    project_path: str | None = None,
+    project_root: str | None = None,
+) -> str | None:
+    """Accept both ``project_path`` and ``project_root`` as LLM-supplied aliases.
+
+    LLMs sometimes hallucinate parameter names (e.g. ``project_root`` instead
+    of ``project_path``).  MCP schema is strict — unknown names are silently
+    dropped, so the tool receives ``None``.  This helper merges both so the
+    caller's intent is preserved regardless of which name was used.
+    """
+    return project_path or project_root or None
+
+
 def _resolve_memory_dir(project_path: str | None) -> Path:
     if project_path:
         return Path(project_path) / "memory"
@@ -1010,8 +1024,9 @@ def _auto_summarize_old_changelogs(
 
 
 @mcp.tool()
-def execute_repl_code(code: str, project_path: str | None = None) -> dict:
+def execute_repl_code(code: str, project_path: str | None = None, project_root: str | None = None) -> dict:
     """Execute Python code in a stateful REPL and return stdout/stderr/errors/final answer."""
+    project_path = _coalesce_project_path(project_path, project_root)
     memory_dir = _resolve_memory_dir(project_path)
     runtime = _get_runtime(memory_dir)
     result = runtime.execute(code)
@@ -1040,8 +1055,10 @@ def get_memory_metadata(
     include_headers: bool = False,
     include_files: bool = False,
     sort_by: str = "chars_desc",
+    project_root: str | None = None,
 ) -> dict:
     """Return lightweight metadata about memory files without full-text transfer."""
+    project_path = _coalesce_project_path(project_path, project_root)
     memory_dir = _resolve_memory_dir(project_path)
     memory_store = _get_store(memory_dir)
     raw_items = memory_store.get_metadata()
@@ -1094,8 +1111,10 @@ def local_memory_brief(
     project_path: str | None = None,
     max_files: int = 8,
     max_chars_per_file: int = 3500,
+    project_root: str | None = None,
 ) -> dict:
     """Build a compact answer from memory using local model only, returning concise brief + selected files."""
+    project_path = _coalesce_project_path(project_path, project_root)
     memory_dir = _resolve_memory_dir(project_path)
     memory_store = _get_store(memory_dir)
     memory_context = memory_store.load_memory_context()
@@ -1167,13 +1186,15 @@ def local_workspace_brief(
     project_path: str | None = None,
     max_files: int = 6,
     max_chars_per_file: int = 3000,
+    project_root: str | None = None,
 ) -> dict:
     """Build a compact local-only brief from relevant workspace source files. Best for UI/template/layout tasks where full-file cloud reads are expensive."""
-    project_root = Path(project_path) if project_path else Path.cwd()
+    project_path = _coalesce_project_path(project_path, project_root)
+    project_root_dir = Path(project_path) if project_path else Path.cwd()
     memory_dir = _resolve_memory_dir(project_path)
     task_type = _classify_task_type(question)
     selected = _select_workspace_files(
-        project_root,
+        project_root_dir,
         question,
         task_type=task_type,
         max_files=max_files,
@@ -1220,8 +1241,10 @@ def local_memory_bootstrap(
     project_path: str | None = None,
     max_files: int = 8,
     max_chars_per_file: int = 3500,
+    project_root: str | None = None,
 ) -> dict:
     """Run local-first memory bootstrap: reload context + compact metadata + local brief in one call."""
+    project_path = _coalesce_project_path(project_path, project_root)
     memory_dir = _resolve_memory_dir(project_path)
     memory_store = _get_store(memory_dir)
     runtime = _get_runtime(memory_dir)
@@ -1335,8 +1358,9 @@ def local_memory_bootstrap(
 
 
 @mcp.tool()
-def reload_memory_context(project_path: str | None = None) -> dict:
+def reload_memory_context(project_path: str | None = None, project_root: str | None = None) -> dict:
     """Reload memory files into REPL global memory_context."""
+    project_path = _coalesce_project_path(project_path, project_root)
     memory_dir = _resolve_memory_dir(project_path)
     memory_store = _get_store(memory_dir)
     runtime = _get_runtime(memory_dir)
@@ -1364,8 +1388,10 @@ def propose_memory_mutation(
     replacement_value: str | None = None,
     project_path: str | None = None,
     max_matches: int = 3,
+    project_root: str | None = None,
 ) -> dict:
     """Propose memory mutation operations (delete/update) from extracted facts without writing changes."""
+    project_path = _coalesce_project_path(project_path, project_root)
     memory_dir = _resolve_memory_dir(project_path)
     mode = _effective_mutation_mode(project_path)
     normalized_action = action.strip().lower()
@@ -1496,8 +1522,10 @@ def propose_memory_mutation(
 def apply_memory_mutation(
     mutation_plan: dict,
     project_path: str | None = None,
+    project_root: str | None = None,
 ) -> dict:
     """Apply proposed memory mutation plan by appending extracted facts and consolidating canonical memory."""
+    project_path = _coalesce_project_path(project_path, project_root)
     memory_dir = _resolve_memory_dir(project_path)
     mode = _effective_mutation_mode(project_path)
 
@@ -1665,8 +1693,10 @@ def consolidate_memory(
     max_files_per_summary: int = 20,
     max_changelog_files_trigger: int = 40,
     max_changelog_bytes_trigger: int = 25000,
+    project_root: str | None = None,
 ) -> dict:
     """Consolidate extracted facts log into canonical memory files and optional changelog."""
+    project_path = _coalesce_project_path(project_path, project_root)
     memory_dir = _resolve_memory_dir(project_path)
     memory_store = _get_store(memory_dir)
     runtime = _get_runtime(memory_dir)
@@ -1727,8 +1757,10 @@ def _get_code_index(project_path: str | None) -> CodeIndex:
 def index_project_code(
     project_path: str | None = None,
     max_files: int = 500,
+    project_root: str | None = None,
 ) -> dict:
     """Index project source code for symbol-level retrieval. Extracts functions, classes, methods, types across 15+ languages using tree-sitter AST parsing."""
+    project_path = _coalesce_project_path(project_path, project_root)
     code_idx = _get_code_index(project_path)
     result = code_idx.index_project(max_files=max_files)
     memory_dir = _resolve_memory_dir(project_path)
@@ -1753,8 +1785,10 @@ def search_code_symbols(
     language: str | None = None,
     project_path: str | None = None,
     max_results: int = 20,
+    project_root: str | None = None,
 ) -> dict:
     """Search indexed code symbols by name, kind (function/class/method/type), or language. Returns compact metadata with token savings estimate."""
+    project_path = _coalesce_project_path(project_path, project_root)
     code_idx = _get_code_index(project_path)
     matches = code_idx.search_symbols(
         query, kind=kind, language=language, max_results=max_results,
@@ -1805,8 +1839,10 @@ def search_code_symbols(
 def get_code_symbol(
     symbol_id: str,
     project_path: str | None = None,
+    project_root: str | None = None,
 ) -> dict:
     """Retrieve full source code of a symbol by its stable ID using O(1) byte-offset seeking. Returns source + token savings vs reading entire file."""
+    project_path = _coalesce_project_path(project_path, project_root)
     code_idx = _get_code_index(project_path)
     result = code_idx.get_symbol(symbol_id)
     memory_dir = _resolve_memory_dir(project_path)
@@ -1856,8 +1892,10 @@ def get_code_symbol(
 def get_code_file_outline(
     file_path: str,
     project_path: str | None = None,
+    project_root: str | None = None,
 ) -> dict:
     """Get symbol hierarchy outline for a file without loading full source. Returns compact list of symbols with signatures, lines, kinds."""
+    project_path = _coalesce_project_path(project_path, project_root)
     code_idx = _get_code_index(project_path)
     outline = code_idx.get_file_outline(file_path)
     memory_dir = _resolve_memory_dir(project_path)

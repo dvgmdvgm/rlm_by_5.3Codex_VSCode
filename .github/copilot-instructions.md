@@ -28,14 +28,30 @@ Before ANY response: call `local_memory_bootstrap(question=<user_task>, project_
 7. **If `workflow_hints` present** → follow them strictly. They contain context-saving instructions (subagent decomposition, read/write order, search strategy).
 
 ### A.1) Token efficiency rules (always)
+
+#### File reads
 - **Read files in 1 large chunk** — never split a 1000-line file into 3 reads of 300.
 - **Never re-read** a file already in context. If summarization compresses history, use subagents instead.
+- **Plan reads upfront** — before starting, list ALL files you'll need. For each file, identify ALL needed ranges and combine them into 1-2 large reads. Example: if you need lines 100-200 and 300-400 from the same file → read lines 100-400 in one call.
+- **Max 2 reads per file per task** — if you've read a file twice and need more, use `get_code_file_outline` to pinpoint exact ranges, then do 1 final read.
+- **Parallel reads** — when you need context from multiple independent files, read them in a single parallel batch, not sequentially.
 - **Backup before create** — `Move-Item .bak` THEN `create_file`. Never reverse.
+
+#### Search / grep
 - **Targeted search** — use 2-3 specific globs, not 10 exploratory patterns.
 - **Prefer code_index over grep chains** — `search_code_symbols` (1 call) replaces 3-5 sequential `grep_search` calls for class/function discovery.
+- **Consolidate grep per file** — when searching multiple patterns in the same file/scope, combine into ONE `grep_search` with `|` regex alternation. Never search the same file more than twice.
+- **Max grep budget** — aim for ≤8 `grep_search` calls per task. If you're exceeding this, you're not combining patterns effectively. Batch related patterns: `class_name|function_name|import_path` in one call.
+
+#### Terminal / validation
+- **Terminal paths** — always wrap paths with spaces in double quotes: `& "path\to\python.exe" -m py_compile "path\to\file.py"`.
+- **Batch validation** — combine all syntax checks into 1-2 `smart_exec` calls. Example: `python -m py_compile file1.py; python -m py_compile file2.py; node --check file.js` in ONE command, not 3 separate calls.
+- **Terminal retry limit** — if a command fails due to shell syntax, use `fix_command` ONCE then retry. Max 2 attempts per command. Never try 4+ variants of the same command.
+- **Use `smart_exec` for validation** — all py_compile, node --check, pytest, eslint commands should go through `smart_exec` for compressed output.
+
+#### Orchestration / subagents
 - **Rewrite tasks** → decompose into subagents (1 per file type: CSS, templates, JS). Each gets a clean context window, reads + writes without context competition.
 - **If `workflow_hints.file_sizes` present** → use the `recommendation` field per file: `"read_full_once"` = read in 1 call, `"use_code_index"` = use `get_code_file_outline` + `get_code_symbol`.
-- **Terminal paths** — always wrap paths with spaces in double quotes: `& "path\to\python.exe" -m py_compile "path\to\file.py"`.
 - **Orchestration finalization** — use single CLI command instead of 4-5 separate calls: `python -m rlm_mcp.cli.finalize_orchestration --project-root "<path>" --run-id "<run_id>"`.
 - **Worker trust** — reviewer verifies via `get_errors`/`py_compile` for small changes (<50 lines). For large changes (>100 lines) re-read only modified sections. For security-critical code or 3rd retry — full re-read mandatory.
 
@@ -47,9 +63,12 @@ Before ANY response: call `local_memory_bootstrap(question=<user_task>, project_
 | Scenario | Tool |
 |---|---|
 | Run command + read output | `run_in_terminal` |
+| Run command + **compressed** output (saves 60-90% tokens) | `smart_exec` |
 | Long-running/background process (server, watch) | `run_in_terminal` (isBackground=true) |
 | Interactive terminal (user types) | `run_in_terminal` |
 | Check command syntax without executing | `fix_command` |
+
+**Prefer `smart_exec`** for: git, gh, cargo/npm/go test, pytest, eslint/tsc/ruff/clippy, ls/cat/grep/find, docker/kubectl, pip/pnpm, curl/wget. It auto-detects the command type and compresses output.
 
 **If a command may contain Bash syntax on Windows**, run `fix_command` first, then execute the corrected command with `run_in_terminal`.
 

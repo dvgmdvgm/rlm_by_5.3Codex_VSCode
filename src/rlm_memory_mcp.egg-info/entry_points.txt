@@ -1,2 +1,9 @@
 [console_scripts]
+rlm-finalize-orchestration = rlm_mcp.cli.finalize_orchestration:main
+rlm-generate-memory = rlm_mcp.cli.generate_memory:main
+rlm-generate-run-id = rlm_mcp.cli.generate_run_id:main
 rlm-memory-mcp = rlm_mcp.server:run
+rlm-migrate-legacy-facts = rlm_mcp.cli.migrate_legacy_facts:main
+rlm-seed-canonical = rlm_mcp.cli.seed_canonical:main
+rlm-validate-orchestrator = rlm_mcp.cli.validate_orchestrator:main
+rlm-write-checklist = rlm_mcp.cli.write_checklist:main

@@ -11,10 +11,12 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 
 from .code_index import CodeIndex
+from .command_runner import run_command_incremental
 from .config import load_settings
 from .consolidator import consolidate_memory as consolidate_memory_impl
 from .llm_adapter import OllamaAdapter
 from .memory_store import MemoryStore
+from .output_compressor import compress_output
 from .powershell_fixer import fix_powershell_command
 from .repl_runtime import ReplRuntime
 from .time_policy import current_timezone, now_dt, now_iso
@@ -502,6 +504,18 @@ def _log_cloud_payload(
         ]
     )
     snapshot_path.write_text(snapshot_header + snapshot_block, encoding="utf-8")
+
+
+def _slim_response(response: dict, *extra_strip: str) -> dict:
+    """Strip echo/audit fields from MCP response before sending to LLM.
+
+    Called AFTER _log_cloud_payload so audit logs retain full data.
+    Always removes project_path and memory_dir (LLM already knows these).
+    Additional field names can be passed as positional args.
+    """
+    for key in ("project_path", "memory_dir", *extra_strip):
+        response.pop(key, None)
+    return response
 
 
 def _get_store(memory_dir: Path) -> MemoryStore:
@@ -1045,7 +1059,7 @@ def execute_repl_code(code: str, project_path: str | None = None, project_root: 
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response)
 
 
 @mcp.tool()
@@ -1102,7 +1116,7 @@ def get_memory_metadata(
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response)
 
 
 @mcp.tool()
@@ -1177,7 +1191,7 @@ def local_memory_brief(
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response)
 
 
 @mcp.tool()
@@ -1232,7 +1246,7 @@ def local_workspace_brief(
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response)
 
 
 @mcp.tool()
@@ -1354,7 +1368,12 @@ def local_memory_bootstrap(
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(
+        response,
+        "question", "question_en", "question_translated",
+        "reloaded_files", "memory_stats",
+        "local_model_output_language", "selected_count",
+    )
 
 
 @mcp.tool()
@@ -1378,7 +1397,7 @@ def reload_memory_context(project_path: str | None = None, project_root: str | N
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response)
 
 
 @mcp.tool()
@@ -1733,7 +1752,7 @@ def consolidate_memory(
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response)
 
 
 # ================================================================
@@ -1775,7 +1794,7 @@ def index_project_code(
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response)
 
 
 @mcp.tool()
@@ -1832,7 +1851,7 @@ def search_code_symbols(
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response, "token_savings", "query")
 
 
 @mcp.tool()
@@ -1885,7 +1904,7 @@ def get_code_symbol(
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response, "token_savings")
 
 
 @mcp.tool()
@@ -1936,7 +1955,7 @@ def get_code_file_outline(
         memory_dir=memory_dir,
         payload=response,
     )
-    return response
+    return _slim_response(response, "token_savings", "resolved_file_path")
 
 
 @mcp.tool()
@@ -1953,6 +1972,80 @@ def fix_command(
     """
     result = fix_powershell_command(command)
     return result.to_dict()
+
+
+@mcp.tool()
+def smart_exec(
+    command: str,
+    cwd: str | None = None,
+    timeout_seconds: int = 60,
+    project_path: str | None = None,
+    project_root: str | None = None,
+) -> dict:
+    """Execute a CLI command and return token-compressed output (RTK-equivalent).
+
+    Runs the command, then applies smart compression based on command type:
+    - git status/diff/log/add/commit/push/pull → compact summaries
+    - cargo test / npm test / pytest / vitest / playwright / go test → failures only (-90%)
+    - eslint / tsc / cargo clippy / ruff / golangci-lint → errors grouped by file
+    - ls / cat / grep / find / diff → compact listings
+    - docker ps/images/logs, kubectl pods/logs/services → compact tables
+    - pip list / pnpm list / prisma generate → stripped boilerplate
+    - gh pr/issue/run list → compact GitHub CLI output
+    - curl / wget → auto-detect JSON + schema extraction
+    - generic commands → dedup + truncate + ANSI strip
+
+    Saves 60-90% tokens compared to raw output.
+    """
+    project_path = _coalesce_project_path(project_path, project_root)
+    work_dir = cwd or project_path or os.getcwd()
+
+    # Run the command
+    result = run_command_incremental(
+        command,
+        cwd=work_dir,
+        timeout_seconds=timeout_seconds,
+        startup_timeout_seconds=min(15, timeout_seconds),
+        idle_timeout_seconds=min(20, timeout_seconds),
+    )
+
+    raw_output = result.combined_output()
+
+    # Compress output
+    compression = compress_output(command, raw_output)
+
+    response: dict = {
+        "compressed_output": compression.compressed,
+        "exit_code": result.exit_code,
+        "command_type": compression.command_type,
+        "savings": {
+            "original_chars": compression.original_chars,
+            "compressed_chars": compression.compressed_chars,
+            "original_tokens_est": compression.original_tokens_est,
+            "compressed_tokens_est": compression.compressed_tokens_est,
+            "savings_pct": compression.savings_pct,
+            "strategies": compression.strategies_applied,
+        },
+    }
+
+    if result.timed_out:
+        response["timed_out"] = True
+        response["timeout_type"] = result.timeout_type
+
+    if result.exit_code and result.exit_code != 0:
+        response["has_error"] = True
+
+    # Log payload
+    if project_path:
+        memory_dir = _resolve_memory_dir(project_path)
+        _log_cloud_payload(
+            tool_name="smart_exec",
+            project_path=project_path,
+            memory_dir=memory_dir,
+            payload={"command": command, "cwd": work_dir, **response},
+        )
+
+    return response
 
 
 def run() -> None:

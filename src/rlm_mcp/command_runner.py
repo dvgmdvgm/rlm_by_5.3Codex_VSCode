@@ -9,11 +9,15 @@ Purpose:
 from __future__ import annotations
 
 from dataclasses import dataclass
+import os
 from pathlib import Path
 import queue
 import subprocess
 import threading
 import time
+
+# On Windows, prevent child processes from spawning a visible console window.
+_CREATION_FLAGS = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
 
 
 @dataclass
@@ -98,12 +102,14 @@ def run_command_incremental(
         command,
         shell=True,
         cwd=str(cwd),
+        stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
         encoding=encoding,
         errors="replace",
         bufsize=1,
+        creationflags=_CREATION_FLAGS,
     )
 
     assert proc.stdout is not None

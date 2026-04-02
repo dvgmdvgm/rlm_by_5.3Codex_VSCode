@@ -7,6 +7,7 @@ src/rlm_mcp/config.py
 src/rlm_mcp/consolidator.py
 src/rlm_mcp/llm_adapter.py
 src/rlm_mcp/memory_store.py
+src/rlm_mcp/output_compressor.py
 src/rlm_mcp/powershell_fixer.py
 src/rlm_mcp/repl_runtime.py
 src/rlm_mcp/server.py

@@ -9,6 +9,36 @@ Before ANY response: call `local_memory_bootstrap(question=<user_task>, project_
 
 ---
 
+## ⚡ ROLE-INVERSION: Strategist → Mentor → Executor
+
+After bootstrap, check `mentor_recommended` and `intent_classification` in the response.
+
+### When `mentor_recommended` is `true`:
+1. **You are the Strategist.** Analyze the user's request and classify:
+   - `task_category` (from `intent_classification` or your own judgment)
+   - `domain` (which project layer is affected)
+   - `intent_summary` (1-2 sentences: what will change)
+   - `preliminary_plan` (your planned steps as a list)
+2. **Call `request_mentor_guidance`** with your analysis:
+   ```
+   request_mentor_guidance(
+     question=<user_task>,
+     project_path=<workspace_root>,
+     task_category=<your_classification>,
+     domain=<your_domain>,
+     intent_summary=<your_summary>,
+     preliminary_plan=<your_steps>
+   )
+   ```
+3. **You are now the Executor.** The Mentor's `guidance_prompt` contains project-specific rules, patterns, anti-patterns, and historical context. Follow it strictly during implementation.
+4. **Do NOT read canonical files** (`architecture.md`, `coding_rules.md`, `active_tasks.md`) — the Mentor already analyzed them and returned the relevant parts.
+
+### When `mentor_recommended` is `false`:
+- Proceed directly with the legacy flow (bootstrap brief + canonical reads as before).
+- This applies to simple/informational/symbol_lookup tasks.
+
+---
+
 ## Slash Commands
 
 - `/orchestrate` (or explicit reference to `orchestrate.prompt.md`): invoke `.github/prompts/orchestrator_skill.prompt.md`, delegate to subagents only. Orchestrator is a state-machine manager — it MUST NOT code directly. When orchestration is active, sections B/C below are SUSPENDED (handled by worker/synthesizer/archivist subagents). If planner delegation fails, return `ORCHESTRATOR_NOT_AVAILABLE` and STOP.
@@ -20,12 +50,15 @@ Before ANY response: call `local_memory_bootstrap(question=<user_task>, project_
 ### A) Before work (always)
 
 1. Use `brief` from bootstrap as primary context. Respect `user_response_language`.
-2. **If `canonical_read_needed` is `false`** in bootstrap → do NOT read canonical files. The brief is sufficient.
-3. **If `canonical_read_needed` is `"rules_only"`** → read ONLY `coding_rules.md`. Skip `architecture.md` and `active_tasks.md`.
-4. Only if brief is insufficient or contradictory, read all canonical: `architecture.md`, `coding_rules.md`, `active_tasks.md`.
-5. When `code_index_summary` present → prefer `search_code_symbols` / `get_code_symbol` / `get_code_file_outline` over full file reads (70-98% token savings).
-6. Follow `retrieval_strategy` hints from bootstrap (`task_type`, `preferred_tools`).
-7. **If `workflow_hints` present** → follow them strictly. They contain context-saving instructions (subagent decomposition, read/write order, search strategy).
+2. **If `mentor_recommended` is `true`** → call `request_mentor_guidance` (see Role-Inversion section above). The mentor's `guidance_prompt` supersedes manual canonical reads.
+3. **If `mentor_recommended` is `false`**:
+   a. **If `canonical_read_needed` is `false`** → do NOT read canonical files. The brief is sufficient.
+   b. **If `canonical_read_needed` is `"rules_only"`** → read ONLY `coding_rules.md`. Skip `architecture.md` and `active_tasks.md`.
+   c. Only if brief is insufficient or contradictory, read all canonical: `architecture.md`, `coding_rules.md`, `active_tasks.md`.
+4. When `code_index_summary` present → prefer `search_code_symbols` / `get_code_symbol` / `get_code_file_outline` over full file reads (70-98% token savings).
+5. Follow `retrieval_strategy` hints from bootstrap (`task_type`, `preferred_tools`).
+6. **If `workflow_hints` present** → follow them strictly. They contain context-saving instructions (subagent decomposition, read/write order, search strategy).
+7. **Mentor guidance sections** (when available): `MANDATORY RULES` are non-negotiable; `ANTIPATTERNS TO AVOID` are hard warnings; `IMPLEMENTATION HINTS` are strong suggestions; `RISK AREAS` require explicit attention.
 
 ### A.1) Token efficiency rules (always)
 

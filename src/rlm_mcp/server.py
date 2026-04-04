@@ -14,8 +14,10 @@ from .code_index import CodeIndex
 from .command_runner import run_command_incremental
 from .config import load_settings
 from .consolidator import consolidate_memory as consolidate_memory_impl
+from .intent_analyzer import TaskIntent, build_intent
 from .llm_adapter import OllamaAdapter
 from .memory_store import MemoryStore
+from .mentor_engine import MentorGuidance, generate_guidance
 from .output_compressor import compress_output
 from .powershell_fixer import fix_powershell_command
 from .repl_runtime import ReplRuntime
@@ -27,6 +29,10 @@ llm_adapter = OllamaAdapter(
     model=settings.ollama_model,
     timeout=settings.ollama_timeout,
     default_max_concurrency=settings.max_concurrency,
+    temperature=settings.llm_temperature,
+    top_p=settings.llm_top_p,
+    top_k=settings.llm_top_k,
+    thinking_mode=settings.llm_thinking_mode,
 )
 runtimes: dict[str, ReplRuntime] = {}
 stores: dict[str, MemoryStore] = {}
@@ -37,6 +43,7 @@ CLOUD_PAYLOAD_SNAPSHOT_REL_PATH = "logs/cloud_payload_current.md"
 CLOUD_PAYLOAD_PREVIEW_CHARS = 1200
 EXTRACTED_FACTS_LOG_REL_PATH = "logs/extracted_facts.jsonl"
 MUTATION_AUDIT_LOG_REL_PATH = "logs/memory_mutations.jsonl"
+THINKING_LOG_REL_PATH = "logs/local_llm_thinking.md"
 MUTATION_ALLOWED_MODES = {"off", "dry-run", "on"}
 WORKSPACE_SOURCE_EXTENSIONS = {
     ".py", ".js", ".jsx", ".ts", ".tsx", ".html", ".htm", ".djhtml",
@@ -995,6 +1002,9 @@ def _auto_summarize_old_changelogs(
             )
             summary = llm_adapter.query(prompt)
 
+            # Save thinking log for the summarisation call
+            _save_thinking_log(memory_dir, tool_name="auto_summarize_changelogs")
+
             suffix = f"_{chunk_index:02d}" if len(chunks) > 1 else ""
             out_path = summaries_dir / f"rlm_monthly_summary_{month.replace('-', '')}{suffix}.md"
             body = "\n".join(
@@ -1175,6 +1185,9 @@ def local_memory_brief(
     )
     answer = llm_adapter.query(prompt)
 
+    # Save thinking log for the brief call
+    _save_thinking_log(memory_dir, tool_name="local_memory_brief")
+
     response = {
         "question": question,
         "question_en": normalized_question,
@@ -1228,6 +1241,9 @@ def local_workspace_brief(
         f"WORKSPACE CONTEXT:\n{snippets}\n"
     )
     answer = llm_adapter.query(prompt)
+
+    # Save thinking log for the workspace brief call
+    _save_thinking_log(memory_dir, tool_name="local_workspace_brief")
 
     response = {
         "question": question,
@@ -1292,9 +1308,17 @@ def local_memory_bootstrap(
     retrieval_strategy = _build_retrieval_strategy(question, bool(code_summary), project_path=project_path)
     task_type = retrieval_strategy.get("task_type", "general_code")
 
+    # --- Role-Inversion: classify intent and determine mentor eligibility ---
+    intent = build_intent(question)
+    mentor_recommended = intent.needs_mentor()
+
     # Informational questions don't need canonical at all.
     # Rewrite tasks need only coding_rules.md (not architecture/active_tasks).
+    # When mentor is recommended, canonical reads are deferred to mentor.
     if task_type == "informational":
+        canonical_read_needed = False
+    elif mentor_recommended:
+        # Mentor will analyze canonical internally — Cloud doesn't need to
         canonical_read_needed = False
     elif task_type == "rewrite":
         canonical_read_needed = "rules_only"
@@ -1313,6 +1337,13 @@ def local_memory_bootstrap(
         "user_response_language": user_response_language,
         "user_response_style": user_response_style,
         "canonical_read_needed": canonical_read_needed,
+        # Role-Inversion: signal to Cloud Strategist
+        "mentor_recommended": mentor_recommended,
+        "intent_classification": {
+            "task_category": intent.task_category,
+            "domain": intent.domain,
+            "complexity": intent.complexity,
+        },
         "memory_stats": {
             "total_files": metadata["total_files"],
             "total_chars": metadata["total_chars"],
@@ -2046,6 +2077,130 @@ def smart_exec(
         )
 
     return response
+
+
+@mcp.tool()
+def request_mentor_guidance(
+    question: str,
+    project_path: str | None = None,
+    project_root: str | None = None,
+    task_category: str | None = None,
+    domain: str | None = None,
+    intent_summary: str | None = None,
+    preliminary_plan: list[str] | None = None,
+    complexity: str | None = None,
+    max_memory_chars: int = 12000,
+    max_memory_files: int = 12,
+) -> dict:
+    """Request deep guidance from the local Mentor (Knowledge Guardian).
+
+    Role-Inversion flow: Cloud Strategist classifies the task, sends
+    structured intent here, and receives a ready-to-use Guiding Prompt
+    with project-specific rules, patterns, anti-patterns, and historical
+    context — synthesized by the local Sub-LM from project memory.
+
+    The Cloud does NOT need to read canonical files manually when using
+    this tool — the Mentor reads and analyzes them internally.
+
+    Parameters
+    ----------
+    question : str
+        The original user question / task description.
+    project_path / project_root : str, optional
+        Path to the project root.
+    task_category : str, optional
+        Cloud's classification: new_feature, refactor, bugfix, architecture,
+        rewrite, ui_template, devops, docs, memory_ops, general_code.
+        If omitted, classified server-side (deterministic).
+    domain : str, optional
+        Cloud's domain classification: frontend, backend, database,
+        ui_ux, devops, full_stack, memory_system, testing, docs.
+        If omitted, classified server-side.
+    intent_summary : str, optional
+        Cloud's 1-2 sentence summary of what needs to happen.
+    preliminary_plan : list[str], optional
+        Cloud's planned steps (if any).
+    complexity : str, optional
+        Cloud's assessment: simple, moderate, complex.
+        If omitted, assessed server-side.
+    max_memory_chars : int
+        Token budget for memory context (default 12000).
+    max_memory_files : int
+        Maximum memory files to include (default 12).
+
+    Returns
+    -------
+    dict
+        Contains 'guidance_prompt' (rendered text), 'guidance' (structured),
+        'intent' (classified), and 'mentor_stats'.
+    """
+    project_path = _coalesce_project_path(project_path, project_root)
+    memory_dir = _resolve_memory_dir(project_path)
+    memory_store = _get_store(memory_dir)
+    memory_context = memory_store.load_memory_context()
+
+    # Build structured intent (use Cloud's analysis if provided)
+    cloud_analysis: dict[str, Any] = {}
+    if task_category:
+        cloud_analysis["task_category"] = task_category
+    if domain:
+        cloud_analysis["domain"] = domain
+    if intent_summary:
+        cloud_analysis["intent_summary"] = intent_summary
+    if preliminary_plan:
+        cloud_analysis["preliminary_plan"] = preliminary_plan
+    if complexity:
+        cloud_analysis["complexity"] = complexity
+
+    intent = build_intent(question, cloud_analysis=cloud_analysis or None)
+
+    # Get code index summary (optional)
+    code_summary = None
+    try:
+        code_idx = _get_code_index(project_path)
+        code_summary = code_idx.get_compact_summary()
+    except Exception:
+        pass
+
+    # Get relevant extracted facts
+    fact_candidates = _select_fact_candidates(memory_dir, question, max_matches=10)
+
+    # Run the Mentor pipeline
+    guidance = generate_guidance(
+        intent=intent,
+        memory_context=memory_context,
+        llm_adapter=llm_adapter,
+        code_index_summary=code_summary,
+        fact_candidates=fact_candidates,
+        max_memory_chars=max_memory_chars,
+        max_memory_files=max_memory_files,
+    )
+
+    # Save thinking log for the mentor call
+    _save_thinking_log(memory_dir, tool_name="request_mentor_guidance")
+
+    response: dict[str, Any] = {
+        "guidance_prompt": guidance.to_instruction_prompt(),
+        "guidance": guidance.to_dict(),
+        "intent": intent.to_dict(),
+        "mentor_stats": {
+            "memory_files_analyzed": len(memory_context),
+            "facts_considered": len(fact_candidates),
+            "guidance_sections": sum(
+                1 for v in guidance.to_dict().values() if v
+            ),
+        },
+        "canonical_read_needed": False,  # Mentor already analyzed canonical
+    }
+
+    _log_cloud_payload(
+        tool_name="request_mentor_guidance",
+        project_path=project_path,
+        memory_dir=memory_dir,
+        payload=response,
+    )
+
+    return _slim_response(response)
 
 
 def run() -> None:

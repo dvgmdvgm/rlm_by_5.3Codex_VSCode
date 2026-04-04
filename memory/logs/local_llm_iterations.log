@@ -1,3 +1,0 @@
-{"ts": "2026-03-02T02:22:48.987688+00:00", "execution_id": "cf43426c-319e-473e-bb09-292730bc1f8c", "call_type": "llm_query", "event": "request_start", "prompt_chars": 23}
-{"event": "iteration", "iteration": 0, "prompt_preview": "Return ONLY word OMEGA.", "ts": "2026-03-02T02:22:48.987688+00:00", "execution_id": "cf43426c-319e-473e-bb09-292730bc1f8c"}
-{"event": "response", "iteration": 0, "response_preview": "OMEGA", "response_chars": 5, "ok": true, "ts": "2026-03-02T02:22:49.253708+00:00", "execution_id": "cf43426c-319e-473e-bb09-292730bc1f8c"}

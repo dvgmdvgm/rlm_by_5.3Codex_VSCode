@@ -2,9 +2,9 @@
 
 ## META
 - id: architecture
-- updated_at: 2026-03-18T01:41:18.351660+01:00
+- updated_at: 2026-04-04T13:24:31.609651+02:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 13
+- items: 15
 
 ### autopilot_orchestrator_mode_override
 - [architecture][active;p=9] Added ORCHESTRATOR MODE OVERRIDE section to copilot-instructions.md. When orchestration is active, Primary Goal, Sections B/B1/B2/C, Autonomy Policy, and Response Style are SUSPENDED. Only HARD GATE, Section A, Safety, and Slash Commands remain active. Slash Commands moved up near HARD GATE for higher LLM attention weight. All suspended sections marked [DIRECT MODE ONLY] with warning blocks. (source: session:autopilot_orchestrator_conflict_fix)
@@ -44,3 +44,9 @@
 
 ### orchestrator_context_resilience_checkpoint
 - [architecture][active;p=9] Added context resilience mechanism to orchestrator: checkpoint file (.vscode/tasks/orchestrator_state.json) written after every state transition, mandatory re-orientation step (re-read checkpoint + master_plan + protocol reminder) before every new task and before closure. Solves context window degradation in long orchestration runs where LLM forgets instructions, skips archivist, and fails to clean .vscode/tasks/. (source: session:context_resilience_fix)
+
+### request_mentor_guidance_tool
+- [api][active;p=9] New MCP tool request_mentor_guidance(question, project_path, task_category, domain, intent_summary, preliminary_plan, complexity, max_memory_chars, max_memory_files) -> {guidance_prompt, guidance, intent, mentor_stats, canonical_read_needed=false}. Cloud does NOT read canonical when using mentor. Mentor reads and synthesizes internally. (source: session:role_inversion_implementation)
+
+### role_inversion_mentor_engine
+- [architecture][active;p=10] Implemented Role-Inversion architecture: Cloud LLM is Strategist, Local LLM is Mentor (Knowledge Guardian). New modules: intent_analyzer.py (deterministic intent classification task_category, domain, complexity), mentor_engine.py (deep analysis pipeline selects memory, builds mentor prompt, parses structured guidance via local Sub-LM). New MCP tool: request_mentor_guidance accepts Cloud's analysis and returns MentorGuidance with architectural_patterns, rules_to_follow, antipatterns_to_avoid, historical_context, implementation_hints, files_to_inspect, risk_areas. Bootstrap enhanced with mentor_recommended flag and intent_classification. (source: session:role_inversion_implementation)

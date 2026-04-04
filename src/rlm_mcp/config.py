@@ -26,6 +26,11 @@ class Settings:
     cloud_payload_audit_auto_archive: bool
     cloud_payload_audit_max_lines: int
     cloud_payload_audit_archive_dir_name: str
+    # --- Gemma 4 best-practices ---
+    llm_temperature: float = 1.0
+    llm_top_p: float = 0.95
+    llm_top_k: int = 64
+    llm_thinking_mode: bool = True
 
 
 
@@ -53,4 +58,9 @@ def load_settings() -> Settings:
         cloud_payload_audit_auto_archive=os.getenv("RLM_CLOUD_PAYLOAD_AUDIT_AUTO_ARCHIVE", "true").lower() in {"1", "true", "yes", "on"},
         cloud_payload_audit_max_lines=max(500, int(os.getenv("RLM_CLOUD_PAYLOAD_AUDIT_MAX_LINES", "20000"))),
         cloud_payload_audit_archive_dir_name=os.getenv("RLM_CLOUD_PAYLOAD_AUDIT_ARCHIVE_DIR", "cloud_payload_audit"),
+        # Gemma 4 sampling & thinking
+        llm_temperature=float(os.getenv("RLM_LLM_TEMPERATURE", "1.0")),
+        llm_top_p=float(os.getenv("RLM_LLM_TOP_P", "0.95")),
+        llm_top_k=int(os.getenv("RLM_LLM_TOP_K", "64")),
+        llm_thinking_mode=os.getenv("RLM_LLM_THINKING_MODE", "true").lower() in {"1", "true", "yes", "on"},
     )

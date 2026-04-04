@@ -2,9 +2,9 @@
 
 ## META
 - id: coding_rules
-- updated_at: 2026-03-18T01:41:18.351660+01:00
+- updated_at: 2026-04-04T13:24:31.609651+02:00
 - source: memory/logs/extracted_facts.jsonl
-- items: 24
+- items: 25
 
 ### bootstrap_assets_scope
 - [decision][active;p=8] Bootstrap assets now target only .github and .vscode/mcp.json; prompts/docs/install flow resolve the MCP server Python from .vscode/mcp.json and execute RLM utilities from the server environment rather than from the active project directory. (source: session:mcp_server_script_loading_20260308)
@@ -45,6 +45,9 @@
 
 ### memory_loading_noise_control
 - [rule][active;p=10] memory/logs/* and memory/_archive/* are excluded from active MemoryStore context/metadata to reduce retrieval noise; logs remain on disk for audit and consolidation workflows. (source: session:exclude_logs_from_context_20260302)
+
+### mentor_two_phase_flow
+- [decision][active;p=9] copilot-instructions.md updated with Role-Inversion two-phase flow: (1) bootstrap still runs first for quick context/metadata, (2) when mentor_recommended=true Cloud must call request_mentor_guidance with its strategic analysis before implementing, (3) mentor's guidance_prompt supersedes manual canonical reads. Simple/informational tasks skip mentor. (source: session:role_inversion_implementation)
 
 ### mutation_mode_global_on
 - [decision][active;p=8] Memory mutation mode is now globally hardcoded to 'on' in _effective_mutation_mode() (server.py) and config.py default. ENV variable RLM_MEMORY_MUTATION_MODE is no longer read; all MCP clients get mutation enabled. (source: session:copilot_2026-03-04)

@@ -4,6 +4,11 @@ Purpose:
 - avoid long UI hangs while a command produces no output
 - capture stdout/stderr incrementally
 - return partial output on timeout instead of blocking until hard kill
+
+Shell policy (Windows):
+- Uses PowerShell (not cmd.exe) so that VS Code terminal syntax works natively:
+  `;` chains, `& "exe"` call operator, `$env:` variables, etc.
+- `&&` is auto-normalized to `;` before execution (PS 5.1 compat).
 """
 
 from __future__ import annotations
@@ -12,12 +17,31 @@ from dataclasses import dataclass
 import os
 from pathlib import Path
 import queue
+import re
+import shutil
 import subprocess
 import threading
 import time
 
 # On Windows, prevent child processes from spawning a visible console window.
 _CREATION_FLAGS = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+
+# Resolve PowerShell executable once at import time.
+_POWERSHELL_EXE: str | None = None
+if os.name == "nt":
+    # Prefer pwsh (PowerShell 7+) if available, fall back to powershell.exe (5.1)
+    _POWERSHELL_EXE = shutil.which("pwsh") or shutil.which("powershell") or "powershell.exe"
+
+
+def _normalize_for_powershell(command: str) -> str:
+    """Minimal normalization so commands work under PowerShell 5.1.
+
+    - Replace `&&` with `;` (PS 5.1 does not support && as chain operator).
+    - Leave everything else untouched — PS handles its own syntax natively.
+    """
+    if "&&" in command:
+        return re.sub(r"\s*&&\s*", " ; ", command)
+    return command
 
 
 @dataclass
@@ -98,9 +122,25 @@ def run_command_incremental(
     q: queue.Queue = queue.Queue()
     done_markers = 0
 
+    # On Windows, run through PowerShell for native PS syntax support.
+    # On other platforms, use default shell via shell=True.
+    if os.name == "nt" and _POWERSHELL_EXE:
+        normalized = _normalize_for_powershell(command)
+        cmd_args: str | list[str] = [
+            _POWERSHELL_EXE,
+            "-NoProfile",
+            "-NonInteractive",
+            "-Command",
+            normalized,
+        ]
+        use_shell = False
+    else:
+        cmd_args = command
+        use_shell = True
+
     proc = subprocess.Popen(
-        command,
-        shell=True,
+        cmd_args,
+        shell=use_shell,
         cwd=str(cwd),
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,

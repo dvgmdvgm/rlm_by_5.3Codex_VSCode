@@ -2000,7 +2000,7 @@ def smart_exec(
     project_path = _coalesce_project_path(project_path, project_root)
     work_dir = cwd or project_path or os.getcwd()
 
-    # Run the command
+    # Run the command (command_runner handles PS normalization on Windows)
     result = run_command_incremental(
         command,
         cwd=work_dir,

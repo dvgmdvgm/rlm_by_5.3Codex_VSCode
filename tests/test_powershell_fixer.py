@@ -1,4 +1,4 @@
-"""Test all 17 PowerShell fix patterns with real-world examples."""
+"""Test all 18 PowerShell fix patterns with real-world examples."""
 import sys
 import os
 
@@ -92,6 +92,24 @@ TEST_CASES = [
         "id": "PS-14",
         "name": r"\\n in strings",
         "input": r'echo "line1\nline2\nline3"',
+        "expect_fix": True,
+    },
+    {
+        "id": "PS-18a",
+        "name": "& call operator with quoted path",
+        "input": '& "C:\\Program Files\\Git\\cmd\\git.exe" status --short',
+        "expect_fix": True,
+    },
+    {
+        "id": "PS-18b",
+        "name": "& call operator with bare command",
+        "input": "& python -m pytest",
+        "expect_fix": True,
+    },
+    {
+        "id": "PS-18c",
+        "name": "& call operator with quoted path and spaces",
+        "input": '& "D:\\AI Projects\\VSCode_Projects\\RLM_Realization\\.venv\\Scripts\\python.exe" -m rlm_mcp.server',
         "expect_fix": True,
     },
 

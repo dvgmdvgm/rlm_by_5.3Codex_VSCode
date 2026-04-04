@@ -1,10 +1,10 @@
 """PowerShell syntax fixer — auto-correct common Bash→PS mistakes.
 
 Two-level approach:
-- AUTO-FIX (12 patterns): safe transformations applied automatically
+- AUTO-FIX (13 patterns): safe transformations applied automatically
 - DETECT-WARN (5 patterns): context-dependent, returned as warnings
 
-Each fix is tagged with an ID (PS-01..PS-17) matching the error catalog.
+Each fix is tagged with an ID (PS-01..PS-18) matching the error catalog.
 """
 
 from __future__ import annotations
@@ -320,11 +320,34 @@ def _detect_17_subshell(cmd: str) -> str | None:
 
 
 # ---------------------------------------------------------------------------
+# PS-18: & call operator — Auto-fix (cmd.exe compatibility)
+# ---------------------------------------------------------------------------
+_CALL_OP_QUOTED_RE = re.compile(r'^\s*&\s+"(.+?)"\s*(.*)', re.S)
+_CALL_OP_BARE_RE = re.compile(r'^\s*&\s+(\S+)\s*(.*)', re.S)
+
+
+def _fix_18_call_operator(cmd: str) -> tuple[str, str | None]:
+    """Strip PowerShell & call operator for cmd.exe compatibility.
+
+    & "path\\to\\exe" args  →  "path\\to\\exe" args
+    & exe args              →  exe args
+    """
+    m = _CALL_OP_QUOTED_RE.match(cmd)
+    if m:
+        return f'"{m.group(1)}" {m.group(2)}'.strip(), "PS-18: removed & call operator (cmd.exe compat)"
+    m2 = _CALL_OP_BARE_RE.match(cmd)
+    if m2:
+        return f'{m2.group(1)} {m2.group(2)}'.strip(), "PS-18: removed & call operator (cmd.exe compat)"
+    return cmd, None
+
+
+# ---------------------------------------------------------------------------
 # Master pipeline
 # ---------------------------------------------------------------------------
 
 # Auto-fix functions (safe to apply automatically)
 _AUTO_FIXES = [
+    _fix_18_call_operator,   # PS-18: & "exe" → "exe" (must run FIRST)
     _fix_01_and_chain,       # PS-01: && → ;
     _fix_02_angle_brackets,  # PS-02: <file> → [file]
     _fix_03_unquoted_paths,  # PS-03: quote paths with spaces
@@ -361,7 +384,7 @@ def fix_powershell_command(command: str) -> FixResult:
     fixes_applied: list[dict[str, str]] = []
     warnings: list[dict[str, str]] = []
 
-    # Phase 1: Auto-fix (12 safe patterns)
+    # Phase 1: Auto-fix (13 safe patterns)
     for fix_fn in _AUTO_FIXES:
         result, description = fix_fn(current)
         if description:

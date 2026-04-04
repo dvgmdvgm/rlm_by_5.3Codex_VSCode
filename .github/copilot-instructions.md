@@ -70,6 +70,17 @@ Before ANY response: call `local_memory_bootstrap(question=<user_task>, project_
 
 **Prefer `smart_exec`** for: git, gh, cargo/npm/go test, pytest, eslint/tsc/ruff/clippy, ls/cat/grep/find, docker/kubectl, pip/pnpm, curl/wget. It auto-detects the command type and compresses output.
 
+**⚠ Cross-project cwd safety**: `smart_exec` accepts an explicit `cwd` parameter and always executes commands in that directory. `run_in_terminal` uses a persistent shared shell whose cwd may point to a different project. **When working in a project other than the MCP server workspace**, use `smart_exec` for the ENTIRE command chain (status → diff → add → commit → push) to avoid cwd mismatch. Never mix `smart_exec` (read) and `run_in_terminal` (write) in the same cross-project workflow.
+
+**`smart_exec` runs through PowerShell on Windows** (not cmd.exe). This means:
+- `& "path\exe" args` — works natively (call operator)
+- `;` command chains — work natively
+- `&&` chains — auto-normalized to `;` for PS 5.1 compatibility
+- `$env:VAR` — works natively
+- No need to call `fix_command` before `smart_exec`
+
+**`smart_exec` auto-fixes PowerShell syntax** (PS-01..PS-18) before execution. Commands with `&` call operator, `&&` chains, or Bash idioms are normalized automatically — no need to call `fix_command` separately before `smart_exec`.
+
 **If a command may contain Bash syntax on Windows**, run `fix_command` first, then execute the corrected command with `run_in_terminal`.
 
 ### B) During implementation [DIRECT MODE ONLY]

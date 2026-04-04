@@ -7,7 +7,7 @@
       "cwd": "D:/AI Projects/VSCode_Projects/RLM_Realization",
       "env": {
         "RLM_OLLAMA_URL": "http://127.0.0.1:11434",
-        "RLM_OLLAMA_MODEL": "qwen2.5-coder:14b",
+        "RLM_OLLAMA_MODEL": "gemma4:latestNN",
         "RLM_OLLAMA_TIMEOUT": "120",
         "RLM_MAX_CONCURRENCY": "6",
         "RLM_LOCAL_LLM_FORCE_ENGLISH": "true"

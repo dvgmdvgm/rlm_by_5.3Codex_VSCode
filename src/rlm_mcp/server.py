@@ -95,6 +95,26 @@ def _truncate_text(value: str, limit: int = CLOUD_PAYLOAD_PREVIEW_CHARS) -> str:
     return value[:limit] + " ...<truncated>"
 
 
+def _save_thinking_log(memory_dir: Path, *, tool_name: str = "") -> None:
+    """Overwrite the thinking-log file with the last thinking block from the local LLM.
+
+    The file is always overwritten so the user only sees the most recent
+    reasoning.  If there was no thinking content, a short placeholder is
+    written instead.
+    """
+    thinking = llm_adapter.last_thinking
+    log_path = memory_dir / THINKING_LOG_REL_PATH
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    header = f"# Local LLM Thinking Log\n\n> Tool: `{tool_name}`  \n> Timestamp: {_now_iso()}\n\n---\n\n"
+    if thinking:
+        content = header + thinking + "\n"
+    else:
+        content = header + "_No thinking block in this response._\n"
+
+    log_path.write_text(content, encoding="utf-8")
+
+
 def _compact_preview(value):
     if isinstance(value, str):
         return _truncate_text(value)
